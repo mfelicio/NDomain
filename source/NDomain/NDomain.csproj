@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{538D0501-9C7E-419A-8EEE-2D379B2A1118}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NDomain</RootNamespace>
+    <AssemblyName>NDomain</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AggregateEvent.cs" />
+    <Compile Include="AggregateRepositoryExtensions.cs" />
+    <Compile Include="Bus\Message.cs" />
+    <Compile Include="Bus\IMessageBus.cs" />
+    <Compile Include="Bus\MessageContext.cs" />
+    <Compile Include="Bus\MessageHandler.cs" />
+    <Compile Include="Bus\Subscriptions\ISubscriptionBroker.cs" />
+    <Compile Include="Bus\Subscriptions\LocalSubscriptionBroker.cs" />
+    <Compile Include="Bus\Subscriptions\SubscriptionChange.cs" />
+    <Compile Include="Bus\Subscriptions\SubscriptionSet.cs" />
+    <Compile Include="Configuration\Configurator.cs" />
+    <Compile Include="Configuration\IoCConfigurator.cs" />
+    <Compile Include="Configuration\LoggingConfigurator.cs" />
+    <Compile Include="Configuration\BusConfigurator.cs" />
+    <Compile Include="Configuration\EventSourcingConfigurator.cs" />
+    <Compile Include="Bus\Processor.cs" />
+    <Compile Include="AggregateFactory.cs" />
+    <Compile Include="Configuration\CQRSExtensions.cs" />
+    <Compile Include="CQRS\CommandBus.cs" />
+    <Compile Include="CQRS\EventBus.cs" />
+    <Compile Include="CQRS\CqrsMessageHeaders.cs" />
+    <Compile Include="CQRS\Handlers\MessageHandlerBase.cs" />
+    <Compile Include="Helpers\CollectionExtensions.cs" />
+    <Compile Include="IAggregateEvent.cs" />
+    <Compile Include="IAggregateFactory.cs" />
+    <Compile Include="IStateMutator.cs" />
+    <Compile Include="Bus\Subscriptions\ISubscriptionManager.cs" />
+    <Compile Include="Bus\Subscriptions\Subscription.cs" />
+    <Compile Include="Bus\Subscriptions\ISubscriptionStore.cs" />
+    <Compile Include="Bus\Subscriptions\LocalSubscriptionStore.cs" />
+    <Compile Include="EventSourcing\LocalEventStore.cs" />
+    <Compile Include="Bus\Transport\LocalTransport.cs" />
+    <Compile Include="IState.cs" />
+    <Compile Include="Bus\MessageHeaders.cs" />
+    <Compile Include="State.cs" />
+    <Compile Include="CQRS\Projections\LocalQueryStore.cs" />
+    <Compile Include="Bus\Subscriptions\SubscriptionManager.cs" />
+    <Compile Include="CQRS\Command.cs" />
+    <Compile Include="CQRS\Handlers\AggregateEventMessageHandler.cs" />
+    <Compile Include="CQRS\Handlers\CommandMessageHandler.cs" />
+    <Compile Include="Bus\IMessageHandler.cs" />
+    <Compile Include="IoC\DefaultDependencyResolver.cs" />
+    <Compile Include="Bus\IMessageDispatcher.cs" />
+    <Compile Include="Bus\IProcessor.cs" />
+    <Compile Include="Logging\ILoggerFactory.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\NullLoggerFactory.cs" />
+    <Compile Include="Logging\TraceLogger.cs" />
+    <Compile Include="Logging\TraceLoggerFactory.cs" />
+    <Compile Include="Bus\DiagnosticsDispatcher.cs" />
+    <Compile Include="EventSourcing\IEventStoreBus.cs" />
+    <Compile Include="EventSourcing\IEventStoreDb.cs" />
+    <Compile Include="EventSourcing\IEventStoreSerializer.cs" />
+    <Compile Include="EventSourcing\EventStoreSerializer.cs" />
+    <Compile Include="EventSourcing\EventStore.cs" />
+    <Compile Include="CQRS\Sagas\Persistence\ISagaStore.cs" />
+    <Compile Include="CQRS\Sagas\Persistence\SagaData.cs" />
+    <Compile Include="DomainTransaction.cs" />
+    <Compile Include="DomainContext.cs" />
+    <Compile Include="Configuration\ContextBuilder.cs" />
+    <Compile Include="CQRS\Handlers\EventMessageHandler.cs" />
+    <Compile Include="CQRS\ICommand.cs" />
+    <Compile Include="IDomainContext.cs" />
+    <Compile Include="Bus\MessageBus.cs" />
+    <Compile Include="IoC\IDependencyResolver.cs" />
+    <Compile Include="CQRS\IEvent.cs" />
+    <Compile Include="Bus\MessageWorker.cs" />
+    <Compile Include="Helpers\ReflectionUtils.cs" />
+    <Compile Include="Bus\Transport\ITransport.cs" />
+    <Compile Include="Bus\Transport\IMessageTransaction.cs" />
+    <Compile Include="Bus\Transport\IMessagingFactory.cs" />
+    <Compile Include="Bus\Transport\TransportMessage.cs" />
+    <Compile Include="CQRS\Event.cs" />
+    <Compile Include="IAggregate.cs" />
+    <Compile Include="CQRS\ICommandBus.cs" />
+    <Compile Include="IAggregateRepository.cs" />
+    <Compile Include="CQRS\IEventBus.cs" />
+    <Compile Include="IEventStore.cs" />
+    <Compile Include="Aggregate.cs" />
+    <Compile Include="StateMutator.cs" />
+    <Compile Include="AggregateRepository.cs" />
+    <Compile Include="CQRS\Projections\Query.cs" />
+    <Compile Include="CQRS\Projections\IQueryStore.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CQRS\Projections\QueryEventsHandler.cs" />
+    <Compile Include="CQRS\Sagas\Saga.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
