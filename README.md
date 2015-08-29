@@ -1,4 +1,4 @@
-# Ndomain
+# NDomain
 
 NDomain is a simple, fast, powerful framework to help you build robust and scalable .NET applications using Domain Driven Design, Event Sourcing and CQRS architectures.
 
