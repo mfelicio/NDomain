@@ -9,8 +9,6 @@ namespace NDomain
     public interface IAggregateRepository<T>
             where T : IAggregate
     {
-        IAggregateFactory<T> Factory { get; }
-
         Task<T> Find(string id);
 
         Task<T> FindOrDefault(string id);

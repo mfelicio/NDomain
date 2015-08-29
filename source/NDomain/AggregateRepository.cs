@@ -18,8 +18,6 @@ namespace NDomain
             this.eventStore = eventStore;
         }
 
-        IAggregateFactory<T> IAggregateRepository<T>.Factory { get { return AggregateRepository<T>.Factory; } }
-
         public async Task<T> Find(string id)
         {
             var events = await this.eventStore.Load(id);
