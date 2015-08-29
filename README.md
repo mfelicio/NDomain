@@ -139,7 +139,10 @@ public class TeamEventHandler
 }
 ```
 
+
 As you can see, NDomain tries to be as less intrusive in your code as much as possible, so you don't need to implement message handler interfaces, as long as you keep the naming conventions.
+
+Message processing is transactional, so if a message handler fails or times out, the message gets back to the queue to be retried. It is important to design your aggregates, command and event handlers to be idempotent.
 
 A processor has an endpoint address (internally a queue) where you can register message handlers, usually for commands and events, but really any POCO can be used as a message. When you register handlers, message subscriptions are created based on the message's Type name, and whenever a message is sent each subscription will get a copy of it, in this case, a processor/handler.
 
