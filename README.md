@@ -1,6 +1,6 @@
 # NDomain
 
-NDomain is a simple, fast, powerful framework to help you build robust and scalable .NET applications using Domain Driven Design, Event Sourcing and CQRS architectures.
+NDomain is an extensible, fast, powerful framework to help you build robust and scalable .NET applications using Domain Driven Design, Event Sourcing and CQRS architectures.
 
 ## Features:
 
@@ -17,9 +17,11 @@ NDomain is a simple, fast, powerful framework to help you build robust and scala
 * A straightforward Fluent configuration API, to let you choose the implementation of each component
 * A suite of base unit test classes, so that all different implementations for a given component are tested in the same way
 
+## Great, how does it work?
+
 Here's some basics to get you started, and you can also check the samples.
 
-## Configuring the DomainContext
+### Configuring the DomainContext
 
 The `DomainContext` is NDomain's container, where all components are accessible and message processors can be started and stopped.
 
@@ -40,7 +42,7 @@ var context = DomainContext.Configure()
 
 `DomainContext` exposes an `ICommandBus`, `IEventBus`, `IEventStore` and `IAggregateRepository` that you can use by either passing the `DomainContext` around or if you use an IoC container you can just configure it and depend on them.
 
-## Creating aggregates
+### Creating aggregates
 
 A sample `Aggregate`, enforcing domain rules by checking its state properties and firing state change events
 
@@ -94,7 +96,7 @@ public class TeamState : NDomain.State
 Aggregates are loaded and saved by an `IAggregateRepository`, that persists its state change events using the `IEventStore`. As events are persisted, they are also published on the `IEventBus`.
 
 
-## CQRS handlers and processors
+### CQRS handlers and processors
 
 A command handler processes commands sent by the `ICommandBus`, updates aggregates and persists state changes
 
@@ -142,12 +144,17 @@ public class TeamEventHandler
 
 As you can see, NDomain tries to be as less intrusive in your code as much as possible, so you don't need to implement message handler interfaces, as long as you keep the naming conventions.
 
-Message processing is transactional, so if a message handler fails or times out, the message gets back to the queue to be retried. It is important to design your aggregates, command and event handlers to be idempotent.
+Message processing is transactional, so if a message handler fails or times out, the message gets back to the queue to be retried. It is important to design your aggregates, command and event handlers to be idempotent to avoid side effects.
 
 A processor has an endpoint address (internally a queue) where you can register message handlers, usually for commands and events, but really any POCO can be used as a message. When you register handlers, message subscriptions are created based on the message's Type name, and whenever a message is sent each subscription will get a copy of it, in this case, a processor/handler.
 
 Your commands/event handlers can scale horizontally, as multiple processors using the same endpoint address will process messages from its input queue in a competing consumers fashion.
 
+## Contributing
+
+If you would like to have support for other technologies, please take a look at the existing implementations and feel free to implement your own and submit a pull request. NDomain's source code is very clean and simple, let's keep it that way!
+
+For bugs, improvements or new feature suggestions just open a new Issue so we can track it.
 
 ## License
 
