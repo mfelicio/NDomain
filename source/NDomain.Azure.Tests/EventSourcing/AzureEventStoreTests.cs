@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDomain.Tests.EventSourcing.Azure
+namespace NDomain.Azure.Tests.EventSourcing
 {
     [TestFixture]
     public class AzureEventStoreTests : EventStoreSpecs

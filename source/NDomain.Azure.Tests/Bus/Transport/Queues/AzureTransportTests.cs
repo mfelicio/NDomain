@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDomain.Tests.Bus.Transport.Azure
+namespace NDomain.Azure.Tests.Bus.Transport.Queues
 {
     [TestFixture]
     public class AzureTransportTests : TransportSpecs
