@@ -1,5 +1,7 @@
 # NDomain
 
+[![Build status](https://ci.appveyor.com/api/projects/status/rovai946s6awhoeq?svg=true)](https://ci.appveyor.com/project/mfelicio/ndomain)
+
 NDomain is an extensible, fast, powerful framework to help you build robust and scalable .NET applications using Domain Driven Design, Event Sourcing and CQRS architectures.
 
 ## Features:
