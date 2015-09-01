@@ -74,8 +74,8 @@ namespace NDomain.Tests.Bus
             bus.Send(new MyOtherMessage { OtherValue = "threetwoone" });
 
             // assert
-            myMessageSync.Wait(TimeSpan.FromSeconds(1)); // 2 second timeout for ev
-            otherMessageSync.Wait(TimeSpan.FromSeconds(1)); // 2 second timeout for ev
+            myMessageSync.Wait(TimeSpan.FromSeconds(3)); // 3 second timeout for ev
+            otherMessageSync.Wait(TimeSpan.FromSeconds(3)); // 3 second timeout for ev
             Assert.AreEqual(0, myMessageSync.CurrentCount); // means all handlers got its own message
             Assert.AreEqual(0, otherMessageSync.CurrentCount); // means all handlers got its own message
 
