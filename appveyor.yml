@@ -1,0 +1,6 @@
+version: 1.0.{build}
+before_build:
+  - appveyor DownloadFile https://raw.githubusercontent.com/appveyor/ci/master/scripts/nuget-restore.cmd
+  - nuget-restore source/NDomain.sln
+build:
+  verbosity: minimal
