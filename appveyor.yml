@@ -4,6 +4,7 @@ before_build:
   - nuget-restore source/NDomain.sln
 build:
   verbosity: minimal
+  project: source\NDomain.sln
 before_test:
  - nuget install redis-64 -excludeversion
  - redis-64\redis-server.exe --service-install
