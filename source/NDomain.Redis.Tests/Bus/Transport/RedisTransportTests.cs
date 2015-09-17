@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDomain.Tests.Redis.Bus.Transport
+namespace NDomain.Redis.Tests.Bus.Transport
 {
     [TestFixture(Category = "Redis")]
     public class RedisTransportTests : TransportSpecs

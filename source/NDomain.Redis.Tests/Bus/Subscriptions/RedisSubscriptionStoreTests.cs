@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDomain.Tests.Bus.Subscriptions.Redis
+namespace NDomain.Redis.Tests.Bus.Subscriptions
 {
     [TestFixture(Category = "Redis")]
     public class RedisSubscriptionStoreTests : SubscriptionStoreSpecs
