@@ -40,9 +40,12 @@ namespace NDomain.Tests.Aggregates
             var factory = AggregateFactory.For<Counter>();
             var aggregateId = "some id";
             var events = new IAggregateEvent[] {
-                new AggregateEvent<CounterIncremented>(aggregateId, 1, DateTime.UtcNow, new CounterIncremented { Increment = 1 }),
-                new AggregateEvent<CounterMultiplied>(aggregateId, 2, DateTime.UtcNow, new CounterMultiplied{ Factor = 2}),
-                new AggregateEvent<CounterIncremented>(aggregateId, 3, DateTime.UtcNow, new CounterIncremented { Increment = 5 }),
+                new AggregateEvent<CounterIncremented>(
+                    aggregateId, 1, DateTime.UtcNow, new CounterIncremented { Increment = 1 }),
+                new AggregateEvent<CounterMultiplied>(
+                    aggregateId, 2, DateTime.UtcNow, new CounterMultiplied{ Factor = 2}),
+                new AggregateEvent<CounterIncremented>(
+                    aggregateId, 3, DateTime.UtcNow, new CounterIncremented { Increment = 5 }),
             };
 
             // act
@@ -57,6 +60,33 @@ namespace NDomain.Tests.Aggregates
             Assert.NotNull(aggregate.State);
             // no changes, so state version is the same
             Assert.AreEqual(events.Last().SequenceId, aggregate.State.Version);
+        }
+
+        [Test]
+        public void CanCreateFromState()
+        {
+            // arrange
+            var factory = AggregateFactory.For<Counter>();
+            var aggregateId = "some id";
+            var state = new CounterState();
+            for (var i = 0; i < 10; ++i)
+            {
+                state.Mutate(new AggregateEvent<CounterIncremented>(
+                                    aggregateId, i, DateTime.UtcNow, new CounterIncremented()));
+            }
+
+            // act
+            var aggregate = factory.CreateFromState(aggregateId, state);
+
+            // assert
+            Assert.NotNull(aggregate);
+            Assert.AreEqual(aggregateId, aggregate.Id);
+            Assert.AreEqual(state.Version, aggregate.OriginalVersion);
+            Assert.AreEqual(0, aggregate.Changes.Count());
+
+            Assert.NotNull(aggregate.State);
+            // no changes, so state version is the same
+            Assert.AreEqual(state.Version, aggregate.State.Version);
         }
 
         [Test]

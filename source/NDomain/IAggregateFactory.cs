@@ -11,5 +11,6 @@ namespace NDomain
     {
         TAggregate CreateNew(string id);
         TAggregate CreateFromEvents(string id, IAggregateEvent[] events);
+        TAggregate CreateFromState(string id, IState state);
     }
 }

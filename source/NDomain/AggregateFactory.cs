@@ -68,5 +68,10 @@ namespace NDomain
 
             return createAggregate(id, state);
         }
+
+        public TAggregate CreateFromState(string id, IState state)
+        {
+            return createAggregate(id, (TState)state);
+        }
     }
 }
