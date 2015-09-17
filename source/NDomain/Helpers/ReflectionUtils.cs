@@ -51,7 +51,7 @@ namespace NDomain.Helpers
             var stateType = typeof(TState);
 
             var mutateMethods = stateType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                                         .Where(m => m.Name.Length > 2 && m.Name.StartsWith("On") && m.GetParameters().Length == 1 && m.ReturnType == typeof(void))
+                                         .Where(m => m.Name.Length >= 2 && m.Name.StartsWith("On") && m.GetParameters().Length == 1 && m.ReturnType == typeof(void))
                                          .ToArray();
 
             var stateEventMutators = from method in mutateMethods
