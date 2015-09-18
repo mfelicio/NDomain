@@ -51,7 +51,7 @@ namespace OpenStore.Marketplace.Tests
             sale.PlaceOrder(order); // changes: 1
 
             // act
-            sale.CancelOrder(order.Id);
+            sale.CancelOrder(order.Id); // changes: 2
             sale.CancelOrder(order.Id); // idempotency check
 
             // assert
@@ -68,7 +68,7 @@ namespace OpenStore.Marketplace.Tests
             sale.PlaceOrder(order); // changes: 1
 
             // act
-            sale.CompleteOrder(order.Id);
+            sale.CompleteOrder(order.Id); // changes: 2
             sale.CompleteOrder(order.Id); // idempotency check
 
             // assert
