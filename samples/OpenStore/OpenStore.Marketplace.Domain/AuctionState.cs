@@ -35,6 +35,8 @@ namespace OpenStore.Marketplace.Domain
             this.MinPrice = ev.MinPrice;
             this.WindowUtc = ev.WindowUtc;
             this.Running = true;
+
+            this.Created = true;
         }
 
         private void OnBidPlaced(BidPlaced ev)

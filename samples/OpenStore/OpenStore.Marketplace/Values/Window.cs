@@ -16,7 +16,7 @@ namespace OpenStore.Marketplace.Values
 
         public bool Comprises(DateTime date)
         {
-            return Start >= date && End <= date;
+            return date >= Start && date <= End;
         }
     }
 }

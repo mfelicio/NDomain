@@ -52,6 +52,7 @@
     <Compile Include="Handlers\SaleHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaleTests.cs" />
+    <Compile Include="Samples.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

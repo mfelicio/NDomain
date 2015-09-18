@@ -19,11 +19,11 @@ namespace OpenStore.Marketplace.Domain
         public int Stock { get; set; }
         public int AvailableStock { get; set; }
 
-        public Dictionary<string, int> PendingOrders { get; set; }
+        public Dictionary<string, Order> PendingOrders { get; set; }
 
         public SaleState()
         {
-            this.PendingOrders = new Dictionary<string, int>();
+            this.PendingOrders = new Dictionary<string, Order>();
         }
 
         private void On(SaleCreated ev)
@@ -31,7 +31,7 @@ namespace OpenStore.Marketplace.Domain
             this.SellerId = ev.SellerId;
             this.Item = ev.Item;
             this.Price = ev.Price;
-            this.Stock = ev.Stock;
+            this.Stock = this.AvailableStock = ev.Stock;
 
             this.Created = true;
         }
@@ -39,25 +39,26 @@ namespace OpenStore.Marketplace.Domain
         private void On(SaleStockChanged ev)
         {
             this.Stock = ev.NewValue;
+            this.AvailableStock += (ev.NewValue - ev.OldValue); // add difference
         }
 
         private void On(OrderPlaced ev)
         {
             AvailableStock -= ev.Order.Quantity;
-            PendingOrders[ev.Order.Id] = ev.Order.Quantity;
+            PendingOrders[ev.Order.Id] = ev.Order;
         }
 
         private void On(OrderCancelled ev)
         {
-            AvailableStock += PendingOrders[ev.OrderId];
+            AvailableStock += PendingOrders[ev.OrderId].Quantity;
             PendingOrders.Remove(ev.OrderId);
         }
 
         private void On(OrderCompleted ev)
         {
-            var value = PendingOrders[ev.OrderId];
+            var order = PendingOrders[ev.OrderId];
             
-            Stock -= value;
+            Stock -= order.Quantity;
             PendingOrders.Remove(ev.OrderId);
         }
     }

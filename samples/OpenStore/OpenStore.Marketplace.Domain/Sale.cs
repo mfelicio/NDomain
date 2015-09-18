@@ -57,6 +57,11 @@ namespace OpenStore.Marketplace.Domain
             return State.AvailableStock >= order.Quantity;
         }
 
+        public bool CanCompleteOrder(Order order)
+        {
+            return State.Stock >= order.Quantity;
+        }
+
         public void PlaceOrder(Order order)
         {
             if (State.PendingOrders.ContainsKey(order.Id))
@@ -87,9 +92,16 @@ namespace OpenStore.Marketplace.Domain
 
         public void CompleteOrder(string orderId)
         {
-            if (!State.PendingOrders.ContainsKey(orderId))
+            Order order;
+            if (!State.PendingOrders.TryGetValue(orderId, out order))
             {
                 // idempotency
+                return;
+            }
+
+            if (!CanCompleteOrder(order))
+            {
+                // should return error code
                 return;
             }
 
