@@ -49,49 +49,94 @@ var context = DomainContext.Configure()
 A sample `Aggregate`, enforcing domain rules by checking its state properties and firing state change events
 
 ```c#
-public class Team : NDomain.Aggregate<TeamState>
+public class Sale : Aggregate<SaleState>
 {
-    public Team(string id, TeamState state)
-        : base(id, state)
-    {
+    public Sale(string id, SaleState state) : base(id, state)  { }
 
+    public bool CanPlaceOrder(Order order)
+    {
+        return State.AvailableStock >= order.Quantity;
     }
 
-    public void AddMember(Guid memberId, string memberName)
+    public void PlaceOrder(Order order)
     {
-        if (this.State.Members.ContainsKey(memberId))
+        if (State.PendingOrders.ContainsKey(order.Id))
         {
-            // do nothing, ensures correct idempotency
+            // idempotency
             return;
         }
 
-        this.On(new TeamMemberAdded { MemberId = memberId, MemberName = memberName });
+        if (!CanPlaceOrder(order))
+        {
+            // return error code or throw exception
+            throw new InvalidOperationException("not enough quantity");
+        }
+
+        this.On(new OrderPlaced { SaleId = this.Id, Order = order});
     }
 
-    // other meaningful operations..
+    public void CancelOrder(string orderId)
+    {
+        if (!State.PendingOrders.ContainsKey(orderId))
+        {
+            // idempotency
+            return;
+        }
+
+        this.On(new OrderCancelled { SaleId = this.Id, OrderId = orderId });
+    }
+
+    // check OpenStore samples for complete example
 }
 ```
 
 Aggregate's `State` is changed when events are fired from aggregates, and can be rebuilt by applying all past events, loaded from the `IEventStore`.
 
 ```c#
-public class TeamState : NDomain.State
+public class SaleState : State
 {
-    //<MemberId, TeamMember>
-    public Dictionary<Guid, TeamMember> Members { get; private set; }
+    public string SellerId { get; set; }
+    public Item Item { get; set; }
+    public decimal Price { get; set; }
+    public int Stock { get; set; }
+    public int AvailableStock { get; set; }
 
-    // .. other meaningful properties
+    public Dictionary<string, Order> PendingOrders { get; set; }
 
-    public TeamState()
+    public SaleState()
     {
-        this.Members = new Dictionary<Guid, TeamMember>();
+        this.PendingOrders = new Dictionary<string, Order>();
     }
 
-    public void OnTeamMemberAdded(TeamMemberAdded ev)
+    private void On(SaleCreated ev)
     {
-        var member = new TeamMember { Id = ev.MemberId, Name = ev.MemberName, Score = 0 };
-        this.Members.Add(member.Id, member);
+        this.SellerId = ev.SellerId;
+        this.Item = ev.Item;
+        this.Price = ev.Price;
+        this.Stock = this.AvailableStock = ev.Stock;
     }
+
+    private void On(OrderPlaced ev)
+    {
+        AvailableStock -= ev.Order.Quantity;
+        PendingOrders[ev.Order.Id] = ev.Order;
+    }
+
+    private void On(OrderCancelled ev)
+    {
+        AvailableStock += PendingOrders[ev.OrderId].Quantity;
+        PendingOrders.Remove(ev.OrderId);
+    }
+
+    private void On(OrderCompleted ev)
+    {
+        var order = PendingOrders[ev.OrderId];
+        
+        Stock -= order.Quantity;
+        PendingOrders.Remove(ev.OrderId);
+    }
+    
+    // check OpenStore samples for complete example
 }
 ```
 
@@ -103,23 +148,28 @@ Aggregates are loaded and saved by an `IAggregateRepository`, that persists its 
 A command handler processes commands sent by the `ICommandBus`, updates aggregates and persists state changes
 
 ```c#
-public class TeamCommandHandler
+public class SaleCommandHandler
 {
-    readonly IAggregateRepository<Team> repository;
+    readonly IAggregateRepository<Sale> repository;
     
-    public TeamCommandHandler(IAggregateRepository<Team> repository)
+    public SaleCommandHandler(IAggregateRepository<Sale> repository)
     {
         this.repository = repository;
     }
 
-    public async Task Handle(ICommand<AddTeamMember> command)
+    public async Task Handle(ICommand<CreateSale> command)
     {
         var cmd = command.Payload;
 
-        // perform validations
+        await repository.CreateOrUpdate(cmd.SaleId,
+                                        s => s.Create(cmd.SellerId, cmd.Item, cmd.Price, cmd.Stock));
+    }
 
-        await this.repository.Update(cmd.TeamId,
-            						 team => team.AddTeamMember(cmd.MemberId, cmd.MemberName));
+    public async Task Handle(ICommand<PlaceOrder> command)
+    {
+        var cmd = command.Payload;
+
+        await repository.Update(cmd.SaleId, s => s.PlaceOrder(cmd.Order));
     }
 
     // other commands
@@ -129,10 +179,10 @@ public class TeamCommandHandler
 An event handler reacts to published events, updates read models used in your queries
 
 ```c#
-public class TeamEventHandler
+public class SaleEventHandler
 {
     
-    public async Task On(IEvent<TeamMemberAdded> @event)
+    public async Task On(IEvent<OrderCompleted> @event)
     {
         var ev = @event.Payload;
 
