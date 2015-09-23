@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDomain", "NDomain\NDomain.csproj", "{538D0501-9C7E-419A-8EEE-2D379B2A1118}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDomain.Tests", "NDomain.Tests\NDomain.Tests.csproj", "{370514BD-2B44-4CBD-89CD-17DA9783C6B3}"
@@ -18,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDomain.Redis.Tests", "NDomain.Redis.Tests\NDomain.Redis.Tests.csproj", "{26D10D61-9C44-49CA-84EC-C43B423C154A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F55A120-DDAD-4400-94CC-6E8DF81FDEBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDomain.Serilog", "NDomain.Serilog\NDomain.Serilog.csproj", "{47F67ECD-42A4-460D-B927-A6968BB7E7E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,13 +83,21 @@ Global
 		{26D10D61-9C44-49CA-84EC-C43B423C154A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26D10D61-9C44-49CA-84EC-C43B423C154A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26D10D61-9C44-49CA-84EC-C43B423C154A}.Release|x64.ActiveCfg = Release|Any CPU
+		{47F67ECD-42A4-460D-B927-A6968BB7E7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F67ECD-42A4-460D-B927-A6968BB7E7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F67ECD-42A4-460D-B927-A6968BB7E7E8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{47F67ECD-42A4-460D-B927-A6968BB7E7E8}.Debug|x64.Build.0 = Debug|Any CPU
+		{47F67ECD-42A4-460D-B927-A6968BB7E7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F67ECD-42A4-460D-B927-A6968BB7E7E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F67ECD-42A4-460D-B927-A6968BB7E7E8}.Release|x64.ActiveCfg = Release|Any CPU
+		{47F67ECD-42A4-460D-B927-A6968BB7E7E8}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{370514BD-2B44-4CBD-89CD-17DA9783C6B3} = {3F55A120-DDAD-4400-94CC-6E8DF81FDEBE}
 		{53011FF1-DC37-4FEB-A752-829E7E117F41} = {3F55A120-DDAD-4400-94CC-6E8DF81FDEBE}
 		{26D10D61-9C44-49CA-84EC-C43B423C154A} = {3F55A120-DDAD-4400-94CC-6E8DF81FDEBE}
-		{370514BD-2B44-4CBD-89CD-17DA9783C6B3} = {3F55A120-DDAD-4400-94CC-6E8DF81FDEBE}
 	EndGlobalSection
 EndGlobal
