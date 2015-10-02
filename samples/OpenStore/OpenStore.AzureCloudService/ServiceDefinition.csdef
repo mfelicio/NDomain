@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="OpenStore.AzureCloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-06.2.4">
+  <WorkerRole name="OpenStore.Api.Azure" vmsize="Small" />
+  <WorkerRole name="OpenStore.Processor.Azure" vmsize="Small" />
+</ServiceDefinition>

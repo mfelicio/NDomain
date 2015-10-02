@@ -68,7 +68,6 @@
     <Compile Include="Configuration\RoutesConfig.cs" />
     <Compile Include="Configuration\SwaggerConfig.cs" />
     <Compile Include="Configuration\WebApiConfig.cs" />
-    <Compile Include="Contracts.cs" />
     <Compile Include="Controllers\AuctionController.cs" />
     <Compile Include="Controllers\SaleController.cs" />
     <Compile Include="Models\Requests\CreateAuctionRequest.cs" />
@@ -92,6 +91,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Handlers\" />
     <Folder Include="Models\Responses\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
