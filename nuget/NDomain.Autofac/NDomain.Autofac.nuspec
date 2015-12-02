@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NDomain.Autofac</id>
+    <version>0.1.0</version>
+    <title>NDomain.Autofac</title>
+    <authors>Manuel Felicio</authors>
+    <owners>Manuel Felicio</owners>
+    <licenseUrl>http://opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>http://github.com/mfelicio/NDomain</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Autofac IoC for NDomain, an extensible DDD CQRS ES framework.</description>
+    <copyright>Copyright 2015 Manuel Felicio</copyright>
+    <tags>autofac ddd cqrs es eventsourcing domain-driven-design messaging</tags>
+    <dependencies>
+      <dependency id="NDomain" version="0.1.0" />
+      <dependency id="Autofac" version="3.5.0" />
+    </dependencies>
+  </metadata>
+</package>

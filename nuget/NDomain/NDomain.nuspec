@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NDomain</id>
+    <version>0.1.1</version>
+    <title>NDomain</title>
+    <authors>Manuel Felicio</authors>
+    <owners>Manuel Felicio</owners>
+    <licenseUrl>http://opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>http://github.com/mfelicio/NDomain</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NDomain is an extensible, fast, powerful framework to help you build robust and scalable .NET applications using Domain Driven Design, Event Sourcing and CQRS architectures.</description>
+    <copyright>Copyright 2015 Manuel Felicio</copyright>
+    <tags>ddd cqrs es eventsourcing domain-driven-design messaging</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="6.0.4" />
+    </dependencies>
+  </metadata>
+</package>

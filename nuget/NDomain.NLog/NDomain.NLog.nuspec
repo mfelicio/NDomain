@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NDomain.NLog</id>
+    <version>0.1.0</version>
+    <title>NDomain.NLog</title>
+    <authors>Manuel Felicio</authors>
+    <owners>Manuel Felicio</owners>
+    <licenseUrl>http://opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>http://github.com/mfelicio/NDomain</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NLog logger for NDomain, an extensible DDD CQRS ES framework.</description>
+    <copyright>Copyright 2015 Manuel Felicio</copyright>
+    <tags>nlog ddd cqrs es eventsourcing domain-driven-design messaging</tags>
+    <dependencies>
+      <dependency id="NDomain" version="0.1.0" />
+      <dependency id="NLog" version="3.2.0.0"  />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NDomain.Redis</id>
+    <version>0.1.0</version>
+    <title>NDomain.Redis</title>
+    <authors>Manuel Felicio</authors>
+    <owners>Manuel Felicio</owners>
+    <licenseUrl>http://opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>http://github.com/mfelicio/NDomain</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Redis transports and subscription storage for NDomain, an extensible DDD CQRS ES framework.</description>
+    <copyright>Copyright 2015 Manuel Felicio</copyright>
+    <tags>redis ddd cqrs es eventsourcing domain-driven-design messaging</tags>
+    <dependencies>
+      <dependency id="NDomain" version="0.1.0" />
+      <dependency id="Newtonsoft.Json" version="6.0.4" />
+      <dependency id="StackExchange.Redis" version="1.0.481"  />
+    </dependencies>
+  </metadata>
+</package>
