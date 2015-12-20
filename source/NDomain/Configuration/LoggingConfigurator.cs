@@ -26,7 +26,7 @@ namespace NDomain.Configuration
         private void OnConfiguring(ContextBuilder builder)
         {
             builder.LoggerFactory = new Lazy<ILoggerFactory>(
-                () => this.LoggerFactory ?? new NullLoggerFactory());
+                () => this.LoggerFactory ?? NullLoggerFactory.Instance);
         }
     }
 }

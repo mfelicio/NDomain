@@ -95,7 +95,7 @@ namespace NDomain.Tests.Messaging
 
             var receiver = SetupReceiver(nMessages);
             var dispatcher = SetupDispatcher(nMessages, processingTime, evt);
-            using (var processor = new MessageWorker(receiver, dispatcher, new NullLoggerFactory(), concurrencyLevel))
+            using (var processor = new MessageWorker(receiver, dispatcher, NullLoggerFactory.Instance, concurrencyLevel))
             {
                 processor.Start();
 
