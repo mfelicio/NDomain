@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.IoC
 {
+    /// <summary>
+    /// IDependencyResolver abstraction used to resolve message handlers
+    /// </summary>
     public interface IDependencyResolver : IDisposable
     {
         IDependencyScope BeginScope();
@@ -15,6 +18,9 @@ namespace NDomain.IoC
         T Resolve<T>();
     }
 
+    /// <summary>
+    /// IDependencyScope abstraction used when resolving message handlers, so that each message is processed within its own dependency scope.
+    /// </summary>
     public interface IDependencyScope : IDependencyResolver
     {
         

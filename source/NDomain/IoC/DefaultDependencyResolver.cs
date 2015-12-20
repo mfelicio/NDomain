@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.IoC
 {
+    /// <summary>
+    /// Simple IoC container that is used by default when no other IoC container was registered when building the DomainContext. This will only resolve internal NDomain components and may not work if your message handlers have other dependencies.
+    /// </summary>
     public class DefaultDependencyResolver : IDependencyScope
     {
         readonly Dictionary<Type, object> knownInstances;

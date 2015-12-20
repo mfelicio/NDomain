@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Logging
 {
+    /// <summary>
+    /// ILogger implementation that uses the Trace to write logs to all configured trace listeners
+    /// </summary>
     public class TraceLogger : ILogger
     {
         readonly string name;

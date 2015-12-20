@@ -27,7 +27,7 @@ namespace NDomain
         /// <summary>
         /// Appends events to a given aggregateId, as long as its version matches the expectedVersion.
         /// </summary>
-        /// <exception cref="ConcurrencyException">When version doesn't match the expectedVersion</exception>
+        /// <exception cref="ConcurrencyException">When current stored version doesn't match the expectedVersion</exception>
         /// <param name="aggregateId"></param>
         /// <param name="expectedVersion"></param>
         /// <param name="events"></param>
@@ -35,6 +35,9 @@ namespace NDomain
         Task Append(string aggregateId, int expectedVersion, IEnumerable<IAggregateEvent> events);
     }
 
+    /// <summary>
+    /// Exception raised when there's a concurrency conflict persisting changes to an aggregate
+    /// </summary>
     public class ConcurrencyException : Exception
     {
         public ConcurrencyException(string aggregateId, int expectedVersion, int currentVersion)
@@ -44,8 +47,19 @@ namespace NDomain
             this.CurrentVersion = currentVersion;
         }
 
+        /// <summary>
+        /// Id of the aggregate
+        /// </summary>
         public string AggregateId { get; private set; }
+
+        /// <summary>
+        /// Expected version of the persisted aggregate. This should match the IAggregate.OriginalVersion
+        /// </summary>
         public int ExpectedVersion { get; private set; }
+
+        /// <summary>
+        /// Current version of the persisted aggregate. This should always be higher than ExpectedVersion.
+        /// </summary>
         public int CurrentVersion { get; private set; }
     }
 }

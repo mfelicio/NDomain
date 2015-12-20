@@ -13,6 +13,9 @@ using NDomain.CQRS;
 
 namespace NDomain
 {
+    /// <summary>
+    /// Main container and entry point of the NDomain framework.
+    /// </summary>
     public class DomainContext : IDomainContext
     {
         readonly IEventStore eventStore;
@@ -74,6 +77,10 @@ namespace NDomain
             }
         }
 
+        /// <summary>
+        /// Creates a new ContextBuilder that is used to configure a new DomainContext using a fluent interface.
+        /// </summary>
+        /// <returns></returns>
         public static ContextBuilder Configure() 
         {
             return new ContextBuilder();

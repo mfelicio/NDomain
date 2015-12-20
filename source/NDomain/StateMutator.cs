@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace NDomain
 {
+    /// <summary>
+    /// Internal cache for StateMutator instances, as their construction is very heavy
+    /// </summary>
     internal static class StateMutator
     {
         static readonly ConcurrentDictionary<Type, IStateMutator> mutators;
@@ -34,6 +37,13 @@ namespace NDomain
         }
     }
 
+    /// <summary>
+    /// Internal implementation for a StateMutator, based on a convention for methods that apply events.
+    /// It will generate lambda expressions in runtime, compile and cache them, that invoke methods with the conventioned signature.
+
+    /// The convention used is void On[NameOfTheEventType]([NameOfTheEventType] ev)
+    /// </summary>
+    /// <typeparam name="TState">Type of the state</typeparam>
     internal class StateMutator<TState> : IStateMutator
         where TState : IState
     {

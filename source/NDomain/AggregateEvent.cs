@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace NDomain
 {
+    /// <summary>
+    /// Aggregate event with generic payloads
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class AggregateEvent<T> : IAggregateEvent<T>
     {
         readonly string aggregateId;

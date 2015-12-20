@@ -9,8 +9,15 @@ using System.Threading.Tasks;
 
 namespace NDomain
 {
+/// <summary>
+    /// Provides an message context scope for any processing that happens within a message handler.
+    /// The context is available in the same thread and in the same CallContext, so asynchronous programming with the 'await' keyword will preserve the context on the continuations.
+    /// </summary>
+    /// <remarks>This is not related with <seealso cref="System.Transactions.TransactionScope"/></remarks>
     public class DomainTransactionScope : IDisposable
     {
+        // TODO: rename to MessageContextScope
+
         public DomainTransactionScope(string transactionId, int retryCount = 0)
         {
             CallContext.LogicalSetData("ndomain:transaction", new DomainTransaction(transactionId, retryCount));
@@ -25,8 +32,13 @@ namespace NDomain
         }
     }
 
+    /// <summary>
+    /// Contains the contextual properties when processing a message, like its Id and how many times it was retried
+    /// </summary>
     public class DomainTransaction
     {
+        // TODO: rename to MessageContext
+
         readonly string id;
         readonly int retryCount;
 
@@ -39,6 +51,10 @@ namespace NDomain
         public string Id { get { return this.id; } }
         public int RetryCount { get { return this.retryCount; } }
 
+        /// <summary>
+        /// Returns the current, ambient message context. 
+        /// The context is available in the same thread and in the same CallContext, so asynchronous programming with the 'await' keyword will preserve the context.
+        /// </summary>
         public static DomainTransaction Current
         {
             get

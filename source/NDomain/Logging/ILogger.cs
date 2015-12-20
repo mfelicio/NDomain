@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Logging
 {
+    /// <summary>
+    /// ILogger abstraction used when logging messages from the NDomain framework components
+    /// </summary>
     public interface ILogger
     {
         void Debug(string message, params object[] args);

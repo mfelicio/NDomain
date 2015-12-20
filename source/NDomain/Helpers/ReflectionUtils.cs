@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace NDomain.Helpers
 {
+    /// <summary>
+    /// Helper class where most of the magic is done, which is the core of the simplicity of the NDomain framework.
+    /// Contains helpers that generate runtime delegates using reflection and expression trees. These delegates should be cached by the caller since their execution is much faster than reflection invocations or expression trees compilation.
+    /// </summary>
     internal static class ReflectionUtils
     {
         public static Func<string, TState, TAggregate> BuildCreateAggregateFromStateFunc<TAggregate, TState>()

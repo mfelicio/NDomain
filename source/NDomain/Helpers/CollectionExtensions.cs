@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace System.Collections.Generic
 {
+    /// <summary>
+    /// Provides extension methods for collections
+    /// </summary>
     public static class CollectionExtensions
     {
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, Func<TKey, TValue> createValue)

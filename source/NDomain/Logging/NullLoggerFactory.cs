@@ -6,10 +6,19 @@ using System.Threading.Tasks;
 
 namespace NDomain.Logging
 {
+    /// <summary>
+    /// ILoggerFactory implementation to be used when no logging is intended.
+    /// Besides unit tests, this should never be used.
+    /// </summary>
     public class NullLoggerFactory : ILoggerFactory
     {
+        /// <summary>
+        /// Singleton instance for the NullLoggerFactory
+        /// </summary>
         public static readonly ILoggerFactory Instance = new NullLoggerFactory();
         static readonly ILogger NullLogger = new NullLogger();
+
+        private NullLoggerFactory() { }
 
         public ILogger GetLogger(string name)
         {
