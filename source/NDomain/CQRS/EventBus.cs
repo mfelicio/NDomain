@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.CQRS
 {
+    /// <summary>
+    /// Implementation of an EventBus on top of the IMessageBus, treating events as an higher level concept for Message objects
+    /// </summary>
     public class EventBus : IEventBus, IEventStoreBus
     {
         readonly IMessageBus messageBus;

@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace NDomain.CQRS.Projections
 {
+    /// <summary>
+    /// [Experimental] Provides support for projections from aggregate events into eventually-consistent read models.
+    /// The idea is that the read models can be disposed of, and be rebuilt from the events projection, making it suitable for LRU caches.
+    /// Ensures that events that update read models are processed according to its sequence numbers within the event stream.
+    /// Concurrent updates are not an issue, because everytime a new event updates the read model, the source projection events are checked to verify if the read model's version is behind and in that case, missed events will be reprocessed.
+    /// </summary>
+    /// <remarks>This is still experimental work and most likely will undergo changes in newer versions.</remarks>
+    /// <typeparam name="T"></typeparam>
     public abstract class QueryEventsHandler<T>
         where T : new()
     {

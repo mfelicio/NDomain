@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.CQRS.Projections
 {
+    /// <summary>
+    /// [Experimental] Represents a query object where a read model is stored
+    /// </summary>
     public class Query
     {
         protected Query()

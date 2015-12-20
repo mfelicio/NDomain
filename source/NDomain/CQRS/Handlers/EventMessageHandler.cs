@@ -10,6 +10,11 @@ using NDomain.CQRS;
 
 namespace NDomain.CQRS.Handlers
 {
+    /// <summary>
+    /// MessageHandler for IEvent messages
+    /// </summary>
+    /// <typeparam name="T">Type of the payload of the IEvent message</typeparam>
+    /// <typeparam name="THandler">Type of the actual handler subscribed from the application</typeparam>
     public class EventMessageHandler<T, THandler> : MessageHandlerBase<IEvent<T>, THandler>
         where THandler : class
     {

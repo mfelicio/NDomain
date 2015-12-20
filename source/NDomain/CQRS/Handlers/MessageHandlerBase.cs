@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace NDomain.CQRS.Handlers
 {
+    /// <summary>
+    /// Base message handler class used internally by CQRS specific handlers
+    /// </summary>
+    /// <typeparam name="TMessage">Type of the message to handle</typeparam>
+    /// <typeparam name="THandler">Type of the actual message handler class subscribed from the application</typeparam>
     public abstract class MessageHandlerBase<TMessage, THandler> : IMessageHandler
         where THandler : class
     {
@@ -22,6 +27,11 @@ namespace NDomain.CQRS.Handlers
             this.instance = instance;
         }
 
+        /// <summary>
+        /// Processes a message within a dependency scope, resolving the actual message handler class with an IoC container.
+        /// </summary>
+        /// <param name="context">message context</param>
+        /// <returns>Task completed when the message processing completes</returns>
         public async Task Process(MessageContext context)
         {
             using (var scope = context.Resolver.BeginScope())

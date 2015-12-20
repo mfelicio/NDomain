@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus
 {
+    /// <summary>
+    /// Represents an immutable generic message with support for headers, name and a payload
+    /// </summary>
     public class Message
     {
         static readonly IReadOnlyDictionary<string, string> EmptyHeaders = new Dictionary<string, string>();

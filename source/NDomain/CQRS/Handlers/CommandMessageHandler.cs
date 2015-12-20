@@ -10,6 +10,11 @@ using NDomain.CQRS;
 
 namespace NDomain.CQRS.Handlers
 {
+    /// <summary>
+    /// MessageHandler for ICommand messages
+    /// </summary>
+    /// <typeparam name="T">Type of the payload of the ICommand message</typeparam>
+    /// <typeparam name="THandler">Type of the actual handler subscribed from the application</typeparam>
     public class CommandMessageHandler<T, THandler> : MessageHandlerBase<ICommand<T>, THandler>
         where THandler : class
     {

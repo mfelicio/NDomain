@@ -8,12 +8,22 @@ using System.Threading.Tasks;
 
 namespace NDomain.Configuration
 {
+    /// <summary>
+    /// Configurator for the event sourcing persistence capabilities
+    /// </summary>
     public class EventSourcingConfigurator : Configurator
     {
         readonly HashSet<Type> aggregateTypes;
 
+        /// <summary>
+        /// Gets or sets the IEventStoreDb to be used. 
+        /// Eg: Azure tables, SqlServer, RavenDb, etc.
+        /// </summary>
+        /// <remarks>
+        /// Note that the IEventStoreDb only handles the persistence features, while the IEventStore is a higher level concept 
+        /// which handles deserialization and coordinates event storage and publishing between the IEventStoreDb and IEventStoreBus.
+        /// </remarks>
         public IEventStoreDb EventStoreDb { get; set; }
-        public IEventStoreBus EventStoreBus { get; set; }
 
         public EventSourcingConfigurator(ContextBuilder builder)
             : base(builder)
@@ -23,6 +33,12 @@ namespace NDomain.Configuration
             builder.Configuring += this.OnConfiguring;
         }
 
+        /// <summary>
+        /// Registers an aggregate type to be used with EventSourcing. 
+        /// This allows NDomain to generate serializer and deserializer functions for the aggregate events.
+        /// </summary>
+        /// <typeparam name="TAggregate">Type of the aggregate</typeparam>
+        /// <returns>The current instance, to be used in a fluent manner</returns>
         public EventSourcingConfigurator BindAggregate<TAggregate>()
             where TAggregate : IAggregate
         {
@@ -31,15 +47,13 @@ namespace NDomain.Configuration
             return this;
         }
 
+        /// <summary>
+        /// Configures the local EventStore, which should be used only for test and learning purposes.
+        /// </summary>
+        /// <returns>The current instance, to be used in a fluent manner</returns>
         public EventSourcingConfigurator UseLocalEventStore()
         {
             this.EventStoreDb = new LocalEventStore();
-            return this;
-        }
-
-        public EventSourcingConfigurator UsePublisher(IEventStoreBus eventStoreBus)
-        {
-            this.EventStoreBus = eventStoreBus;
             return this;
         }
 
@@ -49,7 +63,7 @@ namespace NDomain.Configuration
 
             builder.EventStore = new Lazy<IEventStore>(
                 () => new EventStore(this.EventStoreDb ?? new LocalEventStore(),
-                                     this.EventStoreBus ?? new EventBus(builder.MessageBus.Value),
+                                     new EventBus(builder.MessageBus.Value),
                                      serializer));
         }
     }

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus
 {
+    /// <summary>
+    /// Default implementation for a message handler that delegates the handling to a Func it receives
+    /// </summary>
+    /// <typeparam name="TMessage">Type of the message to handle</typeparam>
     public class MessageHandler<TMessage> : IMessageHandler
     {
         readonly Func<TMessage, Task> handlerFunc;

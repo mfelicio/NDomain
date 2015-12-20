@@ -12,6 +12,9 @@ using NDomain.Helpers;
 
 namespace NDomain.Configuration
 {
+    /// <summary>
+    /// Helper class that contains extension methods when registering Processors with CQRS capabilities
+    /// </summary>
     public static class CQRSExtensions
     {
         /// <summary>

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Transport
 {
+    /// <summary>
+    /// Implementation of a local transport
+    /// </summary>
     public class LocalTransportFactory : ITransportFactory
     {
         // shared bus, for all local clients

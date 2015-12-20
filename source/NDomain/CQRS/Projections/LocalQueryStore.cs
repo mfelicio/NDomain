@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace NDomain.CQRS.Projections
 {
+    /// <summary>
+    /// In-memory and InProc implementation of a QueryStore
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class LocalQueryStore<T> : IQueryStore<T>
     {
         private readonly ConcurrentDictionary<string, Query<T>> data;

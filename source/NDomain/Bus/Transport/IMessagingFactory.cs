@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NDomain.Bus.Transport
 {
     /// <summary>
-    /// Factory that creates messaging clients
+    /// Factory that creates transports that are capable of sending and receiving messages
     /// </summary>
     public interface ITransportFactory
     {

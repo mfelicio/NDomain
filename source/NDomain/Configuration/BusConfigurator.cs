@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Configuration
 {
+    /// <summary>
+    /// Configurator for the messaging capabilities
+    /// </summary>
     public class BusConfigurator : Configurator
     {
         readonly List<ProcessorConfigurator> processorConfigurators;
@@ -28,6 +31,11 @@ namespace NDomain.Configuration
             builder.Configuring += this.OnConfiguring;
         }
 
+        /// <summary>
+        /// Creates a new ProcessorConfigurator to be configured as part of the current context
+        /// </summary>
+        /// <param name="configurer">configuration handler</param>
+        /// <returns>Current instance, to be used in a fluent manner</returns>
         public BusConfigurator WithProcessor(Action<ProcessorConfigurator> configurer)
         {
             var processorConfigurator = new ProcessorConfigurator(this.Builder, configurer);
@@ -36,27 +44,46 @@ namespace NDomain.Configuration
             return this;
         }
 
+        /// <summary>
+        /// Configures a local, in-proc, transport factory
+        /// </summary>
+        /// <returns>Current instance, to be used in a fluent manner</returns>
         public BusConfigurator WithLocalTransportFactory()
         {
             this.MessagingFactory = new LocalTransportFactory();
             return this;
         }
 
+        /// <summary>
+        /// Configures a custom subscription broker
+        /// </summary>
+        /// <param name="subscriptionBroker">subscriptionBroker</param>
+        /// <returns>Current instance, to be used in a fluent manner</returns>
         public BusConfigurator WithCustomSubscriptionBroker(ISubscriptionBroker subscriptionBroker)
         {
             this.SubscriptionBroker = subscriptionBroker;
             return this;
         }
 
+        /// <summary>
+        /// Configures a custom subscription store
+        /// </summary>
+        /// <param name="subscriptionStore">subscriptionStore</param>
+        /// <returns>Current instance, to be used in a fluent manner</returns>
         public BusConfigurator WithCustomSubscriptionStore(ISubscriptionStore subscriptionStore)
         {
             this.SubscriptionStore = subscriptionStore;
             return this;
         }
 
-        public BusConfigurator WithCustomTransportFactory(ITransportFactory messagingFactory)
+        /// <summary>
+        /// Configures a custom TransportFactory
+        /// </summary>
+        /// <param name="transportFactory">transportFactory</param>
+        /// <returns>Current instance, to be used in a fluent manner</returns>
+        public BusConfigurator WithCustomTransportFactory(ITransportFactory transportFactory)
         {
-            this.MessagingFactory = messagingFactory;
+            this.MessagingFactory = transportFactory;
             return this;
         }
 
@@ -87,13 +114,16 @@ namespace NDomain.Configuration
 
     }
 
+    /// <summary>
+    /// Configurator for message processing capabilities
+    /// </summary>
     public class ProcessorConfigurator : Configurator
     {
         readonly Action<ProcessorConfigurator> configurer;
 
-        public event Action<Processor> Configuring;
-        public string EndpointName { get; set; }
-        public int ConcurrencyLevel { get; set; }
+        internal event Action<Processor> Configuring;
+        internal string EndpointName { get; set; }
+        internal int ConcurrencyLevel { get; set; }
 
         public ProcessorConfigurator(ContextBuilder builder, Action<ProcessorConfigurator> configurer)
             : base(builder)
@@ -103,18 +133,38 @@ namespace NDomain.Configuration
             this.ConcurrencyLevel = 10; //default, define constant
         }
 
+        /// <summary>
+        /// Sets the name of the endpoint for the current processor
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <returns>The current ProcessorConfigurator instance, to be used in a fluent manner</returns>
         public ProcessorConfigurator Endpoint(string name)
         {
             this.EndpointName = name;
             return this;
         }
 
+        /// <summary>
+        /// Sets the maximum number of concurrent messages being processed by this instance
+        /// </summary>
+        /// <remarks>
+        /// On a scale out scenario, where multiple processes have the same Processor configured, the concurrencyLevel is per instance (process), not global per Processor definition
+        /// </remarks>
+        /// <param name="concurrencyLevel">concurrencyLevel</param>
+        /// <returns>The current ProcessorConfigurator instance, to be used in a fluent manner</returns>
         public ProcessorConfigurator WithConcurrencyLevel(int concurrencyLevel)
         {
             this.ConcurrencyLevel = concurrencyLevel;
             return this;
         }
 
+        /// <summary>
+        /// Registers a custom handler to handle messages of type TMessage.
+        /// </summary>
+        /// <typeparam name="TMessage">Type of the message to handle</typeparam>
+        /// <param name="handlerName">handlerName</param>
+        /// <param name="handlerFunc">handlerFunc</param>
+        /// <returns>Current instance, to be used in a fluent manner</returns>
         public ProcessorConfigurator RegisterMessageHandler<TMessage>(string handlerName, Func<TMessage, Task> handlerFunc)
         {
             this.Configuring += processor => processor.RegisterMessageHandler<TMessage>(
@@ -124,6 +174,14 @@ namespace NDomain.Configuration
             return this;
         }
 
+        /// <summary>
+        /// Configures the current processor instance with the previously specified settings.
+        /// </summary>
+        /// <param name="subscriptionManager">subscriptionManager</param>
+        /// <param name="messagingFactory">messagingFactory</param>
+        /// <param name="loggerFactory">loggerFactory</param>
+        /// <param name="resolver">resolver</param>
+        /// <returns>A configured IProcessor instance</returns>
         public IProcessor Configure(ISubscriptionManager subscriptionManager,
                                     ITransportFactory messagingFactory,
                                     ILoggerFactory loggerFactory,

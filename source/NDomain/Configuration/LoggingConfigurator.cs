@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace NDomain.Configuration
 {
+    /// <summary>
+    /// Configurator for the logging capabilities
+    /// </summary>
     public class LoggingConfigurator : Configurator
     {
+        /// <summary>
+        /// Gets or sets the logger factory
+        /// </summary>
         public ILoggerFactory LoggerFactory { get; set; }
 
         public LoggingConfigurator(ContextBuilder builder)

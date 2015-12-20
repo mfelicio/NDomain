@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace NDomain.CQRS.Handlers
 {
+    /// <summary>
+    /// MessageHandler for IAggregateEvent messages
+    /// </summary>
+    /// <typeparam name="T">Type of the payload of the IAggregateEvent message</typeparam>
+    /// <typeparam name="THandler">Type of the actual handler subscribed from the application</typeparam>
     public class AggregateEventMessageHandler<T, THandler> : MessageHandlerBase<IAggregateEvent<T>, THandler>
         where THandler : class
     {

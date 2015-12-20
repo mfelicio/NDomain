@@ -11,6 +11,11 @@ using NDomain.Bus.Transport;
 
 namespace NDomain.Bus
 {
+    /// <summary>
+    /// Handles all the logic to receive messages from an IInboundTransport in a message loop.
+    /// Handles success and failure scenarios.
+    /// Actual message processing is delegated to the IMessageDispatcher.
+    /// </summary>
     public class MessageWorker : IDisposable
     {
         readonly IMessageDispatcher messageDispatcher;
@@ -61,6 +66,7 @@ namespace NDomain.Bus
 
         private async Task Work()
         {
+            // message loop
             while (!this.cancellation.IsCancellationRequested)
             {
                 if (!this.IsRunning)

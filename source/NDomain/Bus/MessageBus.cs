@@ -12,6 +12,10 @@ using NDomain.CQRS;
 
 namespace NDomain.Bus
 {
+    /// <summary>
+    /// Handles all the logic to Send messages to an IOutboundTransport, based on current subscriptions
+    /// Essentially takes Messages, transforms into TransportMessages, setting the appropriate headers for each subscription and sends them to an IOutboundTransport
+    /// </summary>
     public class MessageBus : IMessageBus
     {
         readonly ISubscriptionManager subscriptionManager;

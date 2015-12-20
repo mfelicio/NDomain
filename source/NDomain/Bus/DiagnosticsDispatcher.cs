@@ -11,6 +11,7 @@ using System.Diagnostics;
 
 namespace NDomain.Bus
 {
+    // TODO: Remove. This should go to extensibility/diagnostics
     class Counter
     {
         public long NMessages;

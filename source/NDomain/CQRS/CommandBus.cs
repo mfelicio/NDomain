@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.CQRS
 {
+    /// <summary>
+    /// Implementation of a CommandBus on top of the IMessageBus, treating commands as higher level concepts for Message objects
+    /// </summary>
     public class CommandBus : ICommandBus
     {
         readonly IMessageBus messageBus;

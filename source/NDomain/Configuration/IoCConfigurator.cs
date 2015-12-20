@@ -7,11 +7,27 @@ using System.Threading.Tasks;
 
 namespace NDomain.Configuration
 {
+    /// <summary>
+    /// Configurator for the IoC capabilities
+    /// </summary>
     public class IoCConfigurator : Configurator
     {
+        /// <summary>
+        /// Gets or sets the IDependencyResolver implementation to be used
+        /// </summary>
         public IDependencyResolver Resolver { get; set; }
+
+        /// <summary>
+        /// Application types that can be resolved by the IDependencyResolver, such as message handlers.
+        /// </summary>
+        /// <remarks>
+        /// This may be removed or changed in future versions. Application code should not use it.
+        /// </remarks>
         public List<Type> KnownTypes { get; private set; }
 
+        /// <summary>
+        /// Allows specific IoC container integrations to register NDomain's components
+        /// </summary>
         public Action<DomainContext> Configured { get; set; }
 
         public IoCConfigurator(ContextBuilder builder)
@@ -22,6 +38,11 @@ namespace NDomain.Configuration
             builder.Configured += this.OnConfigured;
         }
 
+        /// <summary>
+        /// Configures the default IoC container, which only resolves message handlers that depend only on NDomain's components.
+        /// </summary>
+        /// <param name="configurer">configurer handler</param>
+        /// <returns>The current instance, to be used in a fluent manner</returns>
         public IoCConfigurator UseDefault(Action<DefaultDependencyResolver> configurer)
         {
             this.Resolver = new DefaultDependencyResolver();
