@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Autofac
 {
+    /// <summary>
+    /// IDependencyResolver based on Autofac
+    /// </summary>
     public class AutofacDependencyResolver : IDependencyScope
     {
         readonly ILifetimeScope scope;

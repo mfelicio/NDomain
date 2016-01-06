@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Transport.Redis
 {
+    // TODO: document the keys structure and queueing solution in place
     public class RedisTransport : IInboundTransport, IOutboundTransport
     {
         readonly ConnectionMultiplexer connection;

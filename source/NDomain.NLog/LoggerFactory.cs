@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.NLog
 {
+    /// <summary>
+    /// ILoggerFactory based on NLog
+    /// </summary>
     public class LoggerFactory : ILoggerFactory
     {
         public ILogger GetLogger(string name)

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.NLog
 {
+    /// <summary>
+    /// NLog logger adapter
+    /// </summary>
     public class Logger : ILogger
     {
         global::NLog.Logger logger;
