@@ -18,7 +18,7 @@ namespace NDomain.Tests.Bus
         protected IDependencyResolver resolver;
         protected ISubscriptionBroker subscriptionBroker;
         protected ISubscriptionStore subscriptionStore;
-        protected ITransportFactory messagingFactory;
+        protected ITransportFactory transportFactory;
         protected ISubscriptionManager subscriptionManager;
         protected IMessageBus bus;
 
@@ -29,8 +29,8 @@ namespace NDomain.Tests.Bus
             this.subscriptionStore = new LocalSubscriptionStore();
             this.subscriptionBroker = new LocalSubscriptionBroker();
             this.subscriptionManager = new SubscriptionManager(this.subscriptionStore, this.subscriptionBroker);
-            this.messagingFactory = new LocalTransportFactory();
-            this.bus = new MessageBus(this.subscriptionManager, this.messagingFactory.CreateOutboundTransport(), NullLoggerFactory.Instance);
+            this.transportFactory = new LocalTransportFactory();
+            this.bus = new MessageBus(this.subscriptionManager, this.transportFactory.CreateOutboundTransport(), NullLoggerFactory.Instance);
         }
 
         [TestCase(2, 1, 3)]
@@ -50,7 +50,7 @@ namespace NDomain.Tests.Bus
                     "processor:" + i,
                     10, // concurrency level.. not really important for this test
                     new SubscriptionManager(this.subscriptionStore, this.subscriptionBroker),
-                    this.messagingFactory,
+                    this.transportFactory,
                     NullLoggerFactory.Instance,
                     this.resolver);
 

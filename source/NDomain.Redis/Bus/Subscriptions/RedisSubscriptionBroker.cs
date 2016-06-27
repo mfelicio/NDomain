@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions.Redis
 {
+
     public class RedisSubscriptionBroker : ISubscriptionBroker
     {
         readonly ConnectionMultiplexer connection;

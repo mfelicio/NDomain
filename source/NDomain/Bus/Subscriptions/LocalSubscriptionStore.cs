@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions
 {
+    /// <summary>
+    /// In-process subscription store
+    /// </summary>
     public class LocalSubscriptionStore : ISubscriptionStore
     {
         readonly HashSet<Subscription> subscriptions;

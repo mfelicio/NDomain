@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.EventSourcing
 {
+    /// <summary>
+    /// Serializes and deserializes events persisted in the IEventStore
+    /// </summary>
     public interface IEventStoreSerializer
     {
         IAggregateEvent<JObject> Serialize(IAggregateEvent @event);

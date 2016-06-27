@@ -23,10 +23,10 @@ namespace NDomain.Configuration
 
         public static BusConfigurator WithAzureQueues(this BusConfigurator configurator,
                                                       CloudStorageAccount account,
-                                                      string queueName)
+                                                      string prefix)
         {
 
-            configurator.MessagingFactory = new QueueTransportFactory(account, queueName);
+            configurator.TransportFactory = new QueueTransportFactory(account, prefix);
 
             return configurator;
         }

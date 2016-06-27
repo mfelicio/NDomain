@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions
 {
+    /// <summary>
+    /// Helper structure to manage subscription changes
+    /// </summary>
     class SubscriptionSet
     {
         readonly HashSet<Subscription> subscriptions;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NDomain.Bus.Subscriptions
 {
     /// <summary>
-    /// Dummy subscription broker, simply loops back whatever comes
+    /// In-process subscription broker, simply loops back whatever comes
     /// </summary>
     public class LocalSubscriptionBroker : ISubscriptionBroker
     {

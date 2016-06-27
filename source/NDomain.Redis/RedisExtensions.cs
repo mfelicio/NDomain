@@ -24,7 +24,7 @@ namespace NDomain
         /// <returns>The current configurator instance to be used in a fluent manner</returns>
         public static BusConfigurator WithRedisTransport(this BusConfigurator configurator, ConnectionMultiplexer connection, string prefix)
         {
-            configurator.MessagingFactory = new RedisTransportFactory(connection, prefix);
+            configurator.TransportFactory = new RedisTransportFactory(connection, prefix);
 
             return configurator;
         }

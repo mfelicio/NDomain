@@ -130,7 +130,7 @@
     <Compile Include="Helpers\ReflectionUtils.cs" />
     <Compile Include="Bus\Transport\ITransport.cs" />
     <Compile Include="Bus\Transport\IMessageTransaction.cs" />
-    <Compile Include="Bus\Transport\IMessagingFactory.cs" />
+    <Compile Include="Bus\Transport\ITransportFactory.cs" />
     <Compile Include="Bus\Transport\TransportMessage.cs" />
     <Compile Include="CQRS\Event.cs" />
     <Compile Include="IAggregate.cs" />

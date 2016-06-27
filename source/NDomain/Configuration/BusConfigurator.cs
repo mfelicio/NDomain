@@ -21,7 +21,7 @@ namespace NDomain.Configuration
 
         public ISubscriptionStore SubscriptionStore { get; set; }
         public ISubscriptionBroker SubscriptionBroker { get; set; }
-        public ITransportFactory MessagingFactory { get; set; }
+        public ITransportFactory TransportFactory { get; set; }
 
         public BusConfigurator(ContextBuilder builder)
             : base(builder)
@@ -50,7 +50,7 @@ namespace NDomain.Configuration
         /// <returns>Current instance, to be used in a fluent manner</returns>
         public BusConfigurator WithLocalTransportFactory()
         {
-            this.MessagingFactory = new LocalTransportFactory();
+            this.TransportFactory = new LocalTransportFactory();
             return this;
         }
 
@@ -83,7 +83,7 @@ namespace NDomain.Configuration
         /// <returns>Current instance, to be used in a fluent manner</returns>
         public BusConfigurator WithCustomTransportFactory(ITransportFactory transportFactory)
         {
-            this.MessagingFactory = transportFactory;
+            this.TransportFactory = transportFactory;
             return this;
         }
 
@@ -94,9 +94,9 @@ namespace NDomain.Configuration
 
             var subscriptionManager = new SubscriptionManager(subscriptionStore, subscriptionBroker);
 
-            this.MessagingFactory = this.MessagingFactory ?? new LocalTransportFactory();
+            this.TransportFactory = this.TransportFactory ?? new LocalTransportFactory();
 
-            var transport = this.MessagingFactory.CreateOutboundTransport();
+            var transport = this.TransportFactory.CreateOutboundTransport();
 
             builder.SubscriptionManager = new Lazy<ISubscriptionManager>(() => subscriptionManager);
 
@@ -106,7 +106,7 @@ namespace NDomain.Configuration
             builder.Processors = new Lazy<IEnumerable<IProcessor>>(
                 () => this.processorConfigurators
                           .Select(p => p.Configure(subscriptionManager,
-                                                   this.MessagingFactory,
+                                                   this.TransportFactory,
                                                    builder.LoggerFactory.Value,
                                                    builder.Resolver.Value)).ToArray());
 
@@ -178,19 +178,19 @@ namespace NDomain.Configuration
         /// Configures the current processor instance with the previously specified settings.
         /// </summary>
         /// <param name="subscriptionManager">subscriptionManager</param>
-        /// <param name="messagingFactory">messagingFactory</param>
+        /// <param name="transportFactory">transportFactory</param>
         /// <param name="loggerFactory">loggerFactory</param>
         /// <param name="resolver">resolver</param>
         /// <returns>A configured IProcessor instance</returns>
         public IProcessor Configure(ISubscriptionManager subscriptionManager,
-                                    ITransportFactory messagingFactory,
+                                    ITransportFactory transportFactory,
                                     ILoggerFactory loggerFactory,
                                     IDependencyResolver resolver)
         {
 
             this.configurer(this);
 
-            var processor = new Processor(this.EndpointName, this.ConcurrencyLevel, subscriptionManager, messagingFactory, loggerFactory, resolver);
+            var processor = new Processor(this.EndpointName, this.ConcurrencyLevel, subscriptionManager, transportFactory, loggerFactory, resolver);
 
             // handlers can be registered here
             if (this.Configuring != null)

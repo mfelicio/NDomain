@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions
 {
+    /// <summary>
+    /// Persistent store for subscriptions
+    /// </summary>
     public interface ISubscriptionStore
     {
         Task<IEnumerable<Subscription>> GetAll();
