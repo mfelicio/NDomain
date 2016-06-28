@@ -7,5 +7,5 @@ build:
   project: source\NDomain.sln
 before_test:
  - nuget install redis-64 -excludeversion
- - redis-64\redis-server.exe --service-install
- - redis-64\redis-server.exe --service-start
+ - redis-64\tools\redis-server.exe --service-install
+ - redis-64\tools\redis-server.exe --service-start
