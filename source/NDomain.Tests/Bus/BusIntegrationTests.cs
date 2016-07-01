@@ -47,7 +47,7 @@ namespace NDomain.Tests.Bus
             for (var i = 0; i < nProcessors; ++i)
             {
                 var processor = new Processor(
-                    "processor:" + i,
+                    new InboundTransportOptions("processor:" + i),
                     10, // concurrency level.. not really important for this test
                     new SubscriptionManager(this.subscriptionStore, this.subscriptionBroker),
                     this.transportFactory,

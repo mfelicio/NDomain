@@ -25,7 +25,7 @@ namespace NDomain.EventSourcing
         public async Task<IEnumerable<IAggregateEvent>> Load(string aggregateId)
         {
             var transaction = DomainTransaction.Current;
-            if (transaction != null && transaction.RetryCount > 0)
+            if (transaction != null && transaction.DeliveryCount > 1)
             {
                 await CheckAndProcessUncommittedEvents(aggregateId, transaction.Id);
             }
@@ -39,7 +39,7 @@ namespace NDomain.EventSourcing
         public async Task<IEnumerable<IAggregateEvent>> LoadRange(string aggregateId, int start, int end)
         {
             var transaction = DomainTransaction.Current;
-            if (transaction != null && transaction.RetryCount > 0)
+            if (transaction != null && transaction.DeliveryCount > 1)
             {
                 await CheckAndProcessUncommittedEvents(aggregateId, transaction.Id);
             }

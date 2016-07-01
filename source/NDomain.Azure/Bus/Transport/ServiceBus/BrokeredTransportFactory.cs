@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Transport.Azure.ServiceBus
 {
-    public class BrokeredTransportFactory : ITransportFactory
+    public class BrokeredTransportFactory : BrokerlessTransportFactory
     {
         readonly string connectionString;
         readonly string prefix;
@@ -18,12 +18,12 @@ namespace NDomain.Bus.Transport.Azure.ServiceBus
             this.prefix = prefix;
         }
 
-        public IInboundTransport CreateInboundTransport(string endpoint)
+        protected override IInboundTransport CreateInboundTransport(string endpoint)
         {
             return new BrokeredTransport(this.connectionString, endpoint);
         }
 
-        public IOutboundTransport CreateOutboundTransport()
+        protected override IOutboundTransport CreateOutboundTransport()
         {
             return new BrokeredTransport(this.connectionString, null);
         }

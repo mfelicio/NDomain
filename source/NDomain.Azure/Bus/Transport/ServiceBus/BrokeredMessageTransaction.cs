@@ -21,7 +21,7 @@ namespace NDomain.Bus.Transport.Azure.ServiceBus
 
         public TransportMessage Message { get { return this.message; } }
 
-        public int RetryCount { get { return this.source.DeliveryCount - 1; } }
+        public int DeliveryCount { get { return this.source.DeliveryCount; } }
 
         public Task Commit()
         {

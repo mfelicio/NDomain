@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Transport.Redis
 {
-    public class RedisTransportFactory : ITransportFactory
+    public class RedisTransportFactory : BrokerlessTransportFactory
     {
         readonly ConnectionMultiplexer connection;
         readonly string prefix;
@@ -19,12 +19,12 @@ namespace NDomain.Bus.Transport.Redis
             this.prefix = prefix;
         }
 
-        public IInboundTransport CreateInboundTransport(string endpoint)
+        protected override IInboundTransport CreateInboundTransport(string endpoint)
         {
             return new RedisTransport(this.connection, this.prefix, endpoint);
         }
 
-        public IOutboundTransport CreateOutboundTransport()
+        protected override IOutboundTransport CreateOutboundTransport()
         {
             return new RedisTransport(this.connection, this.prefix, null);
         }

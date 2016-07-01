@@ -13,7 +13,7 @@ namespace NDomain.Bus
     public class Processor : IProcessor,
                              IMessageDispatcher
     {
-        readonly string endpoint;
+        readonly InboundTransportOptions options;
         readonly MessageWorker worker;
         readonly ISubscriptionManager subscriptionManager;
         readonly IDependencyResolver resolver;
@@ -22,14 +22,14 @@ namespace NDomain.Bus
         //<messageName, <handlerName, handler>>
         readonly Dictionary<string, Dictionary<string, IMessageHandler>> registry;
 
-        public Processor(string endpoint,
+        public Processor(InboundTransportOptions options,
                          int concurrencyLevel,
                          ISubscriptionManager subscriptionManager,
                          ITransportFactory transportFactory,
                          ILoggerFactory loggerFactory,
                          IDependencyResolver resolver)
         {
-            this.endpoint = endpoint;
+            this.options = options;
             this.subscriptionManager = subscriptionManager;
             this.resolver = resolver;
 
@@ -37,7 +37,7 @@ namespace NDomain.Bus
             this.registry = new Dictionary<string, Dictionary<string, IMessageHandler>>();
 
             this.worker = new MessageWorker(
-                                transportFactory.CreateInboundTransport(endpoint: endpoint),
+                                transportFactory.CreateInboundTransport(options),
                                 new DiagnosticsDispatcher(this), // TODO: build proper pipeline support
                                 loggerFactory, 
                                 concurrencyLevel);
@@ -45,7 +45,7 @@ namespace NDomain.Bus
 
         public void RegisterMessageHandler<TMessage>(string handlerName, IMessageHandler handler)
         {
-            var subscription = new Subscription(typeof(TMessage).Name, this.endpoint, handlerName);
+            var subscription = new Subscription(typeof(TMessage).Name, this.options.Endpoint, handlerName);
 
             if (this.subscriptions.Contains(subscription))
             {
@@ -107,7 +107,7 @@ namespace NDomain.Bus
         public void Start()
         {
             // notify subscription manager about the subscriptions for this processor
-            this.subscriptionManager.UpdateEndpointSubscriptions(this.endpoint, this.subscriptions)
+            this.subscriptionManager.UpdateEndpointSubscriptions(this.options.Endpoint, this.subscriptions)
                 .Wait(); // TODO: async
 
             // start processing incoming messages

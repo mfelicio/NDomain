@@ -32,9 +32,15 @@ namespace NDomain.Bus.Transport.Redis
             }
         }
 
-        private string GetRedisKey(string format, params object[] args)
+        private string GetMessageKey(string queue, string messageId)
         {
-            var key = string.Format(format, args);
+            var key = string.Format("{0}:msg:{1}", queue, messageId);
+            return GetRedisKey(key);
+        }
+
+        private string GetMessageRetryCountKey(string queue, string messageId)
+        {
+            var key = string.Format("{0}:msg:{1}:retry", queue, messageId);
             return GetRedisKey(key);
         }
 
@@ -61,7 +67,7 @@ namespace NDomain.Bus.Transport.Redis
                 var jsonMsg = JObject.FromObject(message).ToString();
                 var outputQueue = message.Headers[MessageHeaders.Endpoint];
 
-                var messageKey = GetRedisKey("msg:{0}", message.Id);
+                var messageKey = GetMessageKey(outputQueue, message.Id);
                 var outputQueueKey = GetRedisKey(outputQueue);
 
                 tr.StringSetAsync(messageKey, jsonMsg, TimeSpan.FromDays(7), When.NotExists);
@@ -84,9 +90,10 @@ namespace NDomain.Bus.Transport.Redis
                 var message = await GetMessage(messageId);
                 if (message != null)
                 {
+                    var deliveryCount = message.Item2 + 1; // retryCount + 1
                     var transaction = new RedisMessageTransaction(
                                             message.Item1, 
-                                            message.Item2,
+                                            deliveryCount,
                                             () => CommitTransaction(transactionId, messageId),
                                             () => FailTransaction(transactionId, messageId));
 
@@ -120,8 +127,8 @@ namespace NDomain.Bus.Transport.Redis
         {
             var redis = this.connection.GetDatabase();
 
-            var messageKey = GetRedisKey("msg:{0}", messageId);
-            var retryCountKey = GetRedisKey("msg:{0}:retry", messageId);
+            var messageKey = GetMessageKey(this.inputQueue, messageId);
+            var retryCountKey = GetMessageRetryCountKey(this.inputQueue, messageId);
 
             var data = await redis.StringGetAsync(new RedisKey[] { messageKey, retryCountKey });
 
@@ -143,8 +150,8 @@ namespace NDomain.Bus.Transport.Redis
 
             var tr = redis.CreateTransaction();
 
-            var messageKey = GetRedisKey("msg:{0}", messageId);
-            var messageRetryCountKey = GetRedisKey("msg:{0}:retry", messageId);
+            var messageKey = GetMessageKey(this.inputQueue, messageId);
+            var messageRetryCountKey = GetMessageRetryCountKey(this.inputQueue, messageId);
             var transactionIdKey = GetRedisKey(transactionId);
 
             tr.KeyDeleteAsync(messageKey);
@@ -160,7 +167,7 @@ namespace NDomain.Bus.Transport.Redis
 
             var tr = redis.CreateTransaction();
 
-            var messageRetryCountKey = GetRedisKey("msg:{0}:retry", messageId);
+            var messageRetryCountKey = GetMessageRetryCountKey(this.inputQueue, messageId);
             var transactionIdKey = GetRedisKey(transactionId);
             var inputQueueKey = GetRedisKey(this.inputQueue);
 

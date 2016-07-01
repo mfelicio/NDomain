@@ -11,7 +11,7 @@ namespace NDomain.Bus.Transport
     /// <summary>
     /// Implementation of a local transport
     /// </summary>
-    public class LocalTransportFactory : ITransportFactory
+    public class LocalTransportFactory : BrokerlessTransportFactory
     {
         // shared bus, for all local clients
         readonly LocalBus bus;
@@ -21,14 +21,14 @@ namespace NDomain.Bus.Transport
             this.bus = new LocalBus();
         }
 
-        public IInboundTransport CreateInboundTransport(string endpoint)
+        protected override IInboundTransport CreateInboundTransport(string endpoint)
         {
             var queue = this.bus.GetEndpointQueue(endpoint);
 
             return new LocalInboundTransport(queue);
         }
 
-        public IOutboundTransport CreateOutboundTransport()
+        protected override IOutboundTransport CreateOutboundTransport()
         {
             return new LocalOutboundTransport(bus);
         }
@@ -118,20 +118,20 @@ namespace NDomain.Bus.Transport
     class LocalMessage
     {
         readonly TransportMessage message;
-        int retryCount;
+        int deliveryCount;
 
         public LocalMessage(TransportMessage message)
         {
             this.message = message;
-            this.retryCount = 0;
+            this.deliveryCount = 1;
         }
 
         public TransportMessage Message { get { return this.message; } }
-        public int RetryCount { get { return Thread.VolatileRead(ref retryCount); } }
+        public int DeliveryCount { get { return Thread.VolatileRead(ref deliveryCount); } }
 
         public void Failed()
         {
-            Interlocked.Increment(ref retryCount);
+            Interlocked.Increment(ref deliveryCount);
         }
     }
 
@@ -151,7 +151,7 @@ namespace NDomain.Bus.Transport
         }
 
         public TransportMessage Message { get { return this.localMsg.Message; } }
-        public int RetryCount { get { return this.localMsg.RetryCount; } }
+        public int DeliveryCount { get { return this.localMsg.DeliveryCount; } }
 
         public Task Commit()
         {

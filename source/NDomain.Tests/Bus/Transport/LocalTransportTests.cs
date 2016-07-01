@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace NDomain.Tests.Bus.Transport
 {
     [TestFixture]
-    public class LocalMessagingClientTests : TransportSpecs
+    public class LocalTransportTests : TransportSpecs
     {
         public override ITransportFactory CreateFactory()
         {

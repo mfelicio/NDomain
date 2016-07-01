@@ -21,12 +21,12 @@ namespace NDomain.Tests.Messaging
                 Id = Guid.NewGuid().ToString(),
                 Name = "Name"
             };
-            this.RetryCount = 0;
+            this.DeliveryCount = 0;
         }
 
         public TransportMessage Message { get; set; }
 
-        public int RetryCount { get; set; }
+        public int DeliveryCount { get; set; }
 
         public Task Commit()
         {
@@ -43,11 +43,11 @@ namespace NDomain.Tests.Messaging
     {
         private IInboundTransport SetupReceiver(int nMessages)
         {
-            var transport = new Mock<IInboundTransport>();
+            var transportStub = new Mock<IInboundTransport>();
 
             int dequeueCount = 0;
 
-            transport.Setup(m => m.Receive(It.IsAny<TimeSpan?>()))
+            transportStub.Setup(m => m.Receive(It.IsAny<TimeSpan?>()))
                         .Returns(() =>
                         {
                             IMessageTransaction tr;
@@ -63,16 +63,16 @@ namespace NDomain.Tests.Messaging
                             return Task.FromResult(tr);
                         });
 
-            return transport.Object;
+            return transportStub.Object;
         }
 
         private IMessageDispatcher SetupDispatcher(int nMessages, int processingTime, ManualResetEvent callback)
         {
-            var dispatcherMock = new Mock<IMessageDispatcher>();
+            var dispatcherStub = new Mock<IMessageDispatcher>();
 
             int dequeueCount = 0;
 
-            dispatcherMock.Setup(m => m.ProcessMessage(It.IsAny<TransportMessage>()))
+            dispatcherStub.Setup(m => m.ProcessMessage(It.IsAny<TransportMessage>()))
                           .Returns(() => Task.Delay(processingTime).ContinueWith(t =>
                           {
                               if (Interlocked.Increment(ref dequeueCount) == nMessages)
@@ -81,7 +81,7 @@ namespace NDomain.Tests.Messaging
                               }
                           }));
 
-            return dispatcherMock.Object;
+            return dispatcherStub.Object;
         }
 
         [TestCase(1000, 10000, 100)]

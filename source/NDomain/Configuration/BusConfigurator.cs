@@ -122,25 +122,51 @@ namespace NDomain.Configuration
         readonly Action<ProcessorConfigurator> configurer;
 
         internal event Action<Processor> Configuring;
-        internal string EndpointName { get; set; }
-        internal int ConcurrencyLevel { get; set; }
+
+        private string endpoint;
+        private int maxDeliveryCount;
+        private bool deadLetterMessages;
+        private int concurrencyLevel;
 
         public ProcessorConfigurator(ContextBuilder builder, Action<ProcessorConfigurator> configurer)
             : base(builder)
         {
             this.configurer = configurer;
-            this.EndpointName = Assembly.GetExecutingAssembly().GetName().Name;
-            this.ConcurrencyLevel = 10; //default, define constant
+            this.endpoint = Assembly.GetExecutingAssembly().GetName().Name;
+            this.maxDeliveryCount = InboundTransportOptions.DefaultMaxDeliveryCount;
+            this.concurrencyLevel = 10; //default, define constant
         }
 
         /// <summary>
         /// Sets the name of the endpoint for the current processor
         /// </summary>
-        /// <param name="name">name</param>
+        /// <param name="name">endpoint name</param>
         /// <returns>The current ProcessorConfigurator instance, to be used in a fluent manner</returns>
-        public ProcessorConfigurator Endpoint(string name)
+        public ProcessorConfigurator Endpoint(string endpoint)
         {
-            this.EndpointName = name;
+            this.endpoint = endpoint;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the value for max delivery count of each individual message until it gets deleted and deadlettered
+        /// </summary>
+        /// <param name="maxDeliveryCount">max delivery count</param>
+        /// <returns>The current ProcessorConfigurator instance, to be used in a fluent manner</returns>
+        public ProcessorConfigurator MaxDeliveryCount(int maxDeliveryCount)
+        {
+            this.maxDeliveryCount = maxDeliveryCount;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether messages should be deadlettered after reaching failing as many times as defined by MaxDeliveryCount
+        /// </summary>
+        /// <param name="deadLetterMessages">deadLetterMessages</param>
+        /// <returns>The current ProcessorConfigurator instance, to be used in a fluent manner</returns>
+        public ProcessorConfigurator DeadLetterMessages(bool deadLetterMessages)
+        {
+            this.deadLetterMessages = deadLetterMessages;
             return this;
         }
 
@@ -154,7 +180,7 @@ namespace NDomain.Configuration
         /// <returns>The current ProcessorConfigurator instance, to be used in a fluent manner</returns>
         public ProcessorConfigurator WithConcurrencyLevel(int concurrencyLevel)
         {
-            this.ConcurrencyLevel = concurrencyLevel;
+            this.concurrencyLevel = concurrencyLevel;
             return this;
         }
 
@@ -190,7 +216,9 @@ namespace NDomain.Configuration
 
             this.configurer(this);
 
-            var processor = new Processor(this.EndpointName, this.ConcurrencyLevel, subscriptionManager, transportFactory, loggerFactory, resolver);
+            var options = new InboundTransportOptions(this.endpoint, this.maxDeliveryCount, this.deadLetterMessages);
+            
+            var processor = new Processor(options, this.concurrencyLevel, subscriptionManager, transportFactory, loggerFactory, resolver);
 
             // handlers can be registered here
             if (this.Configuring != null)

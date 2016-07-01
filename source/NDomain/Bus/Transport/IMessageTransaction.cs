@@ -17,11 +17,11 @@ namespace NDomain.Bus.Transport
         TransportMessage Message { get; }
 
         /// <summary>
-        /// Indicates the number of times this message has been retried. 
-        /// The first time a message is received this value is 0.
-        /// Whenever a message fails to be processed, it is retried later and its RetryCount is incremented.
+        /// Indicates the number of times this message has been delivered.
+        /// The first time a message is received this value is 1.
+        /// Whenever a message fails to be processed, it is retried later and its DeliveryCount is incremented.
         /// </summary>
-        int RetryCount { get; }
+        int DeliveryCount { get; }
 
         /// <summary>
         /// Signals this transaction that the message was processed successfully.

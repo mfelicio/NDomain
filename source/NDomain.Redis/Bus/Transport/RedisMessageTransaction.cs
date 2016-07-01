@@ -10,14 +10,14 @@ namespace NDomain.Bus.Transport.Redis
     public class RedisMessageTransaction : IMessageTransaction
     {
         readonly TransportMessage message;
-        readonly int retryCount;
+        readonly int deliveryCount;
         readonly Func<Task> onCommit;
         readonly Func<Task> onFail;
 
-        public RedisMessageTransaction(TransportMessage message, int retryCount, Func<Task> onCommit, Func<Task> onFail)
+        public RedisMessageTransaction(TransportMessage message, int deliveryCount, Func<Task> onCommit, Func<Task> onFail)
         {
             this.message = message;
-            this.retryCount = retryCount;
+            this.deliveryCount = deliveryCount;
             this.onCommit = onCommit;
             this.onFail = onFail;
         }
@@ -27,9 +27,9 @@ namespace NDomain.Bus.Transport.Redis
             get { return this.message; }
         }
 
-        public int RetryCount
+        public int DeliveryCount
         {
-            get { return this.retryCount; }
+            get { return this.deliveryCount; }
         }
 
         public Task Commit()

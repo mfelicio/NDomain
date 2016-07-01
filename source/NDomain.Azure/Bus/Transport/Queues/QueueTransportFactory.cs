@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Transport.Azure.Queues
 {
-    public class QueueTransportFactory : ITransportFactory
+    public class QueueTransportFactory : BrokerlessTransportFactory
     {
         readonly CloudStorageAccount account;
         readonly string prefix;
@@ -19,12 +19,12 @@ namespace NDomain.Bus.Transport.Azure.Queues
             this.prefix = prefix;
         }
 
-        public IInboundTransport CreateInboundTransport(string endpoint)
+        protected override IInboundTransport CreateInboundTransport(string endpoint)
         {
             return new QueueTransport(this.account, prefix, endpoint);
         }
 
-        public IOutboundTransport CreateOutboundTransport()
+        protected override IOutboundTransport CreateOutboundTransport()
         {
             return new QueueTransport(this.account, prefix, null);
         }

@@ -86,7 +86,7 @@
     <Compile Include="Specs\SubscriptionBrokerSpecs.cs" />
     <Compile Include="Bus\Subscriptions\SubscriptionManagerTests.cs" />
     <Compile Include="Specs\SubscriptionStoreSpecs.cs" />
-    <Compile Include="Bus\Transport\LocalMessagingClientTests.cs" />
+    <Compile Include="Bus\Transport\LocalTransportTests.cs" />
     <Compile Include="CQRS\CommandBusTests.cs" />
     <Compile Include="CQRS\EventBusTests.cs" />
     <Compile Include="Specs\EventStoreSpecs.cs" />

@@ -154,7 +154,7 @@ namespace NDomain.Bus
 
             try
             {
-                using (new DomainTransactionScope(transaction.Message.Id, transaction.RetryCount))
+                using (new DomainTransactionScope(transaction.Message.Id, transaction.DeliveryCount))
                 {
                     // process message within a logical transaction that can be used for processing idempotency
                     await this.messageDispatcher.ProcessMessage(transaction.Message);

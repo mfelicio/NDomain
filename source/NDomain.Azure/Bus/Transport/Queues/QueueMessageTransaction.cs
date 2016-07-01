@@ -28,7 +28,7 @@ namespace NDomain.Bus.Transport.Azure.Queues
             get { return this.message; }
         }
 
-        public int RetryCount
+        public int DeliveryCount
         {
             get { return this.retryCount; }
         }

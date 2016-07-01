@@ -18,7 +18,7 @@ namespace NDomain
     {
         // TODO: rename to MessageContextScope
 
-        public DomainTransactionScope(string transactionId, int retryCount = 0)
+        public DomainTransactionScope(string transactionId, int retryCount)
         {
             CallContext.LogicalSetData("ndomain:transaction", new DomainTransaction(transactionId, retryCount));
         }
@@ -40,16 +40,16 @@ namespace NDomain
         // TODO: rename to MessageContext
 
         readonly string id;
-        readonly int retryCount;
+        readonly int deliveryCount;
 
-        internal DomainTransaction(string id, int retryCount)
+        internal DomainTransaction(string id, int deliveryCount)
         {
             this.id = id;
-            this.retryCount = retryCount;
+            this.deliveryCount = deliveryCount;
         }
 
         public string Id { get { return this.id; } }
-        public int RetryCount { get { return this.retryCount; } }
+        public int DeliveryCount { get { return this.deliveryCount; } }
 
         /// <summary>
         /// Returns the current, ambient message context. 

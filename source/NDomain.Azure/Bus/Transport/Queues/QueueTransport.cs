@@ -101,10 +101,10 @@ namespace NDomain.Bus.Transport.Azure.Queues
             }
 
             var message = BuildMessage(queueMessage);
-
+            
             var transaction = new QueueMessageTransaction(
                                     message,
-                                    queueMessage.DequeueCount - 1,
+                                    queueMessage.DequeueCount,
                                     () => inputQueue.DeleteMessageAsync(queueMessage),
                                     () => inputQueue.UpdateMessageAsync(queueMessage, TimeSpan.Zero, MessageUpdateFields.Visibility));
             return transaction;

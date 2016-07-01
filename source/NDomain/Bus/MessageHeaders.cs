@@ -27,5 +27,11 @@ namespace NDomain.Bus
         /// Typically this is the name of a message handler.
         /// </summary>
         public const string Component = "ndomain.component";
+
+        /// <summary>
+        /// Identifies the original endpoint of the message. 
+        /// This is used when messages are dead lettered
+        /// </summary>
+        public const string OriginalEndpoint = "ndomain.original_endpoint";
     }
 }

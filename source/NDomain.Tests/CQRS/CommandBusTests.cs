@@ -91,7 +91,7 @@ namespace NDomain.Tests.CQRS
 
                 await ctx1.CommandBus.Send(new Command<DoSimple>("cmd1", new DoSimple { }));
                 await ctx2.CommandBus.Send(new Command<DoComplex>("cmd2", new DoComplex { }));
-
+                
                 foreach (var sync in syncs)
                 {
                     sync.Wait(TimeSpan.FromSeconds(2));

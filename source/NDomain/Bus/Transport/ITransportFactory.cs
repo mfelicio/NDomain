@@ -15,7 +15,7 @@ namespace NDomain.Bus.Transport
         /// Creates an inbound transport for the specific endpoint
         /// </summary>
         /// <returns></returns>
-        IInboundTransport CreateInboundTransport(string endpoint);
+        IInboundTransport CreateInboundTransport(InboundTransportOptions options);
 
         /// <summary>
         /// Creates an outbound transport
