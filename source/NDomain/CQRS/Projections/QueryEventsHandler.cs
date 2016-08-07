@@ -18,10 +18,13 @@ namespace NDomain.CQRS.Projections
     public abstract class QueryEventsHandler<T>
         where T : new()
     {
+        static readonly TimeSpan WaitForPreviousVersionTimeout = TimeSpan.FromSeconds(1);
+
         readonly Dictionary<string, Action<T, IAggregateEvent>> handlers;
 
         readonly IQueryStore<T> queryStore;
         readonly IEventStore eventStore;
+
 
         protected QueryEventsHandler(IQueryStore<T> queryStore, IEventStore eventStore)
         {
@@ -46,19 +49,22 @@ namespace NDomain.CQRS.Projections
             var eventHandler = this.GetEventHandler(ev.Name);
             queryId = queryId ?? ev.AggregateId;
 
-            var query = await this.queryStore.Get(queryId);
+            var expectedPreviousVersion = ev.SequenceId - 1;
 
-            if (query.Version == 0)
-            {
-                query.Data = new T();
-            }
-
-            var data = query.Data;
+            var query = await this.queryStore.GetOrWaitUntil(
+                                                queryId, 
+                                                expectedPreviousVersion, 
+                                                WaitForPreviousVersionTimeout);
 
             if (query.Version >= ev.SequenceId)
             {
                 // event already applied
                 return;
+            }
+
+            if (query.Version == 0)
+            {
+                query.Data = new T();
             }
 
             if (query.Version < ev.SequenceId - 1)
@@ -72,17 +78,19 @@ namespace NDomain.CQRS.Projections
                     Action<T, IAggregateEvent> evHandler;
                     if (this.TryGetEventHandler(@event.Name, out evHandler))
                     {
-                        evHandler(data, @event);
+                        evHandler(query.Data, @event);
                     }
                 }
             }
 
-            eventHandler(data, ev);
+            eventHandler(query.Data, ev);
 
             query.Version = ev.SequenceId;
             query.DateUtc = DateTime.UtcNow;
 
             await this.queryStore.Set(queryId, query);
         }
+
+
     }
 }

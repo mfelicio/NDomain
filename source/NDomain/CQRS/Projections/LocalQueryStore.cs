@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,27 @@ namespace NDomain.CQRS.Projections
                 });
 
             return Task.FromResult(query);
+        }
+
+        public async Task<Query<T>> GetOrWaitUntil(string id, int minExpectedVersion, TimeSpan timeout)
+        {
+            var query = await Get(id);
+
+            if (query.Version >= minExpectedVersion)
+            {
+                return query;
+            }
+
+            var sw = Stopwatch.StartNew();
+            do
+            {
+                await Task.Delay(5); //wait 5ms , should be exponential
+                query = await Get(id);
+            } while (query.Version < minExpectedVersion && sw.Elapsed < timeout);
+
+            sw.Stop();
+
+            return query;
         }
 
         public Task Set(string id, Query<T> query)

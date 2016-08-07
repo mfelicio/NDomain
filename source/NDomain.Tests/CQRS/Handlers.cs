@@ -1,4 +1,5 @@
 ﻿using NDomain.CQRS;
+using NDomain.CQRS.Projections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,6 +80,52 @@ namespace NDomain.Tests.CQRS
         {
             this.onMsg(ev);
             return Task.FromResult(true);
+        }
+    }
+
+    class CounterStats
+    {
+        public int NumberOfIncrements { get; set; }
+        public int NumberOfMultiplications { get; set; }
+        public int NumberOfResets { get; set; }
+    }
+
+    class CounterQueryEventsHandler : QueryEventsHandler<CounterStats>
+    {
+        public CounterQueryEventsHandler(IQueryStore<CounterStats> queryStore, IEventStore eventStore)
+            : base(queryStore, eventStore)
+        {
+
+        }
+
+        internal Task On(IAggregateEvent<Sample.CounterReset> ev)
+        {
+            return base.OnEvent(ev);
+        }
+
+        internal void On(CounterStats query, Sample.CounterReset ev)
+        {
+            query.NumberOfResets++;
+        }
+
+        internal Task On(IAggregateEvent<Sample.CounterMultiplied> ev)
+        {
+            return base.OnEvent(ev);
+        }
+
+        internal void On(CounterStats query, Sample.CounterMultiplied ev)
+        {
+            query.NumberOfMultiplications++;
+        }
+
+        internal Task On(IAggregateEvent<Sample.CounterIncremented> ev)
+        {
+            return base.OnEvent(ev);
+        }
+
+        internal void On(CounterStats query, Sample.CounterIncremented ev)
+        {
+            query.NumberOfIncrements++;
         }
     }
 }

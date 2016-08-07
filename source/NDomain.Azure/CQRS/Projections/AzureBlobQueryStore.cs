@@ -6,6 +6,7 @@ using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -68,6 +69,27 @@ namespace NDomain.CQRS.Projections.Azure
                     return obj.ToObject(typeof(Query<T>)) as Query<T>;
                 }
             }
+        }
+
+        public async Task<Query<T>> GetOrWaitUntil(string id, int minExpectedVersion, TimeSpan timeout)
+        {
+            var query = await Get(id);
+
+            if (query.Version >= minExpectedVersion)
+            {
+                return query;
+            }
+
+            var sw = Stopwatch.StartNew();
+            do
+            {
+                await Task.Delay(50); //wait 50ms , should be exponential
+                query = await Get(id);
+            } while (query.Version < minExpectedVersion && sw.Elapsed < timeout);
+
+            sw.Stop();
+
+            return query;
         }
 
         public async Task Set(string id, Query<T> query)

@@ -73,6 +73,7 @@
     <Compile Include="Aggregates\AggregateTests.cs" />
     <Compile Include="Configuration\DomainContextTests.cs" />
     <Compile Include="CQRS\Handlers.cs" />
+    <Compile Include="CQRS\Projections\QueryEventsHandlerTests.cs" />
     <Compile Include="Sample\Counter.cs" />
     <Compile Include="Aggregates\RepositoryTests.cs" />
     <Compile Include="Bus\BusIntegrationTests.cs" />

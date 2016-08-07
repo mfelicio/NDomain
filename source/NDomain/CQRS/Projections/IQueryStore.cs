@@ -20,6 +20,15 @@ namespace NDomain.CQRS.Projections
         Task<Query<T>> Get(string id);
 
         /// <summary>
+        /// Gets the query object with the given id 
+        /// </summary>
+        /// <param name="id">id of the query object</param>
+        /// <param name="expectedMinVersion">expected min version to wait until</param>
+        /// <param name="timeout">timeout for waiting</param>
+        /// <returns>Query with the expected min version or if times out, returns query with current version</returns>
+        Task<Query<T>> GetOrWaitUntil(string id, int expectedMinVersion, TimeSpan timeout);
+
+        /// <summary>
         /// Saves a query object with the given id.
         /// If the query already existed, it is overriden
         /// </summary>
