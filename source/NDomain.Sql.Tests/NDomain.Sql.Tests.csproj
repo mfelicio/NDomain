@@ -67,7 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SqlEventStoreDbTests.cs" />
+    <Compile Include="EventSourcing\SqlEventStoreDbTests.cs" />
+    <Compile Include="EventSourcing\SqlEventStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +80,10 @@
     <ProjectReference Include="..\NDomain.Sql\NDomain.Sql.csproj">
       <Project>{568a0a89-c4dc-4c3b-b9ae-e56d5102d171}</Project>
       <Name>NDomain.Sql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NDomain.Tests\NDomain.Tests.csproj">
+      <Project>{370514bd-2b44-4cbd-89cd-17da9783c6b3}</Project>
+      <Name>NDomain.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\NDomain\NDomain.csproj">
       <Project>{538d0501-9c7e-419a-8eee-2d379b2a1118}</Project>
