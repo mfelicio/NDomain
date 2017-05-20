@@ -13,7 +13,7 @@ namespace NDomain.Azure.Tests
     {
         private bool _wasUp;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void StartAzureBeforeAllTestsIfNotUp()
         {
             if (!AzureStorageEmulatorManager.IsProcessStarted())
@@ -28,7 +28,7 @@ namespace NDomain.Azure.Tests
 
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void StopAzureAfterAllTestsIfWasDown()
         {
             if (!_wasUp)
