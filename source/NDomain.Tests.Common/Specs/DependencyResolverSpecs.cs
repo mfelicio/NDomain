@@ -13,8 +13,7 @@ using System.Threading.Tasks;
 
 namespace NDomain.Tests.Specs
 {
-    [TestFixture]
-    public class DependencyResolverSpecs
+    public abstract class DependencyResolverSpecs
     {
         [TestCase(typeof(IEventBus))]
         [TestCase(typeof(ICommandBus))]
@@ -36,9 +35,6 @@ namespace NDomain.Tests.Specs
             Assert.That(service, Is.Not.Null);
         }
 
-        protected virtual void ConfigureIoC(IoCConfigurator ioc)
-        {
-            ioc.UseDefault(r => { });
-        }
+        protected abstract void ConfigureIoC(IoCConfigurator ioc);
     }
 }

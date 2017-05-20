@@ -64,8 +64,9 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -83,29 +84,20 @@
     <Compile Include="Configuration\ContextBuilderShould.cs" />
     <Compile Include="CQRS\Handlers.cs" />
     <Compile Include="CQRS\Projections\QueryEventsHandlerTests.cs" />
-    <Compile Include="Sample\Counter.cs" />
+    <Compile Include="IoC\DefaultDependencyResolverTests.cs" />
     <Compile Include="Aggregates\RepositoryTests.cs" />
     <Compile Include="Bus\BusIntegrationTests.cs" />
     <Compile Include="Bus\MessageBusTests.cs" />
-    <Compile Include="EventSourcing\EventStoreSerializerTests.cs" />
-    <Compile Include="Sample\Race.cs" />
-    <Compile Include="Sample\RaceEvents.cs" />
-    <Compile Include="Sample\RaceState.cs" />
+    <Compile Include="Model\EventSourcing\EventStoreSerializerTests.cs" />
     <Compile Include="Bus\Subscriptions\LocalSubscriptionBrokerTests.cs" />
     <Compile Include="Bus\Subscriptions\LocalSubscriptionStoreTests.cs" />
-    <Compile Include="Sample\StateOnlyAggregate.cs" />
-    <Compile Include="Specs\DependencyResolverSpecs.cs" />
-    <Compile Include="Specs\SubscriptionBrokerSpecs.cs" />
     <Compile Include="Bus\Subscriptions\SubscriptionManagerTests.cs" />
-    <Compile Include="Specs\SubscriptionStoreSpecs.cs" />
     <Compile Include="Bus\Transport\LocalTransportTests.cs" />
     <Compile Include="CQRS\CommandBusTests.cs" />
     <Compile Include="CQRS\EventBusTests.cs" />
-    <Compile Include="Specs\EventStoreSpecs.cs" />
     <Compile Include="CQRS\Commands.cs" />
     <Compile Include="Bus\MessageWorkerTests.cs" />
-    <Compile Include="Specs\TransportSpecs.cs" />
-    <Compile Include="EventSourcing\LocalEventStoreTests.cs" />
+    <Compile Include="Model\EventSourcing\LocalEventStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -113,14 +105,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NDomain.Tests.Common\NDomain.Tests.Common.csproj">
+      <Project>{a29749a5-acf2-47a9-b87e-692772761e53}</Project>
+      <Name>NDomain.Tests.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NDomain\NDomain.csproj">
       <Project>{538d0501-9c7e-419a-8eee-2d379b2a1118}</Project>
       <Name>NDomain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>

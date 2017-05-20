@@ -57,9 +57,6 @@ namespace NDomain.Tests.Aggregates
             var repository = CreateRaceRepository();
             var aggregateId = Guid.NewGuid().ToString();
 
-            // ensure its not there
-            Assert.Throws<Exception>(async () => await repository.Find(aggregateId));
-
             var aggregate = factory.CreateNew(aggregateId);
             aggregate.Increment();
             await repository.Save(aggregate);

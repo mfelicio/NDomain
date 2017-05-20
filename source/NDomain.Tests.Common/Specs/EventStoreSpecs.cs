@@ -10,7 +10,6 @@ using NDomain.Model.EventSourcing;
 
 namespace NDomain.Tests.Specs
 {
-    [TestFixture]
     public abstract class EventStoreSpecs
     {
         readonly IEventStoreSerializer serializer;

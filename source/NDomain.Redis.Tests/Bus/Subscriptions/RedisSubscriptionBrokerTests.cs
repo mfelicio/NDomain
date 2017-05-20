@@ -16,7 +16,7 @@ namespace NDomain.Redis.Tests.Bus.Subscriptions
     {
         ConnectionMultiplexer connection;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpFixture()
         {
             var options = new ConfigurationOptions();

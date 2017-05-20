@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -57,9 +57,9 @@
       <Project>{7f682c09-bab4-435c-8108-5a3ac56a7ef4}</Project>
       <Name>NDomain.Redis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NDomain.Tests\NDomain.Tests.csproj">
-      <Project>{370514bd-2b44-4cbd-89cd-17da9783c6b3}</Project>
-      <Name>NDomain.Tests</Name>
+    <ProjectReference Include="..\NDomain.Tests.Common\NDomain.Tests.Common.csproj">
+      <Project>{a29749a5-acf2-47a9-b87e-692772761e53}</Project>
+      <Name>NDomain.Tests.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\NDomain\NDomain.csproj">
       <Project>{538d0501-9c7e-419a-8eee-2d379b2a1118}</Project>

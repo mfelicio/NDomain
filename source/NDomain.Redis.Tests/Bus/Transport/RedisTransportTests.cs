@@ -1,6 +1,5 @@
 ﻿using NDomain.Bus.Transport;
 using NDomain.Bus.Transport.Redis;
-using NDomain.Tests.Bus.Transport;
 using NDomain.Tests.Specs;
 using NUnit.Framework;
 using StackExchange.Redis;
@@ -19,7 +18,7 @@ namespace NDomain.Redis.Tests.Bus.Transport
 
         ConnectionMultiplexer connection;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpFixture()
         {
             var options = new ConfigurationOptions();
