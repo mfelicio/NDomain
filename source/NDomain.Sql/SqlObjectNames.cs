@@ -3,7 +3,7 @@
     public class SqlObjectNames
     {
         public static readonly SqlObjectNames Default =
-            new SqlObjectNames("cat", "Aggregates", "Events");
+            new SqlObjectNames("ndomain", "Aggregates", "Events");
 
         public SqlObjectNames(string schemaName, string aggregateTableName, string eventTableName)
         {
