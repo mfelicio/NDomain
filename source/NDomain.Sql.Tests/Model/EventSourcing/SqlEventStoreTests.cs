@@ -1,5 +1,4 @@
-﻿using NDomain.Tests.Specs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +9,7 @@ using System.Data.SqlClient;
 using NDomain.Sql.Model.EventSourcing;
 using System.Configuration;
 using Dapper;
+using NDomain.Tests.Common.Specs;
 
 namespace NDomain.Sql.Tests.Model.EventSourcing
 {

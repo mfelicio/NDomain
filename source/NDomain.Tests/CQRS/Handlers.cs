@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NDomain.Tests.Common.Sample;
 
 namespace NDomain.Tests.CQRS
 {
@@ -65,19 +66,19 @@ namespace NDomain.Tests.CQRS
             this.onMsg = onMsg;
         }
 
-        public Task On(IAggregateEvent<Sample.CounterIncremented> ev)
+        public Task On(IAggregateEvent<CounterIncremented> ev)
         {
             this.onMsg(ev);
             return Task.FromResult(true);
         }
 
-        public Task On(IAggregateEvent<Sample.CounterMultiplied> ev)
+        public Task On(IAggregateEvent<CounterMultiplied> ev)
         {
             this.onMsg(ev);
             return Task.FromResult(true);
         }
 
-        public Task On(IAggregateEvent<Sample.CounterReset> ev)
+        public Task On(IAggregateEvent<CounterReset> ev)
         {
             this.onMsg(ev);
             return Task.FromResult(true);
@@ -99,32 +100,32 @@ namespace NDomain.Tests.CQRS
 
         }
 
-        internal Task On(IAggregateEvent<Sample.CounterReset> ev)
+        internal Task On(IAggregateEvent<CounterReset> ev)
         {
             return base.OnEvent(ev);
         }
 
-        internal void On(CounterStats query, Sample.CounterReset ev)
+        internal void On(CounterStats query, CounterReset ev)
         {
             query.NumberOfResets++;
         }
 
-        internal Task On(IAggregateEvent<Sample.CounterMultiplied> ev)
+        internal Task On(IAggregateEvent<CounterMultiplied> ev)
         {
             return base.OnEvent(ev);
         }
 
-        internal void On(CounterStats query, Sample.CounterMultiplied ev)
+        internal void On(CounterStats query, CounterMultiplied ev)
         {
             query.NumberOfMultiplications++;
         }
 
-        internal Task On(IAggregateEvent<Sample.CounterIncremented> ev)
+        internal Task On(IAggregateEvent<CounterIncremented> ev)
         {
             return base.OnEvent(ev);
         }
 
-        internal void On(CounterStats query, Sample.CounterIncremented ev)
+        internal void On(CounterStats query, CounterIncremented ev)
         {
             query.NumberOfIncrements++;
         }

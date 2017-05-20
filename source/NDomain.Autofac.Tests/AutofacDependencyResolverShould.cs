@@ -1,6 +1,5 @@
 ﻿using NDomain.CQRS;
 using NDomain.Model.EventSourcing;
-using NDomain.Tests.Specs;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NDomain.Configuration;
 using Autofac;
+using NDomain.Tests.Common.Specs;
 
 namespace NDomain.Autofac.Tests
 {

@@ -1,13 +1,8 @@
 ﻿using NDomain.Model.EventSourcing;
-using NDomain.Tests.Specs;
+using NDomain.Tests.Common.Specs;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NDomain.Tests.EventSourcing
+namespace NDomain.Tests.Model.EventSourcing
 {
     [TestFixture]
     public class LocalEventStoreTests : EventStoreSpecs

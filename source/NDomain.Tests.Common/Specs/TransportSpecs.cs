@@ -1,13 +1,10 @@
-﻿using NDomain.Bus;
+﻿using System;
+using System.Threading.Tasks;
+using NDomain.Bus;
 using NDomain.Bus.Transport;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NDomain.Tests.Specs
+namespace NDomain.Tests.Common.Specs
 {
     public abstract class TransportSpecs
     {

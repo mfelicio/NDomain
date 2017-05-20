@@ -1,7 +1,6 @@
 ﻿using FakeItEasy;
 using NDomain.Configuration;
 using NDomain.Model.Snapshot;
-using NDomain.Tests.Sample;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NDomain.Tests.Common.Sample;
 
 namespace NDomain.Tests.CQRS
 {

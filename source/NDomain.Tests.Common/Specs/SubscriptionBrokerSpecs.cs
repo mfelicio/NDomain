@@ -1,13 +1,11 @@
-﻿using NDomain.Bus.Subscriptions;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NDomain.Bus.Subscriptions;
+using NUnit.Framework;
 
-namespace NDomain.Tests.Specs
+namespace NDomain.Tests.Common.Specs
 {
     public abstract class SubscriptionBrokerSpecs
     {

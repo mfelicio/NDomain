@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NDomain.Tests.Common.Sample;
 
 namespace NDomain.Tests.CQRS.Projections
 {
@@ -24,7 +25,7 @@ namespace NDomain.Tests.CQRS.Projections
             this.eventStore = new EventStore(
                                 new LocalEventStore(),
                                 new Mock<IEventStoreBus>().Object,
-                                EventStoreSerializer.FromAggregateTypes(typeof(Sample.Counter)));
+                                EventStoreSerializer.FromAggregateTypes(typeof(Counter)));
 
             this.queryStore = new LocalQueryStore<CounterStats>();
         }
@@ -79,7 +80,7 @@ namespace NDomain.Tests.CQRS.Projections
 
         private async Task<IEnumerable<IAggregateEvent>> MakeExpectedChanges(CounterStats expected)
         {
-            var counter = new Sample.Counter(AggregateId, new Sample.CounterState());
+            var counter = new Counter(AggregateId, new CounterState());
 
             for (var i = 0; i < expected.NumberOfIncrements; ++i)
             {
@@ -130,17 +131,17 @@ namespace NDomain.Tests.CQRS.Projections
 
         private Task HandleEvent(CounterQueryEventsHandler handler, IAggregateEvent ev)
         {
-            if (ev is IAggregateEvent<Sample.CounterIncremented>)
+            if (ev is IAggregateEvent<CounterIncremented>)
             {
-                return handler.On(ev as IAggregateEvent<Sample.CounterIncremented>);
+                return handler.On(ev as IAggregateEvent<CounterIncremented>);
             }
-            else if (ev is IAggregateEvent<Sample.CounterMultiplied>)
+            else if (ev is IAggregateEvent<CounterMultiplied>)
             {
-                return handler.On(ev as IAggregateEvent<Sample.CounterMultiplied>);
+                return handler.On(ev as IAggregateEvent<CounterMultiplied>);
             }
             else
             {
-                return handler.On(ev as IAggregateEvent<Sample.CounterReset>);
+                return handler.On(ev as IAggregateEvent<CounterReset>);
             }
         }
 

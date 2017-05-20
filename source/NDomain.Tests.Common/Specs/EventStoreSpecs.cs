@@ -1,14 +1,12 @@
-﻿using Moq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Moq;
+using NDomain.Model.EventSourcing;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NDomain.Model.EventSourcing;
 
-namespace NDomain.Tests.Specs
+namespace NDomain.Tests.Common.Specs
 {
     public abstract class EventStoreSpecs
     {

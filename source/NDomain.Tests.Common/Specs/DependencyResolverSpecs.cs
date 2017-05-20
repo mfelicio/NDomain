@@ -1,17 +1,12 @@
-﻿using NDomain.Configuration;
+﻿using System;
+using NDomain.Configuration;
 using NDomain.CQRS;
-using NDomain.Model;
 using NDomain.Model.EventSourcing;
 using NDomain.Model.Snapshot;
-using NDomain.Tests.Sample;
+using NDomain.Tests.Common.Sample;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NDomain.Tests.Specs
+namespace NDomain.Tests.Common.Specs
 {
     public abstract class DependencyResolverSpecs
     {

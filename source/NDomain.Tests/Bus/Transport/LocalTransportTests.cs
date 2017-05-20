@@ -1,11 +1,11 @@
 ﻿using NDomain.Bus.Transport;
-using NDomain.Tests.Specs;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NDomain.Tests.Common.Specs;
 
 namespace NDomain.Tests.Bus.Transport
 {

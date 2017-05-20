@@ -1,13 +1,11 @@
-﻿using NDomain.Bus.Subscriptions;
-using NUnit.Framework;
-using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using NDomain.Bus.Subscriptions;
+using NUnit.Framework;
 
-namespace NDomain.Tests.Specs
+namespace NDomain.Tests.Common.Specs
 {
     /// <summary>
     /// Tests ISubscriptionStore behavior and ensures it can be used concurrently
