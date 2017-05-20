@@ -15,11 +15,6 @@ namespace NDomain.Sql.EventSourcing
         private readonly string _connectionString;
         private readonly SqlObjectNames _sqlNames;
 
-        public SqlEventStoreDb(string connectionString)
-            :this(connectionString, new SqlObjectNames("cat", "Aggregates", "Events"))
-        {
-        }
-
         public SqlEventStoreDb(string connectionString, SqlObjectNames sqlNames)
         {
             this._connectionString = connectionString;
