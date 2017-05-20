@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDomain.EventSourcing
+namespace NDomain.Model.EventSourcing
 {
     public class EventStoreSerializer : IEventStoreSerializer
     {

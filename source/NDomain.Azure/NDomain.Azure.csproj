@@ -79,8 +79,8 @@
   <ItemGroup>
     <Compile Include="CQRS\Projections\AzureBlobQueryStore.cs" />
     <Compile Include="AzureConfigurator.cs" />
-    <Compile Include="EventSourcing\AzureEventStore.cs" />
-    <Compile Include="EventSourcing\Extensions.cs" />
+    <Compile Include="Model\EventSourcing\AzureEventStore.cs" />
+    <Compile Include="Model\EventSourcing\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bus\Transport\Queues\QueueTransport.cs" />
     <Compile Include="Bus\Transport\Queues\QueueTransportFactory.cs" />

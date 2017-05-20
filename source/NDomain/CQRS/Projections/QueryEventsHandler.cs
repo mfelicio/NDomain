@@ -1,4 +1,5 @@
 ﻿using NDomain.Helpers;
+using NDomain.Model.EventSourcing;
 using System;
 using System.Collections.Generic;
 using System.Linq;

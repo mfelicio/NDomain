@@ -1,6 +1,6 @@
 ﻿using Moq;
 using NDomain.CQRS.Projections;
-using NDomain.EventSourcing;
+using NDomain.Model.EventSourcing;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

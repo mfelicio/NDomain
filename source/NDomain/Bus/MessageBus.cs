@@ -1,14 +1,11 @@
 ﻿using NDomain.Logging;
 using NDomain.Bus.Transport;
 using NDomain.Bus.Subscriptions;
-using NDomain.EventSourcing;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using NDomain.CQRS;
 
 namespace NDomain.Bus
 {

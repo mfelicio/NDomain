@@ -18,12 +18,21 @@ namespace NDomain.IoC
         {
             this.knownInstances = new Dictionary<Type, object>();
             this.knownGenericTypeDefs = new Dictionary<Type, Type>();
-            this.knownInstances.Add(typeof(IDependencyResolver), this);
         }
 
         public DefaultDependencyResolver Register<T>(T instance)
         {
             this.knownInstances.Add(typeof(T), instance);
+            return this;
+        }
+
+        public DefaultDependencyResolver RegisterInstances(Dictionary<Type, object> instances)
+        {
+            foreach (var registration in instances)
+            {
+                this.knownInstances[registration.Key] = registration.Value;
+            }
+
             return this;
         }
 
@@ -61,6 +70,16 @@ namespace NDomain.IoC
 
         public object Resolve(Type serviceType)
         {
+            if (this.knownInstances.ContainsKey(serviceType))
+            {
+                return this.knownInstances[serviceType];
+            }
+
+            if(serviceType.IsInterface)
+            {
+                return ResolveService(serviceType, serviceType);
+            }
+
             var ctors = serviceType.GetConstructors();
             if (ctors.Length != 1)
             {
@@ -70,23 +89,24 @@ namespace NDomain.IoC
             var ctor = ctors[0];
 
             var args = ctor.GetParameters()
-                           .Select(p => {
-                               object arg;
-                               if (this.knownInstances.TryGetValue(p.ParameterType, out arg))
-                               {
-                                   return arg;
-                               }
+                           .Select(p => Resolve(p.ParameterType))
+                           .ToArray();
 
-                               Type mapTo;
-                               if (p.ParameterType.IsGenericType && this.knownGenericTypeDefs.TryGetValue(p.ParameterType.GetGenericTypeDefinition(), out mapTo))
-                               {
-                                   return ResolveParameter(p.ParameterType, mapTo);
-                               }
+            return Activator.CreateInstance(serviceType, args);
+        }
 
-                               throw new Exception(string.Format("DefaultDependencyResolver cannot resolve parameter {0} when activating type {1}", p.ParameterType, serviceType));
-                           });
+        private object ResolveService(Type dependency, Type service)
+        {
+            if (dependency.IsGenericType)
+            {
+                Type mapTo;
+                if (this.knownGenericTypeDefs.TryGetValue(dependency.GetGenericTypeDefinition(), out mapTo))
+                {
+                    return ResolveParameter(dependency, mapTo);
+                }
+            }
 
-            return Activator.CreateInstance(serviceType, args.ToArray());
+            throw new Exception(string.Format("DefaultDependencyResolver cannot resolve dependency {0} when activating type {1}", dependency, service));
         }
 
         private object ResolveParameter(Type mapFrom, Type mapTo)

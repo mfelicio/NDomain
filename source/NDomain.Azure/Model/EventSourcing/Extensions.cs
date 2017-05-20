@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NDomain.EventSourcing.Azure
+namespace NDomain.Model.EventSourcing.Azure
 {
     public static class Extensions
     {

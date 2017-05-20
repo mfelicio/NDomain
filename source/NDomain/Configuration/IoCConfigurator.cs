@@ -1,4 +1,8 @@
-﻿using NDomain.IoC;
+﻿using NDomain.CQRS;
+using NDomain.IoC;
+using NDomain.Model;
+using NDomain.Model.EventSourcing;
+using NDomain.Model.Snapshot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +29,8 @@ namespace NDomain.Configuration
         /// </remarks>
         public List<Type> KnownTypes { get; private set; }
 
+        public Dictionary<Type, object> KnownInstances { get; private set; }
+
         /// <summary>
         /// Allows specific IoC container integrations to register NDomain's components
         /// </summary>
@@ -34,6 +40,8 @@ namespace NDomain.Configuration
             :base(builder)
         {
             this.KnownTypes = new List<Type>();
+            this.KnownInstances = new Dictionary<Type, object>();
+
             builder.Configuring += this.OnConfiguring;
             builder.Configured += this.OnConfigured;
         }
@@ -60,15 +68,24 @@ namespace NDomain.Configuration
 
         private void OnConfigured(DomainContext context)
         {
-            if (context.Resolver is DefaultDependencyResolver)
-            {
-                var resolver = context.Resolver as DefaultDependencyResolver;
+            this.KnownInstances.Add(typeof(IDomainContext), context);
+            this.KnownInstances.Add(typeof(ISnapshotStore), Builder.SnapshotStore.Value);
+            this.KnownInstances.Add(typeof(IEventStore), Builder.EventStore.Value);
+            this.KnownInstances.Add(typeof(IEventBus), Builder.EventBus.Value);
+            this.KnownInstances.Add(typeof(IEventStoreBus), Builder.EventBus.Value);
+            this.KnownInstances.Add(typeof(ICommandBus), Builder.CommandBus.Value);
+            this.KnownInstances.Add(typeof(IDependencyResolver), Builder.Resolver.Value);
 
-                resolver.Register(context);
-                resolver.Register(context.EventStore);
-                resolver.Register(context.EventBus);
-                resolver.Register(context.CommandBus);
-                resolver.RegisterGenericTypeDef(typeof(IAggregateRepository<>), typeof(AggregateRepository<>));
+            // default resolver
+            if (Builder.Resolver.Value is DefaultDependencyResolver)
+            {
+                var resolver = Builder.Resolver.Value as DefaultDependencyResolver;
+
+                resolver.RegisterInstances(this.KnownInstances);
+
+                resolver.RegisterGenericTypeDef(
+                    typeof(IAggregateRepository<>),
+                    typeof(AggregateRepository<>));
             }
 
             // hack, so that AutofacConfigurator can also register components on container

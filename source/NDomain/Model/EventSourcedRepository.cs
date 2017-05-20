@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NDomain.Model;
+using NDomain.Model.EventSourcing;
 using System.Threading.Tasks;
+using System.Linq;
+using NDomain.Model.Snapshot;
+using System;
 
 namespace NDomain
 {
@@ -11,7 +12,7 @@ namespace NDomain
     /// Aggregates are created from event streams through factories.
     /// </summary>
     /// <typeparam name="T">Type of the aggregate</typeparam>
-    public class AggregateRepository<T> : IAggregateRepository<T>
+    internal class EventSourcedRepository<T> : IAggregateRepository<T>
             where T : IAggregate
     {
         /// <summary>
@@ -25,18 +26,17 @@ namespace NDomain
         /// </summary>
         readonly IEventStore eventStore;
 
-        public AggregateRepository(IEventStore eventStore)
+        public EventSourcedRepository(IEventStore eventStore)
         {
             this.eventStore = eventStore;
         }
 
+        // TODO: remove this method
         public async Task<T> Find(string id)
         {
             var events = await this.eventStore.Load(id);
-
             if (!events.Any())
             {
-                // not found
                 throw new Exception("not found");
             }
 
@@ -47,25 +47,34 @@ namespace NDomain
 
         public async Task<T> FindOrDefault(string id)
         {
-            var events = await this.eventStore.Load(id);
+            var aggregate = await LoadFromEvents(id);
 
+            return aggregate;
+        }
+
+        public async Task<T> Save(T ag)
+        {
+            var aggregate = ag as IEventSourcedAggregate;
+            if (aggregate.Changes.Any())
+            {
+                await PersistEventChanges(aggregate);
+            }
+            // TODO: aggregates changes should be reset, so that the returned aggregate is equivalent to loading the persistent aggregate from the eventstore
+
+            return ag;
+        }
+
+        private async Task<T> LoadFromEvents(string id)
+        {
+            var events = await this.eventStore.Load(id);
             var aggregate = Factory.CreateFromEvents(id, events.ToArray());
 
             return aggregate;
         }
 
-        public async Task<T> Save(T aggregate)
+        private Task PersistEventChanges(IEventSourcedAggregate aggregate)
         {
-            if (!aggregate.Changes.Any())
-            {
-                return aggregate;
-            }
-
-            await this.eventStore.Append(aggregate.Id, aggregate.OriginalVersion, aggregate.Changes);
-
-            // TODO: aggregates changes should be reset, so that the returned aggregate is equivalent to loading the persistent aggregate from the eventstore
-
-            return aggregate;
+            return this.eventStore.Append(aggregate.Id, aggregate.OriginalVersion, aggregate.Changes);
         }
     }
 }

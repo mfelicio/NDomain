@@ -1,6 +1,9 @@
 ﻿using Autofac;
+using Autofac.Core;
 using NDomain.Autofac;
 using NDomain.Configuration;
+using NDomain.Model;
+using NDomain.Model.EventSourcing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,17 +29,15 @@ namespace NDomain.Configuration
         public static IoCConfigurator WithAutofac(this IoCConfigurator b, IContainer container)
         {
             b.Resolver = new AutofacDependencyResolver(container.BeginLifetimeScope());
-
+            
             b.Configured += context =>
             {
                 var builder = new ContainerBuilder();
-                builder.RegisterInstance(context);
 
-                builder.RegisterInstance(context.CommandBus);
-                builder.RegisterInstance(context.EventBus);
-                builder.RegisterInstance(context.EventStore).As<IEventStore>();
-                builder.RegisterGeneric(typeof(AggregateRepository<>))
-                       .As(typeof(IAggregateRepository<>)).SingleInstance();
+                foreach(var registration in b.KnownInstances)
+                {
+                    builder.RegisterInstance(registration.Value).As(registration.Key);
+                }
 
                 // usually command/event handlers
                 foreach (var knownType in b.KnownTypes)
@@ -45,6 +46,9 @@ namespace NDomain.Configuration
                            .AsSelf()
                            .PreserveExistingDefaults();
                 }
+
+                builder.RegisterGeneric(typeof(AggregateRepository<>))
+                       .As(typeof(IAggregateRepository<>)).SingleInstance();
 
                 builder.Update(container);
             };

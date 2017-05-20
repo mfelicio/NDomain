@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NDomain.EventSourcing;
+using NDomain.Model.EventSourcing;
 
 namespace NDomain.Tests.Specs
 {

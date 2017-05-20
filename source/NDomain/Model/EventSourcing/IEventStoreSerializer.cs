@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDomain.EventSourcing
+namespace NDomain.Model.EventSourcing
 {
     /// <summary>
     /// Serializes and deserializes events persisted in the IEventStore

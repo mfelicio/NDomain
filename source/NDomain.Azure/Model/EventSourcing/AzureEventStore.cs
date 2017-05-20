@@ -1,4 +1,4 @@
-﻿using NDomain.EventSourcing;
+﻿using NDomain.Model.EventSourcing;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json.Linq;
@@ -9,7 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDomain.EventSourcing.Azure
+namespace NDomain.Model.EventSourcing.Azure
 {
     public class AzureEventStore : IEventStoreDb
     {

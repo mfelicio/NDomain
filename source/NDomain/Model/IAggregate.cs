@@ -29,11 +29,6 @@ namespace NDomain
         /// Current state of the aggregate
         /// </summary>
         IState State { get; }
-
-        /// <summary>
-        /// Changes made to the aggregate in the form of events
-        /// </summary>
-        IEnumerable<IAggregateEvent> Changes { get; }
     }
 
     /// <summary>

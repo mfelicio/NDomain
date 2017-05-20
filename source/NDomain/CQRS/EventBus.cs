@@ -1,5 +1,5 @@
 ﻿using NDomain.Bus;
-using NDomain.EventSourcing;
+using NDomain.Model.EventSourcing;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

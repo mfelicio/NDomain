@@ -1,4 +1,4 @@
-﻿using NDomain.EventSourcing;
+﻿using NDomain.Model.EventSourcing;
 using NDomain.Tests.Specs;
 using NUnit.Framework;
 using System;

@@ -1,5 +1,6 @@
 ﻿using Moq;
-using NDomain.EventSourcing;
+using NDomain.Model.EventSourcing;
+using NDomain.Model.Snapshot;
 using NDomain.Tests.Sample;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -20,7 +21,7 @@ namespace NDomain.Tests.Aggregates
         {
             // arrange
             var eventStore = CreateEventStoreMock();
-            var repository = new AggregateRepository<Counter>(eventStore.Object);
+            var repository = new EventSourcedRepository<Counter>(eventStore.Object);
             var aggregate = factory.CreateNew(Guid.NewGuid().ToString());
 
             // act
@@ -37,7 +38,7 @@ namespace NDomain.Tests.Aggregates
         {
             // arrange
             var eventStore = CreateEventStoreMock();
-            var repository = new AggregateRepository<Counter>(eventStore.Object);
+            var repository = new EventSourcedRepository<Counter>(eventStore.Object);
             var aggregate = factory.CreateNew(Guid.NewGuid().ToString());
 
             // act
@@ -85,7 +86,7 @@ namespace NDomain.Tests.Aggregates
                                 bus.Object,
                                 EventStoreSerializer.FromAggregateTypes(typeof(Counter)));
 
-            var repository = new AggregateRepository<Counter>(eventStore);
+            var repository = new EventSourcedRepository<Counter>(eventStore);
             return repository;
         }
 

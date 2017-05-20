@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NDomain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace NDomain.Tests.Sample
         public void OnCounterReset(CounterReset ev) { Value = 0; }
     }
 
-    public class Counter : Aggregate<CounterState>
+    public class Counter : EventSourcedAggregate<CounterState>
     {
         public Counter(string id, CounterState state)
             : base(id, state)

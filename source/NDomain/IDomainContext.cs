@@ -1,6 +1,8 @@
 ﻿using NDomain.CQRS;
 using NDomain.IoC;
 using NDomain.Logging;
+using NDomain.Model;
+using NDomain.Model.EventSourcing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +17,6 @@ namespace NDomain
     public interface IDomainContext : IDisposable
     {
         /// <summary>
-        /// EventStore that can be used to persist aggregate event streams
-        /// </summary>
-        IEventStore EventStore { get; }
-
-        /// <summary>
         /// EventBus that can be used to publish events to subscribed listeners
         /// </summary>
         IEventBus EventBus { get; }
@@ -29,11 +26,6 @@ namespace NDomain
         /// </summary>
         ICommandBus CommandBus { get; }
 
-        /// <summary>
-        /// Gets an IAggregateRepository that is a higher level persistence abstraction for aggregates
-        /// </summary>
-        /// <typeparam name="T">Type of the aggregate</typeparam>
-        /// <returns>Returns an IAggregateRepository for the given aggregate Type</returns>
         IAggregateRepository<T> GetRepository<T>()
             where T : IAggregate;
 

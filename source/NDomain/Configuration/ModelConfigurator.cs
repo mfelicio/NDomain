@@ -1,5 +1,7 @@
 ﻿using NDomain.CQRS;
-using NDomain.EventSourcing;
+using NDomain.Model;
+using NDomain.Model.EventSourcing;
+using NDomain.Model.Snapshot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,12 @@ namespace NDomain.Configuration
     /// <summary>
     /// Configurator for the event sourcing persistence capabilities
     /// </summary>
-    public class EventSourcingConfigurator : Configurator
+    public class ModelConfigurator : Configurator
     {
-        readonly HashSet<Type> aggregateTypes;
+        private readonly HashSet<Type> aggregateTypes;
+
+        private IEventStoreDb eventStoreDb;
+        private ISnapshotStore snapshotStore;
 
         /// <summary>
         /// Gets or sets the IEventStoreDb to be used. 
@@ -23,9 +28,22 @@ namespace NDomain.Configuration
         /// Note that the IEventStoreDb only handles the persistence features, while the IEventStore is a higher level concept 
         /// which handles deserialization and coordinates event storage and publishing between the IEventStoreDb and IEventStoreBus.
         /// </remarks>
+
+        protected ModelConfigurator UseEventStoreDb(IEventStoreDb eventStoreDb)
+        {
+            this.eventStoreDb = eventStoreDb;
+            return this;
+        }
+
+        protected ModelConfigurator UseSnapshotStore(ISnapshotStore snapshotStore)
+        {
+            this.snapshotStore = snapshotStore;
+            return this;
+        }
+
         public IEventStoreDb EventStoreDb { get; set; }
 
-        public EventSourcingConfigurator(ContextBuilder builder)
+        public ModelConfigurator(ContextBuilder builder)
             : base(builder)
         {
             this.aggregateTypes = new HashSet<Type>();
@@ -39,7 +57,7 @@ namespace NDomain.Configuration
         /// </summary>
         /// <typeparam name="TAggregate">Type of the aggregate</typeparam>
         /// <returns>The current instance, to be used in a fluent manner</returns>
-        public EventSourcingConfigurator BindAggregate<TAggregate>()
+        public ModelConfigurator BindAggregate<TAggregate>()
             where TAggregate : IAggregate
         {
             this.aggregateTypes.Add(typeof(TAggregate));
@@ -51,10 +69,14 @@ namespace NDomain.Configuration
         /// Configures the local EventStore, which should be used only for test and learning purposes.
         /// </summary>
         /// <returns>The current instance, to be used in a fluent manner</returns>
-        public EventSourcingConfigurator UseLocalEventStore()
+        public ModelConfigurator UseLocalEventStore()
         {
-            this.EventStoreDb = new LocalEventStore();
-            return this;
+            return UseEventStoreDb(new LocalEventStore());
+        }
+
+        public ModelConfigurator UseLocalSnapshotStore()
+        {
+            return UseSnapshotStore(new LocalSnapshotStore());
         }
 
         private void OnConfiguring(ContextBuilder builder)
@@ -62,9 +84,12 @@ namespace NDomain.Configuration
             var serializer = EventStoreSerializer.FromAggregateTypes(this.aggregateTypes);
 
             builder.EventStore = new Lazy<IEventStore>(
-                () => new EventStore(this.EventStoreDb ?? new LocalEventStore(),
+                () => new EventStore(this.eventStoreDb ?? new LocalEventStore(),
                                      new EventBus(builder.MessageBus.Value),
                                      serializer));
+
+            builder.SnapshotStore = new Lazy<ISnapshotStore>(
+                () => this.snapshotStore ?? new LocalSnapshotStore());
         }
     }
 }

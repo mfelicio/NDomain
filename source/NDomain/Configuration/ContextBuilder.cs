@@ -1,16 +1,13 @@
-﻿using NDomain.EventSourcing;
-using NDomain.IoC;
+﻿using NDomain.IoC;
 using NDomain.Logging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using NDomain.Bus;
 using NDomain.Bus.Subscriptions;
 using NDomain.CQRS;
+using NDomain.Model.EventSourcing;
+using NDomain.Model;
+using NDomain.Model.Snapshot;
 
 namespace NDomain.Configuration
 {
@@ -21,20 +18,23 @@ namespace NDomain.Configuration
     {
         public ContextBuilder()
         {
-            this.EventSourcingConfigurator = new EventSourcingConfigurator(this);
+            this.EventSourcingConfigurator = new ModelConfigurator(this);
             this.BusConfigurator = new BusConfigurator(this);
             this.LoggingConfigurator = new LoggingConfigurator(this);
             this.IoCConfigurator = new IoCConfigurator(this);
         }
 
-        internal EventSourcingConfigurator EventSourcingConfigurator { get; private set; }
+        internal ModelConfigurator EventSourcingConfigurator { get; private set; }
         internal BusConfigurator BusConfigurator { get; private set; }
         internal LoggingConfigurator LoggingConfigurator { get; private set; }
         internal IoCConfigurator IoCConfigurator { get; private set; }
 
         // using Lazy's to avoid managing dependencies between configurators and to ensure no circular references exist
         internal Lazy<IEventStore> EventStore { get; set; }
-        internal Lazy<IMessageBus> MessageBus { get; set; }
+        internal Lazy<ISnapshotStore> SnapshotStore { get; set; }
+        public Lazy<IMessageBus> MessageBus { get; set; }
+        internal Lazy<IEventBus> EventBus { get; set; }
+        internal Lazy<ICommandBus> CommandBus { get; set; }
         internal Lazy<ISubscriptionManager> SubscriptionManager { get; set; }
         internal Lazy<IEnumerable<IProcessor>> Processors { get; set; }
         internal Lazy<ILoggerFactory> LoggerFactory { get; set; }
@@ -54,11 +54,9 @@ namespace NDomain.Configuration
                 this.Configuring(this);
             }
 
-            var context = new DomainContext(this.EventStore.Value,
-                                            new EventBus(this.MessageBus.Value),
-                                            new CommandBus(this.MessageBus.Value),
+            var context = new DomainContext(this.EventBus.Value,
+                                            this.CommandBus.Value,
                                             this.Processors.Value,
-                                            this.LoggerFactory.Value,
                                             this.Resolver.Value);
 
             if (this.Configured != null)
@@ -79,7 +77,7 @@ namespace NDomain.Configuration
         /// </summary>
         /// <param name="configurer">configurer handler</param>
         /// <returns>The current instance, to be used in a fluent manner</returns>
-        public ContextBuilder EventSourcing(Action<EventSourcingConfigurator> configurer)
+        public ContextBuilder EventSourcing(Action<ModelConfigurator> configurer)
         {
             configurer(this.EventSourcingConfigurator);
             return this;

@@ -1,4 +1,6 @@
-﻿using NDomain.Configuration;
+﻿using FakeItEasy;
+using NDomain.Configuration;
+using NDomain.Model.Snapshot;
 using NDomain.Tests.Sample;
 using NUnit.Framework;
 using System;

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using NDomain.CQRS;
 
 namespace NDomain.Configuration
 {
@@ -17,7 +18,7 @@ namespace NDomain.Configuration
     /// </summary>
     public class BusConfigurator : Configurator
     {
-        readonly List<ProcessorConfigurator> processorConfigurators;
+        private readonly List<ProcessorConfigurator> processorConfigurators;
 
         public ISubscriptionStore SubscriptionStore { get; set; }
         public ISubscriptionBroker SubscriptionBroker { get; set; }
@@ -98,10 +99,16 @@ namespace NDomain.Configuration
 
             var transport = this.TransportFactory.CreateOutboundTransport();
 
-            builder.SubscriptionManager = new Lazy<ISubscriptionManager>(() => subscriptionManager);
-
             builder.MessageBus = new Lazy<IMessageBus>(
                 () => new MessageBus(subscriptionManager, transport, builder.LoggerFactory.Value));
+
+            builder.EventBus = new Lazy<IEventBus>(
+                () => new EventBus(builder.MessageBus.Value));
+
+            builder.CommandBus = new Lazy<ICommandBus>(
+                () => new CommandBus(builder.MessageBus.Value));
+
+            builder.SubscriptionManager = new Lazy<ISubscriptionManager>(() => subscriptionManager);
 
             builder.Processors = new Lazy<IEnumerable<IProcessor>>(
                 () => this.processorConfigurators
