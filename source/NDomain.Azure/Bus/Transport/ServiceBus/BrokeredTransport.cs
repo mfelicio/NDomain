@@ -1,24 +1,23 @@
-﻿using Microsoft.ServiceBus.Messaging;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
+using Microsoft.ServiceBus.Messaging;
+using NDomain.Bus;
+using NDomain.Bus.Transport;
 
-namespace NDomain.Bus.Transport.Azure.ServiceBus
+namespace NDomain.Azure.Bus.Transport.ServiceBus
 {
     public class BrokeredTransport : IInboundTransport, IOutboundTransport
     {
-        readonly string connectionString;
-        readonly string inputQueueName;
-
-        readonly MessagingFactory factory;
-        readonly ConcurrentDictionary<string, QueueClient> queues;
+        private readonly string inputQueueName;
+        private readonly MessagingFactory factory;
+        private readonly ConcurrentDictionary<string, QueueClient> queues;
 
         public BrokeredTransport(string connectionString, string inputQueueName)
         {
-            this.connectionString = connectionString;
             this.inputQueueName = inputQueueName;
             this.factory = MessagingFactory.CreateFromConnectionString(connectionString);
             this.queues = new ConcurrentDictionary<string, QueueClient>();

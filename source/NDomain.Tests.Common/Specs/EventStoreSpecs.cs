@@ -11,8 +11,8 @@ namespace NDomain.Tests.Common.Specs
 {
     public abstract class EventStoreSpecs
     {
-        readonly IEventStoreSerializer serializer;
-        readonly IEventStoreBus bus;
+        private readonly IEventStoreSerializer serializer;
+        private readonly IEventStoreBus bus;
 
         protected IEventStore eventStore;
         protected IEventStoreDb eventStorage;

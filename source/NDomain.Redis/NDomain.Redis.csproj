@@ -54,7 +54,7 @@
     <Compile Include="Bus\Transport\RedisTransportFactory.cs" />
     <Compile Include="Bus\Subscriptions\RedisSubscriptionStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RedisExtensions.cs" />
+    <Compile Include="RedisConfigurator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NDomain\NDomain.csproj">

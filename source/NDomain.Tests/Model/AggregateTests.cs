@@ -1,10 +1,10 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Linq;
 using NDomain.Model;
 using NDomain.Tests.Common.Sample;
+using NUnit.Framework;
 
-namespace NDomain.Tests.Aggregates
+namespace NDomain.Tests.Model
 {
     /// <summary>
     /// Aggregate tests based on the sample Race aggregate

@@ -59,6 +59,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sample\Counter.cs" />
+    <Compile Include="Sample\CounterEvents.cs" />
+    <Compile Include="Sample\CounterState.cs" />
     <Compile Include="Sample\Race.cs" />
     <Compile Include="Sample\RaceEvents.cs" />
     <Compile Include="Sample\RaceState.cs" />

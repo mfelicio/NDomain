@@ -1,11 +1,12 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Table;
+using NDomain.Model;
+using Newtonsoft.Json.Linq;
 
-namespace NDomain.Model.EventSourcing.Azure
+namespace NDomain.Azure.Model.EventSourcing
 {
     public static class Extensions
     {
@@ -38,7 +39,11 @@ namespace NDomain.Model.EventSourcing.Azure
                 TableQuerySegment<T> seg = await table.ExecuteQuerySegmentedAsync<T>(query, token);
                 token = seg.ContinuationToken;
                 items.AddRange(seg);
-                if (onProgress != null) onProgress(items);
+
+                if (onProgress != null)
+                {
+                    onProgress(items);
+                }
 
             } while (token != null && !ct.IsCancellationRequested);
 

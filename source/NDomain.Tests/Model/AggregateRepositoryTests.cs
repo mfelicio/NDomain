@@ -1,19 +1,19 @@
-﻿using Moq;
-using NDomain.Model.EventSourcing;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Moq;
 using NDomain.Model;
+using NDomain.Model.EventSourcing;
 using NDomain.Tests.Common.Sample;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 
-namespace NDomain.Tests.Aggregates
+namespace NDomain.Tests.Model
 {
-    public class RepositoryTests
+    public class AggregateRepositoryTests
     {
-        readonly IAggregateFactory<Counter> factory = AggregateFactory.For<Counter>();
+        private readonly IAggregateFactory<Counter> factory = AggregateFactory.For<Counter>();
 
         [Test]
         public async Task SavingNewAggregateWithoutChangesHasNoSideEffects()

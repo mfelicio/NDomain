@@ -10,7 +10,7 @@ namespace NDomain.Tests.CQRS
 {
     public class TestCommandHandler
     {
-        readonly Action<ICommand> onMsg;
+        private readonly Action<ICommand> onMsg;
 
         public TestCommandHandler(Action<ICommand> onMsg)
         {
@@ -56,7 +56,7 @@ namespace NDomain.Tests.CQRS
 
     public class CounterEventsHandler
     {
-        readonly Action<IAggregateEvent> onMsg;
+        private readonly Action<IAggregateEvent> onMsg;
 
         public CounterEventsHandler(Action<IAggregateEvent> onMsg)
         {

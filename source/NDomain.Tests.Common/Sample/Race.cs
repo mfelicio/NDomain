@@ -10,7 +10,7 @@ namespace NDomain.Tests.Common.Sample
     /// When a runner reaches the max distance, he is the winner and the race is finished 
     /// When a race finishes, an event should be published with the winner and the elapsed time since the race started
     /// </summary>
-    public class Race : NDomain.Model.EventSourcedAggregate<RaceState>
+    public class Race : Model.EventSourcedAggregate<RaceState>
     {
         public Race(string id, RaceState state)
             : base(id, state)

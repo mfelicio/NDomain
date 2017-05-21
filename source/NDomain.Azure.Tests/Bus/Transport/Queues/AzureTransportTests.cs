@@ -1,6 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage;
+using NDomain.Azure.Bus.Transport.Queues;
 using NDomain.Bus.Transport;
-using NDomain.Bus.Transport.Azure.Queues;
 using NUnit.Framework;
 using NDomain.Tests.Common.Specs;
 

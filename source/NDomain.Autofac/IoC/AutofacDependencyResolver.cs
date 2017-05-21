@@ -1,15 +1,15 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using NDomain.IoC;
-using System;
 
-namespace NDomain.Autofac
+namespace NDomain.Autofac.IoC
 {
     /// <summary>
     /// IDependencyResolver based on Autofac
     /// </summary>
     public class AutofacDependencyResolver : IDependencyScope
     {
-        readonly ILifetimeScope scope;
+        private readonly ILifetimeScope scope;
 
         public AutofacDependencyResolver(ILifetimeScope scope)
         {

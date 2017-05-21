@@ -1,6 +1,7 @@
 ﻿using Autofac;
-using NDomain.Autofac;
+using NDomain.Autofac.IoC;
 using NDomain.Model;
+// ReSharper disable CheckNamespace
 
 namespace NDomain.Configuration
 {

@@ -1,9 +1,11 @@
-﻿namespace NDomain.Bus.Transport.Azure.ServiceBus
+﻿using NDomain.Bus.Transport;
+
+namespace NDomain.Azure.Bus.Transport.ServiceBus
 {
     public class BrokeredTransportFactory : BrokerlessTransportFactory
     {
-        readonly string connectionString;
-        readonly string prefix;
+        private readonly string connectionString;
+        private readonly string prefix;
 
         public BrokeredTransportFactory(string connectionString, string prefix = null)
         {

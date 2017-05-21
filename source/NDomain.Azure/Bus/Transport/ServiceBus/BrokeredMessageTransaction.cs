@@ -1,31 +1,25 @@
-﻿using Microsoft.ServiceBus.Messaging;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.ServiceBus.Messaging;
+using NDomain.Bus.Transport;
 
-namespace NDomain.Bus.Transport.Azure.ServiceBus
+namespace NDomain.Azure.Bus.Transport.ServiceBus
 {
-    class BrokeredMessageTransaction : IMessageTransaction
+    internal class BrokeredMessageTransaction : IMessageTransaction
     {
-        readonly BrokeredMessage source;
-        readonly TransportMessage message;
+        private readonly BrokeredMessage source;
 
         public BrokeredMessageTransaction(BrokeredMessage source, TransportMessage message)
         {
             this.source = source;
-            this.message = message;
+            this.Message = message;
         }
 
-        public TransportMessage Message { get { return this.message; } }
+        public TransportMessage Message { get; }
 
-        public int DeliveryCount { get { return this.source.DeliveryCount; } }
+        public int DeliveryCount => this.source.DeliveryCount;
 
-        public Task Commit()
-        {
-            return this.source.CompleteAsync();
-        }
+        public Task Commit() => this.source.CompleteAsync();
 
-        public Task Fail()
-        {
-            return this.source.AbandonAsync();
-        }
+        public Task Fail() => this.source.AbandonAsync();
     }
 }

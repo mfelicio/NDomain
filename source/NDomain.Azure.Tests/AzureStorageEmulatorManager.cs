@@ -1,43 +1,8 @@
-﻿using NUnit.Framework;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 
 namespace NDomain.Azure.Tests
 {
-    [SetUpFixture]
-    public class StartStopAzureEmulator
-    {
-        private bool _wasUp;
-
-        [OneTimeSetUp]
-        public void StartAzureBeforeAllTestsIfNotUp()
-        {
-            if (!AzureStorageEmulatorManager.IsProcessStarted())
-            {
-                AzureStorageEmulatorManager.StartStorageEmulator();
-                _wasUp = false;
-            }
-            else
-            {
-                _wasUp = true;
-            }
-
-        }
-
-        [OneTimeTearDown]
-        public void StopAzureAfterAllTestsIfWasDown()
-        {
-            if (!_wasUp)
-            {
-                AzureStorageEmulatorManager.StopStorageEmulator();
-            }
-            else
-            {
-                // Leave as it was before testing...
-            }
-        }
-    }
-
     // Start/stop azure storage emulator from code:
     // http://stackoverflow.com/questions/7547567/how-to-start-azure-storage-emulator-from-within-a-program
     // Credits to David Peden http://stackoverflow.com/users/607701/david-peden for sharing this!

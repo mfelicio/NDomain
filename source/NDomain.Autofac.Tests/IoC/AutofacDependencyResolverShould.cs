@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
+﻿using Autofac;
 using NDomain.Configuration;
-using Autofac;
 using NDomain.Tests.Common.Specs;
+using NUnit.Framework;
 
-namespace NDomain.Autofac.Tests
+namespace NDomain.Autofac.Tests.IoC
 {
     [TestFixture]
     public class AutofacDependencyResolverShould : DependencyResolverSpecs

@@ -1,18 +1,21 @@
-﻿using Newtonsoft.Json.Linq;
-using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NDomain.Bus;
+using NDomain.Bus.Transport;
+using Newtonsoft.Json.Linq;
+using StackExchange.Redis;
+#pragma warning disable 4014
 
-namespace NDomain.Bus.Transport.Redis
+namespace NDomain.Redis.Bus.Transport
 {
     // TODO: document the keys structure and queueing solution in place
     public class RedisTransport : IInboundTransport, IOutboundTransport
     {
-        readonly ConnectionMultiplexer connection;
-        readonly string inputQueue;
+        private readonly ConnectionMultiplexer connection;
+        private readonly string inputQueue;
 
-        readonly string keyFormat;
+        private readonly string keyFormat;
 
         public RedisTransport(ConnectionMultiplexer connection, string prefix, string inputQueue)
         {
@@ -25,19 +28,19 @@ namespace NDomain.Bus.Transport.Redis
             }
             else
             {
-                keyFormat = string.Format("{0}.{{0}}", prefix);
+                keyFormat = $"{prefix}.{{0}}";
             }
         }
 
         private string GetMessageKey(string queue, string messageId)
         {
-            var key = string.Format("{0}:msg:{1}", queue, messageId);
+            var key = $"{queue}:msg:{messageId}";
             return GetRedisKey(key);
         }
 
         private string GetMessageRetryCountKey(string queue, string messageId)
         {
-            var key = string.Format("{0}:msg:{1}:retry", queue, messageId);
+            var key = $"{queue}:msg:{messageId}:retry";
             return GetRedisKey(key);
         }
 
@@ -76,8 +79,6 @@ namespace NDomain.Bus.Transport.Redis
 
         public async Task<IMessageTransaction> Receive(TimeSpan? timeout = null)
         {
-            var redis = this.connection.GetDatabase();
-
             var transactionId = Guid.NewGuid().ToString();
 
             string messageId = await GetQueuedMessageId(transactionId, timeout ?? TimeSpan.FromSeconds(60));

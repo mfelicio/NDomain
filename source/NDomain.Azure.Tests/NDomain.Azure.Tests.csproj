@@ -81,9 +81,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureStorageTests.cs" />
+    <Compile Include="AzureStorageEmulatorManager.cs" />
+    <Compile Include="StartStopAzureEmulator.cs" />
     <Compile Include="Bus\Transport\Queues\AzureTransportTests.cs" />
-    <Compile Include="EventSourcing\AzureEventStoreTests.cs" />
+    <Compile Include="Model\EventSourcing\AzureEventStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

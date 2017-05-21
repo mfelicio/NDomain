@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using NDomain.Model;
+﻿using NDomain.Model;
 using NDomain.Tests.Common.Sample;
+using NUnit.Framework;
 
-namespace NDomain.Tests.Aggregates
+namespace NDomain.Tests.Model
 {
     /// <summary>
     /// AggregateFactory tests based on the sample Race aggregate

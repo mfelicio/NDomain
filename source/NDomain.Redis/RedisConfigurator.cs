@@ -1,14 +1,14 @@
-﻿using NDomain.Bus.Subscriptions.Redis;
-using NDomain.Bus.Transport.Redis;
-using NDomain.Configuration;
+﻿using NDomain.Redis.Bus.Subscriptions;
+using NDomain.Redis.Bus.Transport;
 using StackExchange.Redis;
 
-namespace NDomain
+// ReSharper disable once CheckNamespace
+namespace NDomain.Configuration
 {
     /// <summary>
     /// BusConfigurator extensions to use Redis
     /// </summary>
-    public static class RedisExtensions
+    public static class RedisConfigurator
     {
         /// <summary>
         /// Configures the MessageBus to use a Redis transport
@@ -33,14 +33,7 @@ namespace NDomain
         /// <returns>The current configurator instance to be used in a fluent manner</returns>
         public static BusConfigurator WithRedisSubscriptionStore(this BusConfigurator configurator, ConnectionMultiplexer connection, string prefix = null)
         {
-            if (string.IsNullOrWhiteSpace(prefix))
-            {
-                prefix = "ndomain";
-            }
-            else
-            {
-                prefix = string.Format("{0}.ndomain", prefix);
-            }
+            prefix = GetPrefix(prefix);
 
             configurator.SubscriptionStore = new RedisSubscriptionStore(connection, prefix);
 
@@ -56,18 +49,24 @@ namespace NDomain
         /// <returns>The current configurator instance to be used in a fluent manner</returns>
         public static BusConfigurator WithRedisSubscriptionBroker(this BusConfigurator configurator, ConnectionMultiplexer connection, string prefix = null) 
         {
+            prefix = GetPrefix(prefix);
+
+            configurator.SubscriptionBroker = new RedisSubscriptionBroker(connection, prefix);
+
+            return configurator;
+        }
+
+        private static string GetPrefix(string prefix)
+        {
             if (string.IsNullOrWhiteSpace(prefix))
             {
                 prefix = "ndomain";
             }
             else
             {
-                prefix = string.Format("{0}.ndomain", prefix);
+                prefix = $"{prefix}.ndomain";
             }
-
-            configurator.SubscriptionBroker = new RedisSubscriptionBroker(connection, prefix);
-
-            return configurator;
+            return prefix;
         }
     }
 }

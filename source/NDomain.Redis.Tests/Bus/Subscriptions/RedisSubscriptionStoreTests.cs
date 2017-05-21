@@ -1,8 +1,8 @@
 ﻿using NDomain.Bus.Subscriptions;
-using NDomain.Bus.Subscriptions.Redis;
 using NUnit.Framework;
 using StackExchange.Redis;
 using System;
+using NDomain.Redis.Bus.Subscriptions;
 using NDomain.Tests.Common.Specs;
 
 namespace NDomain.Redis.Tests.Bus.Subscriptions
@@ -10,7 +10,7 @@ namespace NDomain.Redis.Tests.Bus.Subscriptions
     [TestFixture(Category = "Redis")]
     public class RedisSubscriptionStoreTests : SubscriptionStoreSpecs
     {
-        ConnectionMultiplexer connection;
+        private ConnectionMultiplexer connection;
 
         [OneTimeSetUp]
         public void SetUpFixture()

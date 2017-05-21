@@ -1,42 +1,28 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NDomain.Bus.Transport;
 
-namespace NDomain.Bus.Transport.Azure.Queues
+namespace NDomain.Azure.Bus.Transport.Queues
 {
     class QueueMessageTransaction : IMessageTransaction
     {
-        readonly TransportMessage message;
-        readonly int retryCount;
-        readonly Func<Task> onCommit;
-        readonly Func<Task> onFail;
+        private readonly Func<Task> onCommit;
+        private readonly Func<Task> onFail;
 
         public QueueMessageTransaction(TransportMessage message, int retryCount, Func<Task> onCommit, Func<Task> onFail)
         {
-            this.message = message;
-            this.retryCount = retryCount;
+            this.Message = message;
+            this.DeliveryCount = retryCount;
             this.onCommit = onCommit;
             this.onFail = onFail;
         }
 
-        public TransportMessage Message
-        {
-            get { return this.message; }
-        }
+        public TransportMessage Message { get; }
 
-        public int DeliveryCount
-        {
-            get { return this.retryCount; }
-        }
+        public int DeliveryCount { get; }
 
-        public Task Commit()
-        {
-            return this.onCommit();
-        }
+        public Task Commit() => this.onCommit();
 
-        public Task Fail()
-        {
-            return this.onFail();
-        }
-
+        public Task Fail() => this.onFail();
     }
 }

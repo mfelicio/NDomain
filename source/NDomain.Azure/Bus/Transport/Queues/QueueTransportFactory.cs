@@ -1,11 +1,12 @@
 ﻿using Microsoft.WindowsAzure.Storage;
+using NDomain.Bus.Transport;
 
-namespace NDomain.Bus.Transport.Azure.Queues
+namespace NDomain.Azure.Bus.Transport.Queues
 {
     public class QueueTransportFactory : BrokerlessTransportFactory
     {
-        readonly CloudStorageAccount account;
-        readonly string prefix;
+        private readonly CloudStorageAccount account;
+        private readonly string prefix;
 
         public QueueTransportFactory(CloudStorageAccount account, string prefix)
         {

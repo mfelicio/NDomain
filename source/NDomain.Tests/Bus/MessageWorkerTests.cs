@@ -7,35 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using NDomain.Bus;
 
-namespace NDomain.Tests.Messaging
+namespace NDomain.Tests.Bus
 {
-    class MockTransaction : IMessageTransaction
-    {
-        public MockTransaction()
-        {
-            this.Message = new TransportMessage()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Name"
-            };
-            this.DeliveryCount = 0;
-        }
-
-        public TransportMessage Message { get; set; }
-
-        public int DeliveryCount { get; set; }
-
-        public Task Commit()
-        {
-            return Task.FromResult(true);
-        }
-
-        public Task Fail()
-        {
-            return Task.FromResult(true);
-        }
-    }
-
     public class MessageWorkerTests
     {
         private IInboundTransport SetupReceiver(int nMessages)
@@ -50,7 +23,7 @@ namespace NDomain.Tests.Messaging
                             IMessageTransaction tr;
                             if (Interlocked.Increment(ref dequeueCount) <= nMessages)
                             {
-                                tr = new MockTransaction();
+                                tr = new TestMessageTransaction();
                             }
                             else
                             {
@@ -99,6 +72,33 @@ namespace NDomain.Tests.Messaging
                 Task.Delay(TimeSpan.FromMinutes(15)).ContinueWith(t => evt.Set());
 
                 evt.WaitOne();
+            }
+        }
+
+        class TestMessageTransaction : IMessageTransaction
+        {
+            public TestMessageTransaction()
+            {
+                this.Message = new TransportMessage()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Name"
+                };
+                this.DeliveryCount = 0;
+            }
+
+            public TransportMessage Message { get; }
+
+            public int DeliveryCount { get; }
+
+            public Task Commit()
+            {
+                return Task.FromResult(true);
+            }
+
+            public Task Fail()
+            {
+                return Task.FromResult(true);
             }
         }
     }

@@ -10,10 +10,15 @@ namespace NDomain.Tests.Common.Sample
         public int Position { get; set; }
     }
 
-    public class RaceState : NDomain.State
+    public class RaceState : State
     {
+        public RaceState()
+        {
+            this.Runners = new Dictionary<Guid, RaceRunner>();
+        }
+
         //<RunnerId, RaceRunner>
-        public Dictionary<Guid, RaceRunner> Runners { get; private set; }
+        public Dictionary<Guid, RaceRunner> Runners { get; }
 
         public Guid? WinnerId { get; private set; }
 
@@ -23,11 +28,6 @@ namespace NDomain.Tests.Common.Sample
         public bool Created { get; private set; }
         public bool Started { get; private set; }
         public DateTime StartTimeUtc { get; set; }
-
-        public RaceState()
-        {
-            this.Runners = new Dictionary<Guid, RaceRunner>();
-        }
 
         public void OnRaceCreated(RaceCreated ev)
         {

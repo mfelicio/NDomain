@@ -79,13 +79,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aggregates\AggregateFactoryTests.cs" />
-    <Compile Include="Aggregates\AggregateTests.cs" />
+    <Compile Include="Model\AggregateFactoryTests.cs" />
+    <Compile Include="Model\AggregateTests.cs" />
     <Compile Include="Configuration\ContextBuilderShould.cs" />
     <Compile Include="CQRS\Handlers.cs" />
     <Compile Include="CQRS\Projections\QueryEventsHandlerTests.cs" />
     <Compile Include="IoC\DefaultDependencyResolverTests.cs" />
-    <Compile Include="Aggregates\RepositoryTests.cs" />
+    <Compile Include="Model\AggregateRepositoryTests.cs" />
     <Compile Include="Bus\BusIntegrationTests.cs" />
     <Compile Include="Bus\MessageBusTests.cs" />
     <Compile Include="Model\EventSourcing\EventStoreSerializerTests.cs" />

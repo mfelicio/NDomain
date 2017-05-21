@@ -1,27 +1,27 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
+using NDomain.Model;
+using NDomain.Model.EventSourcing;
+using Newtonsoft.Json.Linq;
 
-namespace NDomain.Model.EventSourcing.Azure
+namespace NDomain.Azure.Model.EventSourcing
 {
     public class AzureEventStore : IEventStoreDb
     {
-        const string SourceRootRowKey = "root";
-        const string UncommittedPrefix = "uncommitted";
+        private const string SourceRootRowKey = "root";
+        private const string UncommittedPrefix = "uncommitted";
 
-        readonly CloudStorageAccount account;
-        readonly CloudTableClient client;
-        readonly string tableName;
+        private readonly CloudTableClient client;
+        private readonly string tableName;
 
-        volatile bool created;
+        private volatile bool created;
 
         public AzureEventStore(CloudStorageAccount account, string tableName)
         {
-            this.account = account;
             this.client = account.CreateCloudTableClient();
             this.tableName = tableName;
 
@@ -62,7 +62,8 @@ namespace NDomain.Model.EventSourcing.Azure
             await EnsureTableExists(table);
 
             var filters = Enumerable.Range(start, end - start + 1)
-                                   .Select(rowKey => TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowKey.ToString()));
+                                   .Select(rowKey => TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowKey.ToString()))
+                                   .ToList();
 
             var rowKeyFilter = filters.First();
             foreach (var filter in filters.Skip(1))
@@ -86,7 +87,7 @@ namespace NDomain.Model.EventSourcing.Azure
             var table = this.client.GetTableReference(this.tableName);
             await EnsureTableExists(table);
 
-            var uncommittedRowKey = string.Format("{0}:{1}", UncommittedPrefix, transactionId);
+            var uncommittedRowKey = $"{UncommittedPrefix}:{transactionId}";
 
             var query = new TableQuery().Where(
                                 TableQuery.CombineFilters(
@@ -100,7 +101,7 @@ namespace NDomain.Model.EventSourcing.Azure
                 return Enumerable.Empty<IAggregateEvent<JObject>>();
             }
 
-            var seqs = uncommittedLog.Properties["seqs"].StringValue.Split(',').Select(seq => int.Parse(seq));
+            var seqs = uncommittedLog.Properties["seqs"].StringValue.Split(',').Select(seq => int.Parse(seq)).ToList();
 
             return await LoadRange(eventStreamId, seqs.First(), seqs.Last());
         }
@@ -145,7 +146,7 @@ namespace NDomain.Model.EventSourcing.Azure
             var table = this.client.GetTableReference(this.tableName);
             await EnsureTableExists(table);
 
-            var uncommittedLogEntity = new TableEntity(eventStreamId, string.Format("{0}:{1}", UncommittedPrefix, transactionId));
+            var uncommittedLogEntity = new TableEntity(eventStreamId, $"{UncommittedPrefix}:{transactionId}");
             uncommittedLogEntity.ETag = "*";
             var deleteOperation = TableOperation.Delete(uncommittedLogEntity);
             
@@ -161,7 +162,7 @@ namespace NDomain.Model.EventSourcing.Azure
 
         private DynamicTableEntity CreateUncommittedLog(string sourceId, string transactionId, IEnumerable<int> sequenceIds)
         {
-            var uncommittedLogEntity = new DynamicTableEntity(sourceId, string.Format("{0}:{1}", UncommittedPrefix, transactionId));
+            var uncommittedLogEntity = new DynamicTableEntity(sourceId, $"{UncommittedPrefix}:{transactionId}");
             var seqs = string.Join(",", sequenceIds);
             uncommittedLogEntity.Properties["seqs"] = new EntityProperty(seqs);
             return uncommittedLogEntity;

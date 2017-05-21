@@ -12,8 +12,8 @@
             EventTableName = eventTableName;
         }
 
-        public string SchemaName { get; private set; }
-        public string AggregateTableName { get; private set; }
-        public string EventTableName { get; private set; }
+        public string SchemaName { get; }
+        public string AggregateTableName { get; }
+        public string EventTableName { get; }
     }
 }

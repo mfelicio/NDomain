@@ -1,28 +1,28 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Queue;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Queue;
+using NDomain.Bus;
+using NDomain.Bus.Transport;
+using Newtonsoft.Json.Linq;
 
-namespace NDomain.Bus.Transport.Azure.Queues
+namespace NDomain.Azure.Bus.Transport.Queues
 {
     public class QueueTransport : IInboundTransport, IOutboundTransport
     {
-        readonly CloudStorageAccount account;
-        readonly CloudQueueClient client;
+        private readonly CloudQueueClient client;
 
-        readonly ConcurrentDictionary<string, Lazy<Task<CloudQueue>>> queues;
+        private readonly ConcurrentDictionary<string, Lazy<Task<CloudQueue>>> queues;
 
-        readonly string queueNameFormat;
-        readonly Lazy<Task<CloudQueue>> inputQueue;
+        private readonly string queueNameFormat;
+        private readonly Lazy<Task<CloudQueue>> inputQueue;
 
         public QueueTransport(CloudStorageAccount account, string prefix, string inputQueueName)
         {
-            this.account = account;
             this.client = account.CreateCloudQueueClient();
 
             this.queues = new ConcurrentDictionary<string, Lazy<Task<CloudQueue>>>();
@@ -33,7 +33,7 @@ namespace NDomain.Bus.Transport.Azure.Queues
             }
             else
             {
-                this.queueNameFormat = string.Format("{0}-{{0}}", prefix);
+                this.queueNameFormat = $"{prefix}-{{0}}";
             }
 
             this.inputQueue = new Lazy<Task<CloudQueue>>(() => GetOrCreateQueue(inputQueueName));
@@ -59,7 +59,7 @@ namespace NDomain.Bus.Transport.Azure.Queues
             {
                 await queue.CreateIfNotExistsAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

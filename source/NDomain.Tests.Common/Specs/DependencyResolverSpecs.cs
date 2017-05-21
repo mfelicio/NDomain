@@ -21,7 +21,7 @@ namespace NDomain.Tests.Common.Specs
         {
             // arrange
             var context = DomainContext.Configure()
-                                       .IoC(ioc => ConfigureIoC(ioc))
+                                       .IoC(ConfigureIoC)
                                        .Start() as DomainContext;
 
             // act

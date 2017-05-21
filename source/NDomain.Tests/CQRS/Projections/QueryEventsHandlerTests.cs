@@ -14,7 +14,7 @@ namespace NDomain.Tests.CQRS.Projections
     [TestFixture]
     public class QueryEventsHandlerTests
     {
-        private readonly string AggregateId = "counter 1";
+        private const string AggregateId = "counter 1";
 
         private IQueryStore<CounterStats> queryStore;
         private IEventStore eventStore;
@@ -148,8 +148,8 @@ namespace NDomain.Tests.CQRS.Projections
         /// <summary>
         /// Compares counter stats against the expected values
         /// </summary>
-        /// <param name="query">query</param>
-        /// <param name="expected">string in the form of {incremented}:{multiplied}:{reseted}</param>
+        /// <param name="actual">actual</param>
+        /// <param name="expected">expected</param>
         private void AssertStats(CounterStats actual, CounterStats expected)
         {
             Assert.That(actual.NumberOfIncrements, Is.EqualTo(expected.NumberOfIncrements));
@@ -160,7 +160,7 @@ namespace NDomain.Tests.CQRS.Projections
         private CounterStats CreateStats(string statsStr)
         {
             var values = statsStr.Split(":".ToCharArray(), 3, StringSplitOptions.RemoveEmptyEntries)
-                                 .Select(v => int.Parse(v)).ToArray();
+                                 .Select(int.Parse).ToArray();
 
             return new CounterStats
             {

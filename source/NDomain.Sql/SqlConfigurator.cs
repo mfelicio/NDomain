@@ -1,7 +1,9 @@
 ﻿using NDomain.Configuration;
+using NDomain.Sql;
 using NDomain.Sql.Model.EventSourcing;
 
-namespace NDomain.Sql
+// ReSharper disable once CheckNamespace
+namespace NDomain.Configurator
 {
     public static class SqlConfigurator
     {

@@ -1,11 +1,12 @@
-﻿using StackExchange.Redis;
+﻿using NDomain.Bus.Transport;
+using StackExchange.Redis;
 
-namespace NDomain.Bus.Transport.Redis
+namespace NDomain.Redis.Bus.Transport
 {
     public class RedisTransportFactory : BrokerlessTransportFactory
     {
-        readonly ConnectionMultiplexer connection;
-        readonly string prefix;
+        private readonly ConnectionMultiplexer connection;
+        private readonly string prefix;
 
         public RedisTransportFactory(ConnectionMultiplexer connection, string prefix)
         {

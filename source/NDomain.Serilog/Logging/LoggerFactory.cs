@@ -1,7 +1,7 @@
-﻿using NDomain.Logging;
-using System;
+﻿using System;
+using NDomain.Logging;
 
-namespace NDomain.Serilog
+namespace NDomain.Serilog.Logging
 {
 	public class LoggerFactory : ILoggerFactory
 	{

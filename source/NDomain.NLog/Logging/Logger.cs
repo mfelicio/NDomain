@@ -1,14 +1,14 @@
-﻿using NDomain.Logging;
-using System;
+﻿using System;
+using NDomain.Logging;
 
-namespace NDomain.NLog
+namespace NDomain.NLog.Logging
 {
     /// <summary>
     /// NLog logger adapter
     /// </summary>
     public class Logger : ILogger
     {
-        global::NLog.Logger logger;
+        private readonly global::NLog.Logger logger;
 
         public Logger(global::NLog.Logger logger)
         {
@@ -32,7 +32,7 @@ namespace NDomain.NLog
 
         public void Warn(Exception exception, string message, params object[] args)
         {
-            this.logger.Warn(string.Format(message, args), exception);
+            this.logger.Warn(exception, message, args);
         }
 
         public void Error(string message, params object[] args)
@@ -42,7 +42,7 @@ namespace NDomain.NLog
 
         public void Error(Exception exception, string message, params object[] args)
         {
-            this.logger.Error(string.Format(message, args), exception);
+            this.logger.Error(exception, message, args);
         }
 
         public void Fatal(string message, params object[] args)
@@ -52,7 +52,7 @@ namespace NDomain.NLog
 
         public void Fatal(Exception exception, string message, params object[] args)
         {
-            this.logger.Fatal(string.Format(message, args), exception);
+            this.logger.Fatal(exception, message, args);
         }
     }
 }

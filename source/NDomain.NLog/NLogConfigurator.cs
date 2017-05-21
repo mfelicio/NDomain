@@ -1,5 +1,6 @@
-﻿using NDomain.NLog;
+﻿using NDomain.NLog.Logging;
 
+// ReSharper disable once CheckNamespace
 namespace NDomain.Configuration
 {
     /// <summary>

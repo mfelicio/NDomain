@@ -1,8 +1,8 @@
 ﻿using NDomain.Bus.Transport;
-using NDomain.Bus.Transport.Redis;
 using NUnit.Framework;
 using StackExchange.Redis;
 using System;
+using NDomain.Redis.Bus.Transport;
 using NDomain.Tests.Common.Specs;
 
 namespace NDomain.Redis.Tests.Bus.Transport
@@ -10,16 +10,16 @@ namespace NDomain.Redis.Tests.Bus.Transport
     [TestFixture(Category = "Redis")]
     public class RedisTransportTests : TransportSpecs
     {
-        static readonly string serverEndpoint = "localhost:6379";
+        private static readonly string ServerEndpoint = "localhost:6379";
 
-        ConnectionMultiplexer connection;
+        private ConnectionMultiplexer connection;
 
         [OneTimeSetUp]
         public void SetUpFixture()
         {
             var options = new ConfigurationOptions();
             options.AllowAdmin = true;
-            options.EndPoints.Add(serverEndpoint);
+            options.EndPoints.Add(ServerEndpoint);
 
             try
             {
@@ -49,7 +49,7 @@ namespace NDomain.Redis.Tests.Bus.Transport
 
         private void Clear()
         {
-            var keys = connection.GetServer(serverEndpoint)
+            var keys = connection.GetServer(ServerEndpoint)
                                  .Keys(pattern: "ndomain.redis.tests*");
 
             var redis = connection.GetDatabase();

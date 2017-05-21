@@ -1,26 +1,25 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using NDomain.CQRS.Projections;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Linq;
 
-namespace NDomain.CQRS.Projections.Azure
+namespace NDomain.Azure.CQRS.Projections
 {
     public class AzureBlobQueryStore<T> : IQueryStore<T>
     {
-        readonly CloudStorageAccount account;
-        readonly CloudBlobClient client;
-        readonly string containerName;
+        private readonly CloudBlobClient client;
+        private readonly string containerName;
 
-        volatile bool created;
+        private volatile bool created;
 
         public AzureBlobQueryStore(CloudStorageAccount account, string containerName)
         {
-            this.account = account;
             this.client = account.CreateCloudBlobClient();
             this.containerName = containerName;
 

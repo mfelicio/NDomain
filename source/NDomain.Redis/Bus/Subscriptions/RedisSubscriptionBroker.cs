@@ -1,33 +1,33 @@
-﻿using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using NDomain.Bus.Subscriptions;
+using StackExchange.Redis;
 
-namespace NDomain.Bus.Subscriptions.Redis
+namespace NDomain.Redis.Bus.Subscriptions
 {
-
     public class RedisSubscriptionBroker : ISubscriptionBroker
     {
-        readonly ConnectionMultiplexer connection;
-        readonly string subscriptionChannel;
+        private readonly ConnectionMultiplexer connection;
+        private readonly string subscriptionChannel;
 
-        readonly ConcurrentBag<Action<SubscriptionChange, Subscription>> handlers;
+        private readonly ConcurrentBag<Action<SubscriptionChange, Subscription>> handlers;
 
-        readonly Lazy<Task> initializationTask;
+        private readonly Lazy<Task> initializationTask;
 
         public RedisSubscriptionBroker(ConnectionMultiplexer connection, string prefix)
         {
             this.connection = connection;
-            this.subscriptionChannel = string.Format("{0}.subscriptions.broker", prefix);
+            this.subscriptionChannel = $"{prefix}.subscriptions.broker";
             this.handlers = new ConcurrentBag<Action<SubscriptionChange, Subscription>>();
-            this.initializationTask = new Lazy<Task>(() => this.Initialize());
+            this.initializationTask = new Lazy<Task>(this.Initialize);
         }
 
         public async Task NotifyChange(SubscriptionChange changeType, Subscription subscription)
         {
             var redis = this.connection.GetDatabase();
 
-            var message = string.Format("{0}|{1}", (int)changeType, subscription.Id);
+            var message = $"{(int) changeType}|{subscription.Id}";
             await redis.PublishAsync(this.subscriptionChannel, message);
         }
 
@@ -46,7 +46,7 @@ namespace NDomain.Bus.Subscriptions.Redis
             await subscriber.SubscribeAsync(this.subscriptionChannel, (channel, message) => OnSubscriptionChanged(message));
         }
 
-        static readonly char[] Separator = new char[] { '|' };
+        private static readonly char[] Separator = new char[] { '|' };
         private void OnSubscriptionChanged(string message)
         {
             var parts = message.Split(Separator, 2);

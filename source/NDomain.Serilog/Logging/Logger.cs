@@ -1,11 +1,11 @@
-﻿using NDomain.Logging;
-using System;
+﻿using System;
+using NDomain.Logging;
 
-namespace NDomain.Serilog
+namespace NDomain.Serilog.Logging
 {
 	public class Logger : ILogger
 	{
-		global::Serilog.ILogger logger;
+		private global::Serilog.ILogger logger;
 
 		public Logger(global::Serilog.ILogger logger)
 		{

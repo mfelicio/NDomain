@@ -1,14 +1,16 @@
-﻿using StackExchange.Redis;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NDomain.Bus.Subscriptions;
+using StackExchange.Redis;
+#pragma warning disable 4014
 
-namespace NDomain.Bus.Subscriptions.Redis
+namespace NDomain.Redis.Bus.Subscriptions
 {
     public class RedisSubscriptionStore : ISubscriptionStore
     {
-        readonly ConnectionMultiplexer connection;
-        readonly string storeKeyPrefix;
+        private readonly ConnectionMultiplexer connection;
+        private readonly string storeKeyPrefix;
 
         public RedisSubscriptionStore(ConnectionMultiplexer connection, string storeKeyPrefix)
         {
@@ -99,22 +101,22 @@ namespace NDomain.Bus.Subscriptions.Redis
 
         private string GetSubscriptionKey(Subscription subscription)
         {
-            return string.Format("{0}.subscriptions.{1}", this.storeKeyPrefix, subscription.Id);
+            return $"{this.storeKeyPrefix}.subscriptions.{subscription.Id}";
         }
 
         private string GetTopicKey(string topic)
         {
-            return string.Format("{0}.subscriptions.topic.{1}", this.storeKeyPrefix, topic);
+            return $"{this.storeKeyPrefix}.subscriptions.topic.{topic}";
         }
 
         private string GetEndpointKey(string endpoint)
         {
-            return string.Format("{0}.subscriptions.endpoint.{1}", this.storeKeyPrefix, endpoint);
+            return $"{this.storeKeyPrefix}.subscriptions.endpoint.{endpoint}";
         }
 
         private string GetAllSubscriptionsKey()
         {
-            return string.Format("{0}.subscriptions", this.storeKeyPrefix);
+            return $"{this.storeKeyPrefix}.subscriptions";
         }
     }
 }

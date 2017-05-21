@@ -1,7 +1,7 @@
-﻿using NDomain.Logging;
-using System;
+﻿using System;
+using NDomain.Logging;
 
-namespace NDomain.NLog
+namespace NDomain.NLog.Logging
 {
     /// <summary>
     /// ILoggerFactory based on NLog

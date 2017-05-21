@@ -1,7 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage;
-using NDomain.Model.EventSourcing.Azure;
-using NDomain.Bus.Transport.Azure.Queues;
+using NDomain.Azure.Bus.Transport.Queues;
+using NDomain.Azure.Model.EventSourcing;
 
+// ReSharper disable once CheckNamespace
 namespace NDomain.Configuration
 {
     public static class AzureConfigurator

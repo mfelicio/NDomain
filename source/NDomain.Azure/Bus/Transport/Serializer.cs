@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json.Bson;
+﻿using System.IO;
+using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
-using System.IO;
 
-namespace NDomain.Bus.Transport.Azure
+namespace NDomain.Azure.Bus.Transport
 {
     internal class Serializer
     {
