@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NDomain.Model.EventSourcing;
+﻿using NDomain.Model.EventSourcing;
 using NUnit.Framework;
 using System.Data.SqlClient;
 using NDomain.Sql.Model.EventSourcing;

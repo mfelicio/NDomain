@@ -6,7 +6,6 @@ using NDomain.Bus;
 using NDomain.Bus.Subscriptions;
 using NDomain.CQRS;
 using NDomain.Model.EventSourcing;
-using NDomain.Model;
 using NDomain.Model.Snapshot;
 
 namespace NDomain.Configuration
@@ -24,10 +23,10 @@ namespace NDomain.Configuration
             this.IoCConfigurator = new IoCConfigurator(this);
         }
 
-        internal ModelConfigurator EventSourcingConfigurator { get; private set; }
-        internal BusConfigurator BusConfigurator { get; private set; }
-        internal LoggingConfigurator LoggingConfigurator { get; private set; }
-        internal IoCConfigurator IoCConfigurator { get; private set; }
+        internal ModelConfigurator EventSourcingConfigurator { get; }
+        internal BusConfigurator BusConfigurator { get; }
+        internal LoggingConfigurator LoggingConfigurator { get; }
+        internal IoCConfigurator IoCConfigurator { get; }
 
         // using Lazy's to avoid managing dependencies between configurators and to ensure no circular references exist
         internal Lazy<IEventStore> EventStore { get; set; }

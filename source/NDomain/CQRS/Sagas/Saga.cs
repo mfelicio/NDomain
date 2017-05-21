@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NDomain.CQRS.Sagas
 {
     public class Saga<T>
     {
-        readonly string id;
-        readonly T state;
-
         readonly List<ICommand> commands;
 
         public Saga(string id, T state)
         {
-            this.id = id;
-            this.state = state;
+            this.Id = id;
+            this.State = state;
             this.commands = new List<ICommand>();
         }
 
-        public string Id { get { return this.id; } }
-        public T State { get { return this.state; } }
+        public string Id { get; }
+        public T State { get; }
 
+        internal IEnumerable<ICommand> Commands => this.commands;
         internal bool Completed { get; private set; }
-        internal IEnumerable<ICommand> Commands { get { return this.commands; } }
 
         public void Send(ICommand command)
         {

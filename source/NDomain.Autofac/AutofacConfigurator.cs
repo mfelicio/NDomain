@@ -1,14 +1,6 @@
 ﻿using Autofac;
-using Autofac.Core;
 using NDomain.Autofac;
-using NDomain.Configuration;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.Configuration
 {

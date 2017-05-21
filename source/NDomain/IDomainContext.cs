@@ -1,13 +1,6 @@
 ﻿using NDomain.CQRS;
-using NDomain.IoC;
-using NDomain.Logging;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NDomain.Bus
 {
@@ -12,7 +7,7 @@ namespace NDomain.Bus
     /// </summary>
     public class Message
     {
-        static readonly IReadOnlyDictionary<string, string> EmptyHeaders = new Dictionary<string, string>();
+        private static readonly IReadOnlyDictionary<string, string> EmptyHeaders = new Dictionary<string, string>();
 
         public Message(object payload, string name, Dictionary<string, string> headers = null)
         {
@@ -21,8 +16,8 @@ namespace NDomain.Bus
             this.Headers = headers ?? EmptyHeaders;
         }
 
-        public object Payload { get; private set; }
-        public string Name { get; private set; }
-        public IReadOnlyDictionary<string, string> Headers { get; private set; }
+        public object Payload { get; }
+        public string Name { get; }
+        public IReadOnlyDictionary<string, string> Headers { get; }
     }
 }

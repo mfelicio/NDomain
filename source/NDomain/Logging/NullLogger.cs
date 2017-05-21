@@ -1,58 +1,51 @@
-﻿using NDomain.Logging;
-using System;
+﻿using System;
 
-namespace NDomain.NLog
+namespace NDomain.Logging
 {
-    /// <summary>
-    /// NLog logger adapter
-    /// </summary>
-    public class Logger : ILogger
+    internal class NullLogger : ILogger
     {
-        global::NLog.Logger logger;
+        public static readonly NullLogger Instance = new NullLogger();
 
-        public Logger(global::NLog.Logger logger)
-        {
-            this.logger = logger;
-        }
+        private NullLogger() { }
 
         public void Debug(string message, params object[] args)
         {
-            this.logger.Debug(message, args);
+            
         }
 
         public void Info(string message, params object[] args)
         {
-            this.logger.Info(message, args);
+            
         }
 
         public void Warn(string message, params object[] args)
         {
-            this.logger.Warn(message, args);
+            
         }
 
         public void Warn(Exception exception, string message, params object[] args)
         {
-            this.logger.Warn(string.Format(message, args), exception);
+            
         }
 
         public void Error(string message, params object[] args)
         {
-            this.logger.Error(message, args);
+            
         }
 
         public void Error(Exception exception, string message, params object[] args)
         {
-            this.logger.Error(string.Format(message, args), exception);
+            
         }
 
         public void Fatal(string message, params object[] args)
         {
-            this.logger.Fatal(message, args);
+            
         }
 
         public void Fatal(Exception exception, string message, params object[] args)
         {
-            this.logger.Fatal(string.Format(message, args), exception);
+            
         }
     }
 }

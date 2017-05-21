@@ -1,18 +1,9 @@
 ﻿using NDomain.Configuration;
 using NDomain.IoC;
-using NDomain.Logging;
-using NDomain.Bus.Transport;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using NDomain.Bus;
 using NDomain.CQRS;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
-using NDomain.Model.Snapshot;
 
 namespace NDomain
 {
@@ -21,10 +12,7 @@ namespace NDomain
     /// </summary>
     public class DomainContext : IDomainContext
     {
-        readonly IEventBus eventBus;
-        readonly ICommandBus commandBus;
-        readonly IEnumerable<IProcessor> processors;
-        readonly IDependencyResolver resolver;
+        private readonly IEnumerable<IProcessor> processors;
 
 
         public DomainContext(IEventBus eventBus,
@@ -32,20 +20,20 @@ namespace NDomain
                              IEnumerable<IProcessor> processors,
                              IDependencyResolver resolver)
         {
-            this.eventBus = eventBus;
-            this.commandBus = commandBus;
+            this.EventBus = eventBus;
+            this.CommandBus = commandBus;
             this.processors = processors;
-            this.resolver = resolver;
+            this.Resolver = resolver;
         }
 
-        public IEventBus EventBus { get { return this.eventBus; } }
-        public ICommandBus CommandBus { get { return this.commandBus; } }
-        public IDependencyResolver Resolver { get { return this.resolver; } }
-        
+        public IEventBus EventBus { get; }
+        public ICommandBus CommandBus { get; }
+        public IDependencyResolver Resolver { get; }
+
         public IAggregateRepository<T> GetRepository<T>()
             where T: IAggregate
         {
-            return this.resolver.Resolve<IAggregateRepository<T>>();
+            return this.Resolver.Resolve<IAggregateRepository<T>>();
         }
 
         public void StartProcessors()

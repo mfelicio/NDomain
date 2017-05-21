@@ -1,4 +1,6 @@
-﻿namespace NDomain.Tests.Common.Sample
+﻿using NDomain.Model;
+
+namespace NDomain.Tests.Common.Sample
 {
     public class StateOnlyAggregate : Aggregate<CounterState>
     {

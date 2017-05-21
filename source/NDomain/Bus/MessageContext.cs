@@ -1,10 +1,5 @@
 ﻿using NDomain.IoC;
 using NDomain.Bus.Transport;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.Bus
 {
@@ -22,12 +17,12 @@ namespace NDomain.Bus
         /// <summary>
         /// Gets the original TransportMessage
         /// </summary>
-        public TransportMessage Message { get; private set; }
+        public TransportMessage Message { get; }
 
         /// <summary>
         /// Gets the IDependencyResolver.
         /// </summary>
         /// <remarks>This is useful to resolve custom message handlers</remarks>
-        public IDependencyResolver Resolver { get; private set; }
+        public IDependencyResolver Resolver { get; }
     }
 }

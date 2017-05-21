@@ -1,11 +1,7 @@
-﻿using NDomain.Bus;
-using NDomain.IoC;
-using NDomain.Bus.Transport;
+﻿using NDomain.Bus.Transport;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using NDomain.Model;
 
 namespace NDomain.CQRS.Handlers
 {

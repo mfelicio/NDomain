@@ -1,14 +1,11 @@
-﻿using NDomain.Configuration;
-using NDomain.Bus;
+﻿using NDomain.Bus;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using NDomain.CQRS;
 using NDomain.CQRS.Handlers;
 using NDomain.Helpers;
+using NDomain.Model;
 
 namespace NDomain.Configuration
 {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Bus
@@ -12,7 +9,7 @@ namespace NDomain.Bus
     /// <typeparam name="TMessage">Type of the message to handle</typeparam>
     public class MessageHandler<TMessage> : IMessageHandler
     {
-        readonly Func<TMessage, Task> handlerFunc;
+        private readonly Func<TMessage, Task> handlerFunc;
 
         public MessageHandler(Func<TMessage, Task> handlerFunc)
         {

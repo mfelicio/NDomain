@@ -1,9 +1,4 @@
-﻿using NDomain.Bus.Transport;
-using Microsoft.WindowsAzure.Storage.Queue;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace NDomain.Bus.Transport.Azure.Queues

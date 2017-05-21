@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NDomain.Logging;
@@ -18,18 +13,18 @@ namespace NDomain.Bus
     /// </summary>
     public class MessageWorker : IDisposable
     {
-        readonly IMessageDispatcher messageDispatcher;
-        readonly IInboundTransport receiver;
-        readonly ILogger logger;
+        private readonly IMessageDispatcher messageDispatcher;
+        private readonly IInboundTransport receiver;
+        private readonly ILogger logger;
 
-        readonly CancellationTokenSource cancellation;
-        readonly int concurrencyLevel;
+        private readonly CancellationTokenSource cancellation;
+        private readonly int concurrencyLevel;
 
-        readonly ManualResetEventSlim workWaitHandle;
+        private readonly ManualResetEventSlim runningWaitHandle;
+        private readonly ManualResetEventSlim workWaitHandle;
+        private readonly Task workerTask;
+
         long workCount;
-
-        readonly Task workerTask;
-        readonly ManualResetEventSlim runningWaitHandle;
 
         public MessageWorker(IInboundTransport receiver,
                              IMessageDispatcher messageDispatcher,
@@ -42,10 +37,10 @@ namespace NDomain.Bus
             this.cancellation = new CancellationTokenSource();
             this.concurrencyLevel = concurrencyLevel;
 
-            this.workWaitHandle = new ManualResetEventSlim(true);
-            this.workCount = 0;
-
             this.runningWaitHandle = new ManualResetEventSlim(false);
+            this.workWaitHandle = new ManualResetEventSlim(true);
+
+            this.workCount = 0;
             this.workerTask = Task.Factory.StartNew(async () => await this.Work(), TaskCreationOptions.LongRunning);
         }
 

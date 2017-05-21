@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions
@@ -12,11 +10,11 @@ namespace NDomain.Bus.Subscriptions
     /// </summary>
     public class SubscriptionManager : ISubscriptionManager
     {
-        readonly ISubscriptionStore store;
-        readonly ISubscriptionBroker broker;
-        readonly Dictionary<string, SubscriptionSet> cache;
-        readonly object cacheLock;
-        readonly Lazy<Task> initializationTask;
+        private readonly ISubscriptionStore store;
+        private readonly ISubscriptionBroker broker;
+        private readonly Dictionary<string, SubscriptionSet> cache;
+        private readonly object cacheLock;
+        private readonly Lazy<Task> initializationTask;
 
         public SubscriptionManager(ISubscriptionStore store, ISubscriptionBroker broker)
         {
@@ -24,7 +22,7 @@ namespace NDomain.Bus.Subscriptions
             this.broker = broker;
             this.cache = new Dictionary<string, SubscriptionSet>();
             this.cacheLock = new object();
-            this.initializationTask = new Lazy<Task>(() => Initialize());
+            this.initializationTask = new Lazy<Task>(Initialize);
         }
 
         public async Task<IEnumerable<Subscription>> GetSubscriptions(string topic)

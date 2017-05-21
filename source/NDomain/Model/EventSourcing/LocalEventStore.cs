@@ -1,30 +1,14 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Model.EventSourcing
 {
-    class StoredEvent
-    {
-        public StoredEvent(IAggregateEvent<JObject> source, string transactionId, bool committed)
-        {
-            this.Source = source;
-            this.TransactionId = transactionId;
-            this.Committed = committed;
-        }
-
-        public IAggregateEvent<JObject> Source { get; private set; }
-        public string TransactionId { get; private set; }
-        public bool Committed { get; set; }
-    }
-
     public class LocalEventStore : IEventStoreDb
     {
-        readonly ConcurrentDictionary<string, List<StoredEvent>> eventStreams;
+        private readonly ConcurrentDictionary<string, List<StoredEvent>> eventStreams;
 
         public LocalEventStore()
         {
@@ -118,6 +102,20 @@ namespace NDomain.Model.EventSourcing
             }
 
             return Task.FromResult(true);
+        }
+
+        class StoredEvent
+        {
+            public StoredEvent(IAggregateEvent<JObject> source, string transactionId, bool committed)
+            {
+                this.Source = source;
+                this.TransactionId = transactionId;
+                this.Committed = committed;
+            }
+
+            public IAggregateEvent<JObject> Source { get; }
+            public string TransactionId { get; }
+            public bool Committed { get; set; }
         }
     }
 }

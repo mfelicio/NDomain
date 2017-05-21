@@ -4,9 +4,6 @@ using NDomain.Model.EventSourcing;
 using NDomain.Model.Snapshot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.Configuration
 {
@@ -20,6 +17,16 @@ namespace NDomain.Configuration
         private IEventStoreDb eventStoreDb;
         private ISnapshotStore snapshotStore;
 
+        public ModelConfigurator(ContextBuilder builder)
+            : base(builder)
+        {
+            this.aggregateTypes = new HashSet<Type>();
+
+            builder.Configuring += this.OnConfiguring;
+        }
+
+        public IEventStoreDb EventStoreDb { get; set; }
+        
         /// <summary>
         /// Gets or sets the IEventStoreDb to be used. 
         /// Eg: Azure tables, SqlServer, RavenDb, etc.
@@ -39,16 +46,6 @@ namespace NDomain.Configuration
         {
             this.snapshotStore = snapshotStore;
             return this;
-        }
-
-        public IEventStoreDb EventStoreDb { get; set; }
-
-        public ModelConfigurator(ContextBuilder builder)
-            : base(builder)
-        {
-            this.aggregateTypes = new HashSet<Type>();
-
-            builder.Configuring += this.OnConfiguring;
         }
 
         /// <summary>

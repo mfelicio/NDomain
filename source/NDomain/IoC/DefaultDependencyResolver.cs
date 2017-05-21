@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.IoC
 {
@@ -11,8 +9,8 @@ namespace NDomain.IoC
     /// </summary>
     public class DefaultDependencyResolver : IDependencyScope
     {
-        readonly Dictionary<Type, object> knownInstances;
-        readonly Dictionary<Type, Type> knownGenericTypeDefs;
+        private readonly Dictionary<Type, object> knownInstances;
+        private readonly Dictionary<Type, Type> knownGenericTypeDefs;
 
         public DefaultDependencyResolver()
         {
@@ -46,12 +44,12 @@ namespace NDomain.IoC
         {
             if (!mapFrom.IsGenericTypeDefinition)
             {
-                throw new ArgumentException("Should be generic type definitions", "mapFrom");
+                throw new ArgumentException("Should be generic type definitions", nameof(mapFrom));
             }
 
             if (!mapTo.IsGenericTypeDefinition)
             {
-                throw new ArgumentException("Should be generic type definitions", "mapTo");
+                throw new ArgumentException("Should be generic type definitions", nameof(mapTo));
             }
 
             this.knownGenericTypeDefs.Add(mapFrom, mapTo);
@@ -106,7 +104,8 @@ namespace NDomain.IoC
                 }
             }
 
-            throw new Exception(string.Format("DefaultDependencyResolver cannot resolve dependency {0} when activating type {1}", dependency, service));
+            throw new Exception(
+                $"DefaultDependencyResolver cannot resolve dependency {dependency} when activating type {service}");
         }
 
         private object ResolveParameter(Type mapFrom, Type mapTo)

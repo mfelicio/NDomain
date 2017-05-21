@@ -1,11 +1,10 @@
 ﻿using NDomain.Bus;
 using NDomain.Model.EventSourcing;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using NDomain.Model;
 
 namespace NDomain.CQRS
 {
@@ -14,7 +13,7 @@ namespace NDomain.CQRS
     /// </summary>
     public class EventBus : IEventBus, IEventStoreBus
     {
-        readonly IMessageBus messageBus;
+        private readonly IMessageBus messageBus;
 
         public EventBus(IMessageBus messageBus)
         {
@@ -29,7 +28,7 @@ namespace NDomain.CQRS
 
         public Task Publish(IEnumerable<IEvent> events)
         {
-            var messages = events.Select(e => BuildMessage(e)).ToArray();
+            var messages = events.Select(BuildMessage).ToArray();
             return this.messageBus.Send(messages);
         }
 
@@ -41,7 +40,7 @@ namespace NDomain.CQRS
 
         public Task Publish(IEnumerable<IAggregateEvent<JObject>> events)
         {
-            var messages = events.Select(e => BuildMessage(e)).ToArray();
+            var messages = events.Select(BuildMessage).ToArray();
             return this.messageBus.Send(messages);
         }
 

@@ -1,8 +1,5 @@
 ﻿using NDomain.Model.Snapshot;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Model
@@ -19,12 +16,12 @@ namespace NDomain.Model
         /// Factory object that can create new aggregates of <typeparamref name="T"/>. 
         /// This is stateless and costly to instantiate, so it's static and reused.
         /// </summary>
-        static readonly IAggregateFactory<T> Factory = AggregateFactory.For<T>();
+        private static readonly IAggregateFactory<T> Factory = AggregateFactory.For<T>();
 
         /// <summary>
         /// The snapshot store where aggregate state is persisted
         /// </summary>
-        readonly ISnapshotStore snapshotStore;
+        private readonly ISnapshotStore snapshotStore;
 
         public SnapshotRepository(ISnapshotStore snapshotStore)
         {

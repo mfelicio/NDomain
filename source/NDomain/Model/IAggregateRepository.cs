@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace NDomain
+namespace NDomain.Model
 {
     /// <summary>
     /// Represents a higher level persistence abstraction for aggregates and implements the repository pattern

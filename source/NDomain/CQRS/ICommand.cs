@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NDomain.CQRS
+﻿namespace NDomain.CQRS
 {
     /// <summary>
     /// Represents a command message

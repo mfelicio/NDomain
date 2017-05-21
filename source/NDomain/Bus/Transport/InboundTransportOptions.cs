@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NDomain.Bus.Transport
+﻿namespace NDomain.Bus.Transport
 {
     public class InboundTransportOptions
     {
@@ -22,9 +16,9 @@ namespace NDomain.Bus.Transport
             this.DeadLeterMessages = deadLetterMessages;
         }
 
-        public string Endpoint { get; private set; }
-        public int MaxDeliveryCount { get; private set; }
-        public bool DeadLeterMessages { get; private set; }
+        public string Endpoint { get; }
+        public int MaxDeliveryCount { get; }
+        public bool DeadLeterMessages { get; }
 
         public string GetDeadLetterEndpoint()
         {

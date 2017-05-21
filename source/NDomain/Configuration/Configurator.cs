@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NDomain.Configuration
+﻿namespace NDomain.Configuration
 {
     /// <summary>
     /// Base class for all configurators. Provides access to the ContextBuilder
@@ -19,6 +13,6 @@ namespace NDomain.Configuration
         /// <summary>
         /// ContextBuilder that contains the state of the build configurators used to build the current DomainContext
         /// </summary>
-        public ContextBuilder Builder { get; private set; }
+        public ContextBuilder Builder { get; }
     }
 }

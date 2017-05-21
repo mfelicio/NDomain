@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NDomain
+namespace NDomain.Model
 {
     /// <summary>
     /// Aggregate event with generic payloads
@@ -12,20 +8,13 @@ namespace NDomain
     /// <typeparam name="T"></typeparam>
     public class AggregateEvent<T> : IAggregateEvent<T>
     {
-        readonly string aggregateId;
-        readonly int sequenceId;
-        readonly DateTime dateUtc;
-        readonly string name;
-        readonly T payload;
-
         public AggregateEvent(string aggregateId, int sequenceId, DateTime dateUtc, string name, T payload)
         {
-            this.aggregateId = aggregateId;
-            this.sequenceId = sequenceId;
-
-            this.dateUtc = dateUtc;
-            this.name = name;
-            this.payload = payload;
+            this.AggregateId = aggregateId;
+            this.SequenceId = sequenceId;
+            this.DateUtc = dateUtc;
+            this.Name = name;
+            this.Payload = payload;
         }
 
         public AggregateEvent(string aggregateId, int sequenceId, DateTime dateUtc, T payload)
@@ -34,17 +23,12 @@ namespace NDomain
 
         }
 
-        public string AggregateId { get { return this.aggregateId; } }
-        public int SequenceId { get { return this.sequenceId; } }
+        public string AggregateId { get; }
+        public int SequenceId { get; }
+        public DateTime DateUtc { get; }
+        public string Name { get; }
+        public T Payload { get; }
 
-        public DateTime DateUtc { get { return this.dateUtc; } }
-        public string Name { get { return this.name; } }
-        public T Payload { get { return this.payload; } }
-
-        object IAggregateEvent.Payload
-        {
-            get { return this.payload; }
-        }
-
+        object IAggregateEvent.Payload => this.Payload;
     }
 }

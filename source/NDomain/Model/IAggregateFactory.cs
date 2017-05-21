@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NDomain
+﻿namespace NDomain.Model
 {
     /// <summary>
     /// Factory that creates aggregates from previous state, from event streams or simply new aggregates

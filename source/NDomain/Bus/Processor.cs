@@ -4,8 +4,6 @@ using NDomain.Bus.Transport;
 using NDomain.Bus.Subscriptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Bus
@@ -13,14 +11,14 @@ namespace NDomain.Bus
     public class Processor : IProcessor,
                              IMessageDispatcher
     {
-        readonly InboundTransportOptions options;
-        readonly MessageWorker worker;
-        readonly ISubscriptionManager subscriptionManager;
-        readonly IDependencyResolver resolver;
+        private readonly InboundTransportOptions options;
+        private readonly MessageWorker worker;
+        private readonly ISubscriptionManager subscriptionManager;
+        private readonly IDependencyResolver resolver;
 
-        readonly HashSet<Subscription> subscriptions;
+        private readonly HashSet<Subscription> subscriptions;
         //<messageName, <handlerName, handler>>
-        readonly Dictionary<string, Dictionary<string, IMessageHandler>> registry;
+        private readonly Dictionary<string, Dictionary<string, IMessageHandler>> registry;
 
         public Processor(InboundTransportOptions options,
                          int concurrencyLevel,
@@ -120,10 +118,7 @@ namespace NDomain.Bus
             this.worker.Stop();
         }
 
-        public bool IsRunning
-        {
-            get { return this.worker.IsRunning; }
-        }
+        public bool IsRunning => this.worker.IsRunning;
 
         public void Dispose()
         {

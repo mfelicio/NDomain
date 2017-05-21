@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +12,7 @@ namespace NDomain.Bus.Transport
     public class LocalTransportFactory : BrokerlessTransportFactory
     {
         // shared bus, for all local clients
-        readonly LocalBus bus;
+        private readonly LocalBus bus;
 
         public LocalTransportFactory()
         {
@@ -36,7 +34,7 @@ namespace NDomain.Bus.Transport
 
     class LocalBus
     {
-        readonly ConcurrentDictionary<string, BlockingCollection<LocalMessage>> bus;
+        private readonly ConcurrentDictionary<string, BlockingCollection<LocalMessage>> bus;
 
         public LocalBus()
         {
@@ -54,7 +52,7 @@ namespace NDomain.Bus.Transport
 
     class LocalInboundTransport : IInboundTransport
     {
-        readonly BlockingCollection<LocalMessage> queue;
+        private readonly BlockingCollection<LocalMessage> queue;
 
         public LocalInboundTransport(BlockingCollection<LocalMessage> queue)
         {
@@ -86,7 +84,7 @@ namespace NDomain.Bus.Transport
 
     class LocalOutboundTransport : IOutboundTransport
     {
-        readonly LocalBus bus;
+        private readonly LocalBus bus;
 
         public LocalOutboundTransport(LocalBus bus)
         {
@@ -117,16 +115,15 @@ namespace NDomain.Bus.Transport
 
     class LocalMessage
     {
-        readonly TransportMessage message;
         int deliveryCount;
 
         public LocalMessage(TransportMessage message)
         {
-            this.message = message;
+            this.Message = message;
             this.deliveryCount = 1;
         }
 
-        public TransportMessage Message { get { return this.message; } }
+        public TransportMessage Message { get; }
         public int DeliveryCount { get { return Thread.VolatileRead(ref deliveryCount); } }
 
         public void Failed()
@@ -137,10 +134,10 @@ namespace NDomain.Bus.Transport
 
     class LocalMessageTransaction : IMessageTransaction
     {
-        readonly Action onCommit;
-        readonly Action onFail;
+        private readonly Action onCommit;
+        private readonly Action onFail;
 
-        readonly LocalMessage localMsg;
+        private readonly LocalMessage localMsg;
 
         public LocalMessageTransaction(LocalMessage message, Action onCommit, Action onFail)
         {
@@ -150,8 +147,8 @@ namespace NDomain.Bus.Transport
             this.onFail = onFail;
         }
 
-        public TransportMessage Message { get { return this.localMsg.Message; } }
-        public int DeliveryCount { get { return this.localMsg.DeliveryCount; } }
+        public TransportMessage Message => this.localMsg.Message;
+        public int DeliveryCount => this.localMsg.DeliveryCount;
 
         public Task Commit()
         {

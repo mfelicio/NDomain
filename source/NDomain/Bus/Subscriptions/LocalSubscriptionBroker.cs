@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions
@@ -12,7 +9,7 @@ namespace NDomain.Bus.Subscriptions
     /// </summary>
     public class LocalSubscriptionBroker : ISubscriptionBroker
     {
-        readonly ConcurrentBag<Action<SubscriptionChange, Subscription>> handlers;
+        private readonly ConcurrentBag<Action<SubscriptionChange, Subscription>> handlers;
 
         public LocalSubscriptionBroker()
         {

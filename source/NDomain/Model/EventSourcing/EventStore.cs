@@ -1,17 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Model.EventSourcing
 {
     public class EventStore : IEventStore
     {
-        readonly IEventStoreDb db;
-        readonly IEventStoreBus bus;
-        readonly IEventStoreSerializer serializer;
+        private readonly IEventStoreDb db;
+        private readonly IEventStoreBus bus;
+        private readonly IEventStoreSerializer serializer;
 
         public EventStore(IEventStoreDb db, 
                           IEventStoreBus bus,

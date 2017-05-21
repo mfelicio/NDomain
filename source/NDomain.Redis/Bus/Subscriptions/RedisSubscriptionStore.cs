@@ -1,9 +1,6 @@
-﻿using NDomain.Bus.Subscriptions;
-using StackExchange.Redis;
-using System;
+﻿using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions.Redis

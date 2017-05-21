@@ -2,9 +2,8 @@
 using NDomain.Model.EventSourcing;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using NDomain.Model;
 
 namespace NDomain.CQRS.Projections
 {
@@ -19,12 +18,11 @@ namespace NDomain.CQRS.Projections
     public abstract class QueryEventsHandler<T>
         where T : new()
     {
-        static readonly TimeSpan WaitForPreviousVersionTimeout = TimeSpan.FromSeconds(1);
+        private static readonly TimeSpan WaitForPreviousVersionTimeout = TimeSpan.FromSeconds(1);
 
-        readonly Dictionary<string, Action<T, IAggregateEvent>> handlers;
-
-        readonly IQueryStore<T> queryStore;
-        readonly IEventStore eventStore;
+        private readonly Dictionary<string, Action<T, IAggregateEvent>> handlers;
+        private readonly IQueryStore<T> queryStore;
+        private readonly IEventStore eventStore;
 
 
         protected QueryEventsHandler(IQueryStore<T> queryStore, IEventStore eventStore)
@@ -91,7 +89,5 @@ namespace NDomain.CQRS.Projections
 
             await this.queryStore.Set(queryId, query);
         }
-
-
     }
 }

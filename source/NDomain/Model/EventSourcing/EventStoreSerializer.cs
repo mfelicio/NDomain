@@ -3,15 +3,13 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.Model.EventSourcing
 {
     public class EventStoreSerializer : IEventStoreSerializer
     {
-        readonly Dictionary<string, Func<IAggregateEvent, IAggregateEvent<JObject>>> serializers;
-        readonly Dictionary<string, Func<IAggregateEvent<JObject>, IAggregateEvent>> deserializers;
+        private readonly Dictionary<string, Func<IAggregateEvent, IAggregateEvent<JObject>>> serializers;
+        private readonly Dictionary<string, Func<IAggregateEvent<JObject>, IAggregateEvent>> deserializers;
 
         public EventStoreSerializer(IEnumerable<Type> knownEventTypes)
         {

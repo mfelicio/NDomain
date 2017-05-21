@@ -1,9 +1,5 @@
 ﻿using NDomain.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.Configuration
 {
@@ -12,16 +8,16 @@ namespace NDomain.Configuration
     /// </summary>
     public class LoggingConfigurator : Configurator
     {
-        /// <summary>
-        /// Gets or sets the logger factory
-        /// </summary>
-        public ILoggerFactory LoggerFactory { get; set; }
-
         public LoggingConfigurator(ContextBuilder builder)
             : base(builder)
         {
             builder.Configuring += this.OnConfiguring;
         }
+
+        /// <summary>
+        /// Gets or sets the logger factory
+        /// </summary>
+        public ILoggerFactory LoggerFactory { get; set; }
 
         private void OnConfiguring(ContextBuilder builder)
         {

@@ -1,8 +1,5 @@
 ﻿using NDomain.Bus;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.CQRS
@@ -12,7 +9,7 @@ namespace NDomain.CQRS
     /// </summary>
     public class CommandBus : ICommandBus
     {
-        readonly IMessageBus messageBus;
+        private readonly IMessageBus messageBus;
 
         public CommandBus(IMessageBus messageBus)
         {
@@ -35,7 +32,7 @@ namespace NDomain.CQRS
         {
             var headers = new Dictionary<string, string>
             {
-                { Bus.MessageHeaders.Id, command.Id },
+                { MessageHeaders.Id, command.Id },
             };
 
             var message = new Message(command.Payload, command.Name, headers);

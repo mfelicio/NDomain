@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NDomain.Model;
 
 namespace NDomain
 {
@@ -17,7 +13,7 @@ namespace NDomain
     /// </summary>
     public abstract class State : IState
     {
-        readonly IStateMutator mutator;
+        private readonly IStateMutator mutator;
 
         public State()
         {

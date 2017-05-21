@@ -1,11 +1,9 @@
-﻿using NDomain.Model;
-using NDomain.Model.EventSourcing;
-using System.Threading.Tasks;
+﻿using System;
 using System.Linq;
-using NDomain.Model.Snapshot;
-using System;
+using System.Threading.Tasks;
+using NDomain.Model.EventSourcing;
 
-namespace NDomain
+namespace NDomain.Model
 {
     /// <summary>
     /// Repository pattern implementation using an EventStore to persist and retrieve aggregates.
@@ -19,12 +17,12 @@ namespace NDomain
         /// Factory object that can create new aggregates of <typeparamref name="T"/>. 
         /// This is stateless and costly to instantiate, so it's static and reused.
         /// </summary>
-        static readonly IAggregateFactory<T> Factory = AggregateFactory.For<T>();
+        private static readonly IAggregateFactory<T> Factory = AggregateFactory.For<T>();
 
         /// <summary>
         /// The event store where aggregate events are persisted.
         /// </summary>
-        readonly IEventStore eventStore;
+        private readonly IEventStore eventStore;
 
         public EventSourcedRepository(IEventStore eventStore)
         {

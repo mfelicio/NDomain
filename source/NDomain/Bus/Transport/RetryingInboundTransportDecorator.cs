@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Bus.Transport
 {
     public class RetryingInboundTransportDecorator : IInboundTransport
     {
-        readonly IInboundTransport inbound;
-        readonly IOutboundTransport outbound;
-        readonly InboundTransportOptions options;
+        private readonly IInboundTransport inbound;
+        private readonly IOutboundTransport outbound;
+        private readonly InboundTransportOptions options;
 
         public RetryingInboundTransportDecorator(
             IInboundTransport inbound,
@@ -47,9 +44,9 @@ namespace NDomain.Bus.Transport
 
         class MessageTransactionDecorator : IMessageTransaction
         {
-            readonly IMessageTransaction source;
-            readonly IOutboundTransport outbound;
-            readonly InboundTransportOptions options;
+            private readonly IMessageTransaction source;
+            private readonly IOutboundTransport outbound;
+            private readonly InboundTransportOptions options;
 
             public MessageTransactionDecorator(
                 IMessageTransaction source,
@@ -61,15 +58,9 @@ namespace NDomain.Bus.Transport
                 this.options = options;
             }
 
-            public TransportMessage Message
-            {
-                get { return this.source.Message; }
-            }
+            public TransportMessage Message => this.source.Message;
 
-            public int DeliveryCount
-            {
-                get { return this.source.DeliveryCount; }
-            }
+            public int DeliveryCount => this.source.DeliveryCount;
 
             public Task Commit()
             {

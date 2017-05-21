@@ -2,9 +2,6 @@
 using NDomain.Bus.Transport;
 using NDomain.IoC;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.CQRS.Handlers
@@ -17,8 +14,8 @@ namespace NDomain.CQRS.Handlers
     public abstract class MessageHandlerBase<TMessage, THandler> : IMessageHandler
         where THandler : class
     {
-        readonly Func<THandler, TMessage, Task> handlerFunc;
-        readonly THandler instance;
+        private readonly Func<THandler, TMessage, Task> handlerFunc;
+        private readonly THandler instance;
 
         protected MessageHandlerBase(Func<THandler, TMessage, Task> handlerFunc, 
                                      THandler instance = null)

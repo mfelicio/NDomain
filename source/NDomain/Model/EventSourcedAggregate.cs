@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.Model
 {
     public class EventSourcedAggregate<TState> : Aggregate<TState>, IEventSourcedAggregate<TState>
         where TState: IState
     {
-        readonly List<IAggregateEvent> events;
+        private readonly List<IAggregateEvent> events;
 
         public EventSourcedAggregate(string id, TState state)
             :base(id, state)
@@ -17,7 +14,7 @@ namespace NDomain.Model
             this.events = new List<IAggregateEvent>();
         }
 
-        public IEnumerable<IAggregateEvent> Changes { get { return this.events; } }
+        public IEnumerable<IAggregateEvent> Changes => this.events;
 
         /// <summary>
         /// Updates the aggregate State by applying the event. 

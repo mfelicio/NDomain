@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions
 {
     /// <summary>
     /// Helper structure to manage subscription changes
     /// </summary>
-    class SubscriptionSet
+    internal class SubscriptionSet
     {
-        readonly HashSet<Subscription> subscriptions;
+        private readonly HashSet<Subscription> subscriptions;
 
         // readonly copy of the current subscriptions to allow other threads to read them while the HashSet subscriptions is modified by others
         private Subscription[] latestCopy;
@@ -23,13 +20,7 @@ namespace NDomain.Bus.Subscriptions
             this.latestCopy = new Subscription[0];
         }
 
-        public Subscription[] Subscriptions
-        {
-            get
-            {
-                return this.latestCopy;
-            }
-        }
+        public Subscription[] Subscriptions => this.latestCopy;
 
         public void Add(Subscription subscription)
         {

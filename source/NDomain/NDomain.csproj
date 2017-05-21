@@ -61,6 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bus\MessageBusExtensions.cs" />
+    <Compile Include="Configuration\ProcessorConfigurator.cs" />
+    <Compile Include="IoC\IDependencyScope.cs" />
+    <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="Model\AggregateEvent.cs" />
     <Compile Include="Model\AggregateRepository.cs" />
     <Compile Include="Model\AggregateRepositoryExtensions.cs" />

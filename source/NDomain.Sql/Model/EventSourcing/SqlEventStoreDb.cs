@@ -7,6 +7,7 @@ using System.Transactions;
 using NDomain.Model.EventSourcing;
 using Newtonsoft.Json.Linq;
 using Dapper;
+using NDomain.Model;
 
 namespace NDomain.Sql.Model.EventSourcing
 {

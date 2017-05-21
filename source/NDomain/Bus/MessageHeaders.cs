@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NDomain.Bus
+﻿namespace NDomain.Bus
 {
     /// <summary>
     /// Contains headers used internally when sending and receiving messages

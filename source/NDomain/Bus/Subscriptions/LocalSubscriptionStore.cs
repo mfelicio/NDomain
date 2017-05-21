@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NDomain.Bus.Subscriptions
@@ -12,13 +9,13 @@ namespace NDomain.Bus.Subscriptions
     /// </summary>
     public class LocalSubscriptionStore : ISubscriptionStore
     {
-        readonly HashSet<Subscription> subscriptions;
-
-        readonly object subscriptionsLock = new object();
+        private readonly HashSet<Subscription> subscriptions;
+        private readonly object subscriptionsLock;
 
         public LocalSubscriptionStore()
         {
             this.subscriptions = new HashSet<Subscription>();
+            this.subscriptionsLock = new object();
         }
 
         public Task<IEnumerable<Subscription>> GetAll()

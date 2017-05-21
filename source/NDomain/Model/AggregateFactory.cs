@@ -1,15 +1,8 @@
-﻿using NDomain.Helpers;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using NDomain.Helpers;
 
-namespace NDomain
+namespace NDomain.Model
 {
     /// <summary>
     /// Helper class used to create generic IAggregateFactory instances.
@@ -20,11 +13,11 @@ namespace NDomain
         /// <summary>
         /// Cached instances
         /// </summary>
-        static readonly ConcurrentDictionary<Type, object> factories;
+        private static readonly ConcurrentDictionary<Type, object> Factories;
 
         static AggregateFactory()
         {
-            factories = new ConcurrentDictionary<Type, object>();
+            Factories = new ConcurrentDictionary<Type, object>();
         }
 
         /// <summary>
@@ -39,7 +32,7 @@ namespace NDomain
         public static IAggregateFactory<TAggregate> For<TAggregate>()
             where TAggregate : IAggregate
         {
-            var factory = factories.GetOrAdd(typeof(TAggregate), t => CreateFactory<TAggregate>());
+            var factory = Factories.GetOrAdd(typeof(TAggregate), t => CreateFactory<TAggregate>());
 
             return factory as IAggregateFactory<TAggregate>;
         }

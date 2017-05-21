@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NDomain.Bus.Subscriptions
+﻿namespace NDomain.Bus.Subscriptions
 {
     /// <summary>
     /// Subscription information for a specific message.
@@ -17,18 +11,18 @@ namespace NDomain.Bus.Subscriptions
             this.Endpoint = endpoint;
             this.Component = component;
 
-            this.Id = string.Format("{0}/{1}/{2}", topic, endpoint, component);
+            this.Id = $"{topic}/{endpoint}/{component}";
         }
 
         /// <summary>
         /// Topic name. Usually the name of a message
         /// </summary>
-        public string Topic { get; private set; }
+        public string Topic { get; }
 
         /// <summary>
         /// Endpoint name. Usually the logical name of a process
         /// </summary>
-        public string Endpoint { get; private set; }
+        public string Endpoint { get; }
 
         /// <summary>
         /// Component name within the endpoint. Usually the name of the handler that subscribes the message.
@@ -36,14 +30,11 @@ namespace NDomain.Bus.Subscriptions
         /// <remarks>
         /// If one endpoint has multiple handlers (multiple components), each will have its own subscription and receive a copy of the message.
         /// </remarks>
-        public string Component { get; private set; }
+        public string Component { get; }
 
-        public string Id { get; private set; }
+        public string Id { get; }
 
-        public override int GetHashCode()
-        {
-            return this.Id.GetHashCode();
-        }
+        public override int GetHashCode() => this.Id.GetHashCode();
 
         public override bool Equals(object obj)
         {
@@ -56,7 +47,7 @@ namespace NDomain.Bus.Subscriptions
             return this.Id.Equals(other.Id);
         }
 
-        static readonly char[] Separator = new char[] { '/' };
+        private static readonly char[] Separator = new char[] { '/' };
         public static Subscription FromId(string id)
         {
             var parts = id.Split(Separator, 3);

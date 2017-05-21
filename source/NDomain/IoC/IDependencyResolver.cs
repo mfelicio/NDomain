@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDomain.IoC
 {
@@ -16,13 +12,5 @@ namespace NDomain.IoC
 
         object Resolve(Type serviceType);
         T Resolve<T>();
-    }
-
-    /// <summary>
-    /// IDependencyScope abstraction used when resolving message handlers, so that each message is processed within its own dependency scope.
-    /// </summary>
-    public interface IDependencyScope : IDependencyResolver
-    {
-        
     }
 }

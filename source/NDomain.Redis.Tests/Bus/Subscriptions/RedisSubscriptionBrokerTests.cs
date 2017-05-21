@@ -3,10 +3,6 @@ using NDomain.Bus.Subscriptions.Redis;
 using NUnit.Framework;
 using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NDomain.Tests.Common.Specs;
 
 namespace NDomain.Redis.Tests.Bus.Subscriptions

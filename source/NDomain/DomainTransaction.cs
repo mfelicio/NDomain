@@ -1,11 +1,5 @@
-﻿using NDomain.Bus.Transport;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NDomain
 {
@@ -39,28 +33,19 @@ namespace NDomain
     {
         // TODO: rename to MessageContext
 
-        readonly string id;
-        readonly int deliveryCount;
-
         internal DomainTransaction(string id, int deliveryCount)
         {
-            this.id = id;
-            this.deliveryCount = deliveryCount;
+            this.Id = id;
+            this.DeliveryCount = deliveryCount;
         }
 
-        public string Id { get { return this.id; } }
-        public int DeliveryCount { get { return this.deliveryCount; } }
+        public string Id { get; }
+        public int DeliveryCount { get; }
 
         /// <summary>
         /// Returns the current, ambient message context. 
         /// The context is available in the same thread and in the same CallContext, so asynchronous programming with the 'await' keyword will preserve the context.
         /// </summary>
-        public static DomainTransaction Current
-        {
-            get
-            {
-                return CallContext.LogicalGetData("cqrs:transaction") as DomainTransaction;
-            }
-        }
+        public static DomainTransaction Current => CallContext.LogicalGetData("cqrs:transaction") as DomainTransaction;
     }
 }

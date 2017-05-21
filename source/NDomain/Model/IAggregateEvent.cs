@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NDomain
+namespace NDomain.Model
 {
     /// <summary>
     /// Represents an event inside an event stream that belongs to an aggregate. 

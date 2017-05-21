@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NDomain
+﻿namespace NDomain.Model
 {
     /// <summary>
     /// Aggregate root abstraction, providing a clear separation between its state and event changes, enabling persistence ignorance.

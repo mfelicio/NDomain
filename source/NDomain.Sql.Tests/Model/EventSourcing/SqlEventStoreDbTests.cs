@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using Newtonsoft.Json.Linq;
 using Ploeh.AutoFixture;
 using System.Threading;
-using FluentAssertions;
+using NDomain.Model;
 using NDomain.Model.EventSourcing;
 
 namespace NDomain.Sql.Tests.Model.EventSourcing

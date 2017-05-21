@@ -15,9 +15,9 @@ namespace NDomain.Bus
     /// </summary>
     public class MessageBus : IMessageBus
     {
-        readonly ISubscriptionManager subscriptionManager;
-        readonly IOutboundTransport transport;
-        readonly ILogger logger;
+        private readonly ISubscriptionManager subscriptionManager;
+        private readonly IOutboundTransport transport;
+        private readonly ILogger logger;
 
         public MessageBus(ISubscriptionManager subscriptionManager, IOutboundTransport transport, ILoggerFactory loggerFactory)
         {
