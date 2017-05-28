@@ -32,7 +32,7 @@ namespace NDomain.Redis.Tests.Bus.Transport
             }
         }
 
-        public override ITransportFactory CreateFactory()
+        protected override ITransportFactory CreateFactory()
         {
             return new RedisTransportFactory(connection, "ndomain.redis.tests");
         }

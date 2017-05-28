@@ -2,9 +2,10 @@
 {
     public class InboundTransportOptions
     {
-        internal const string DeadLetterEndpointFormat = "{0}-deadletter";
+        private const string DeadLetterEndpointFormat = "{0}-deadletter";
+        private const bool DefaultDeadLetterMessages = true;
+
         internal const int DefaultMaxDeliveryCount = 10;
-        internal const bool DefaultDeadLetterMessages = true;
 
         public InboundTransportOptions(
             string endpoint, 
@@ -13,16 +14,13 @@
         {
             this.Endpoint = endpoint;
             this.MaxDeliveryCount = maxDeliveryCount;
-            this.DeadLeterMessages = deadLetterMessages;
+            this.DeadLetterMessages = deadLetterMessages;
+            this.DeadLetterEndpoint = string.Format(DeadLetterEndpointFormat, this.Endpoint);
         }
 
         public string Endpoint { get; }
         public int MaxDeliveryCount { get; }
-        public bool DeadLeterMessages { get; }
-
-        public string GetDeadLetterEndpoint()
-        {
-            return string.Format(DeadLetterEndpointFormat, Endpoint);
-        }
+        public bool DeadLetterMessages { get; }
+        public string DeadLetterEndpoint { get; }
     }
 }

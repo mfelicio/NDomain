@@ -9,7 +9,7 @@ namespace NDomain.Azure.Tests.Bus.Transport.Queues
     [TestFixture]
     public class AzureTransportTests : TransportSpecs
     {
-        public override ITransportFactory CreateFactory()
+        protected override ITransportFactory CreateFactory()
         {
             return new QueueTransportFactory(CloudStorageAccount.DevelopmentStorageAccount, "ndomain-azure-tests");
         }

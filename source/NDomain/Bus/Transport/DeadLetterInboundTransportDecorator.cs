@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 namespace NDomain.Bus.Transport
 {
-    public class RetryingInboundTransportDecorator : IInboundTransport
+    public class DeadLetterInboundTransportDecorator : IInboundTransport
     {
         private readonly IInboundTransport inbound;
         private readonly IOutboundTransport outbound;
         private readonly InboundTransportOptions options;
 
-        public RetryingInboundTransportDecorator(
+        public DeadLetterInboundTransportDecorator(
             IInboundTransport inbound,
             IOutboundTransport outbound,
             InboundTransportOptions options)
@@ -30,10 +30,10 @@ namespace NDomain.Bus.Transport
 
             if (message.DeliveryCount == this.options.MaxDeliveryCount)
             {
-                return new MessageTransactionDecorator(message, outbound, this.options);
+                return new LastRetryMessageTransaction(message, outbound, this.options);
             }
 
-            // received a message with RetryCount > MaxRetries
+            // received a message with DeliveryCount > MaxDeliveryCount
             // it means that the source message was sent to dead letter endpoint but not deleted on source endpoint
             
             // in this case we delete it and silently reject it
@@ -42,13 +42,17 @@ namespace NDomain.Bus.Transport
             return null;
         }
 
-        class MessageTransactionDecorator : IMessageTransaction
+        /// <summary>
+        /// Used when a message has been retried the maximum number of times. 
+        /// If this message transaction fails, the message will be dead lettered.
+        /// </summary>
+        class LastRetryMessageTransaction : IMessageTransaction
         {
             private readonly IMessageTransaction source;
             private readonly IOutboundTransport outbound;
             private readonly InboundTransportOptions options;
 
-            public MessageTransactionDecorator(
+            public LastRetryMessageTransaction(
                 IMessageTransaction source,
                 IOutboundTransport outbound,
                 InboundTransportOptions options)
@@ -62,14 +66,11 @@ namespace NDomain.Bus.Transport
 
             public int DeliveryCount => this.source.DeliveryCount;
 
-            public Task Commit()
-            {
-                return this.source.Commit();
-            }
+            public Task Commit() => this.source.Commit();
 
             public async Task Fail()
             {
-                if (this.options.DeadLeterMessages)
+                if (this.options.DeadLetterMessages)
                 {
                     var deadLetterMessage = BuildDeadLetterMessage();
 
@@ -86,7 +87,7 @@ namespace NDomain.Bus.Transport
             private TransportMessage BuildDeadLetterMessage()
             {
                 this.Message.Headers[MessageHeaders.OriginalEndpoint] = this.Message.Headers[MessageHeaders.Endpoint];
-                this.Message.Headers[MessageHeaders.Endpoint] = this.options.GetDeadLetterEndpoint();
+                this.Message.Headers[MessageHeaders.Endpoint] = this.options.DeadLetterEndpoint;
 
                 return this.Message;
             }

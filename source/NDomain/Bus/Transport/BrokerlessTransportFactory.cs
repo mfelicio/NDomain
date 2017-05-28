@@ -9,7 +9,7 @@
             var inbound = CreateInboundTransport(options.Endpoint);
             var outbound = CreateOutboundTransport();
 
-            return new RetryingInboundTransportDecorator(inbound, outbound, options);
+            return new DeadLetterInboundTransportDecorator(inbound, outbound, options);
         }
 
         IOutboundTransport ITransportFactory.CreateOutboundTransport()

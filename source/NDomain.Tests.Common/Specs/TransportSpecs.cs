@@ -8,9 +8,13 @@ namespace NDomain.Tests.Common.Specs
 {
     public abstract class TransportSpecs
     {
-        protected ITransportFactory factory;
+        private const string TestInboundEndpoint = "myqueue";
 
-        public abstract ITransportFactory CreateFactory();
+        private ITransportFactory factory;
+        private IInboundTransport receiver;
+        private IOutboundTransport sender;
+
+        protected abstract ITransportFactory CreateFactory();
 
         protected virtual void OnSetUp() { }
         protected virtual void OnTearDown() { }
@@ -19,6 +23,10 @@ namespace NDomain.Tests.Common.Specs
         public void Setup()
         {
             this.factory = CreateFactory();
+
+            var options = new InboundTransportOptions(TestInboundEndpoint);
+            this.receiver = this.factory.CreateInboundTransport(options);
+            this.sender = this.factory.CreateOutboundTransport();
 
             this.OnSetUp();
         }
@@ -30,50 +38,57 @@ namespace NDomain.Tests.Common.Specs
         }
 
         [Test]
-        public async Task CanDoBasicBehavior()
+        public async Task CanReceiveMessages()
         {
-            var options = new InboundTransportOptions("queue");
-            var sender = this.factory.CreateOutboundTransport();
-            var receiver = this.factory.CreateInboundTransport(options);
+            // arrange
+            var expectedMessage = CreateMessageFor(TestInboundEndpoint);
 
-            await sender.Send(
-                new TransportMessage
-                {
-                    Id = "id1",
-                    Name = "msg",
-                    Body = new Newtonsoft.Json.Linq.JObject()
-                }.ForEndpoint(options.Endpoint));
+            await this.sender.Send(expectedMessage);
 
-            var transaction = await receiver.Receive(TimeSpan.FromMilliseconds(5));
+            // act
+            var transaction = await this.receiver.Receive(TimeSpan.FromMilliseconds(5));
 
-            Assert.That(transaction.Message.Id, Is.EqualTo("id1"));
+            // assert
+            Assert.That(transaction.Message.Id, Is.EqualTo(expectedMessage.Id));
             Assert.That(transaction.DeliveryCount, Is.EqualTo(1));
+        }
 
+        [Test]
+        public async Task Does_Not_Receive_Committed_Messages()
+        {
+            // arrange
+            var expectedMessage = CreateMessageFor(TestInboundEndpoint);
+
+            await this.sender.Send(expectedMessage);
+
+            var transaction = await this.receiver.Receive(TimeSpan.FromMilliseconds(5));
+         
+            // act
             await transaction.Commit();
 
-            transaction = await receiver.Receive(TimeSpan.FromMilliseconds(5)); //should be null because there are no more commands
+            // assert
+            transaction = await this.receiver.Receive(TimeSpan.FromMilliseconds(5)); //should be null because there are no more commands
+
             Assert.IsNull(transaction);
+        }
 
-            await sender.Send(
-                new TransportMessage
-                {
-                    Id = "id2",
-                    Name = "msg",
-                    Body = new Newtonsoft.Json.Linq.JObject()
-                }.ForEndpoint(options.Endpoint));
+        [Test]
+        public async Task Receives_Failed_Messages_With_Increased_DeliveryCount()
+        {
+            // arrange
+            var expectedMessage = CreateMessageFor(TestInboundEndpoint);
 
-            transaction = await receiver.Receive(TimeSpan.FromMilliseconds(5));
+            await this.sender.Send(expectedMessage);
 
+            var transaction = await this.receiver.Receive(TimeSpan.FromMilliseconds(5));
+
+            // act
             await transaction.Fail(); //should return to queue, to be retried
-            transaction = await receiver.Receive(TimeSpan.FromMilliseconds(5)); //TODO: increase this timeout when defer times are supported on Fail
+            transaction = await this.receiver.Receive(TimeSpan.FromMilliseconds(5)); //TODO: increase this timeout when defer times are supported on Fail
 
             Assert.NotNull(transaction);
-            Assert.That(transaction.Message.Id, Is.EqualTo("id2"));
+            Assert.That(transaction.Message.Id, Is.EqualTo(expectedMessage.Id));
             Assert.That(transaction.DeliveryCount, Is.EqualTo(2));
-            await transaction.Commit();
-
-            transaction = await receiver.Receive(TimeSpan.FromMilliseconds(5)); //should return null because there are no more commands
-            Assert.IsNull(transaction);
         }
 
         [TestCase(3, true)]
@@ -81,8 +96,8 @@ namespace NDomain.Tests.Common.Specs
         public async Task ShouldDeadLetterAndDelete_When_MaxRetriesExceeded(int maxRetries, bool deadLetterMessages)
         {
             // arrange
-            var options = new InboundTransportOptions("queue", maxRetries, deadLetterMessages);
-            var deadLetterOptions = new InboundTransportOptions(options.GetDeadLetterEndpoint(), 1, false);
+            var options = new InboundTransportOptions(TestInboundEndpoint, maxRetries, deadLetterMessages);
+            var deadLetterOptions = new InboundTransportOptions(options.DeadLetterEndpoint, 1, false);
 
             var sender = this.factory.CreateOutboundTransport();
             var receiver = this.factory.CreateInboundTransport(options);
@@ -127,18 +142,16 @@ namespace NDomain.Tests.Common.Specs
         [Test]
         public async Task ShouldReceiveMessage_When_ReceivingWithEmptyQueue_And_AMessageIsPublished()
         {
-            var options = new InboundTransportOptions("queue");
-            var receiver = this.factory.CreateInboundTransport(options);
-            var sender = this.factory.CreateOutboundTransport();
-
+            // arrange
             IMessageTransaction tr = null;
 
-            var receiveTask = receiver.Receive().ContinueWith(t => tr = t.Result);
+            var receiveTask = this.receiver.Receive().ContinueWith(t => tr = t.Result);
 
-            await sender.Send(CreateMessageFor(options.Endpoint));
+            // act
+            await this.sender.Send(CreateMessageFor(TestInboundEndpoint));
 
+            // assert
             await Task.WhenAny(receiveTask, Task.Delay(2000));
-            //receiveTask.Wait(TimeSpan.FromSeconds(2)); // can cause deadlocks on sync contexts
 
             Assert.NotNull(tr);
         }

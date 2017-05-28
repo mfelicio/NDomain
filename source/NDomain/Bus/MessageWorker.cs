@@ -44,20 +44,11 @@ namespace NDomain.Bus
             this.workerTask = Task.Factory.StartNew(async () => await this.Work(), TaskCreationOptions.LongRunning);
         }
 
-        public void Start()
-        {
-            this.runningWaitHandle.Set();
-        }
+        public void Start() => this.runningWaitHandle.Set();
 
-        public void Stop()
-        {
-            this.runningWaitHandle.Reset();
-        }
+        public void Stop() => this.runningWaitHandle.Reset();
 
-        public bool IsRunning
-        {
-            get { return this.runningWaitHandle.IsSet; }
-        }
+        public bool IsRunning => this.runningWaitHandle.IsSet;
 
         private async Task Work()
         {

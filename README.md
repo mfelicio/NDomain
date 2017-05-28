@@ -29,7 +29,7 @@ The `DomainContext` is NDomain's container, where all components are accessible 
 
 ```c#
 var context = DomainContext.Configure()
-                           .EventSourcing(c => c.WithAzureTableStorage(azureAccount, "events"))
+                           .Model(c => c.WithAzureTableStorage(azureAccount, "events"))
                            .Logging(c => c.WithNLog())
                            .IoC(c => c.WithAutofac(container))
                            .Bus(c => c.WithAzureQueues(azureAccount)

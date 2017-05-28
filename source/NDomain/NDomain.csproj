@@ -77,7 +77,7 @@
     <Compile Include="Bus\Subscriptions\SubscriptionChange.cs" />
     <Compile Include="Bus\Subscriptions\SubscriptionSet.cs" />
     <Compile Include="Bus\Transport\BrokerlessTransportFactory.cs" />
-    <Compile Include="Bus\Transport\RetryingInboundTransportDecorator.cs" />
+    <Compile Include="Bus\Transport\DeadLetterInboundTransportDecorator.cs" />
     <Compile Include="Bus\Transport\InboundTransportOptions.cs" />
     <Compile Include="Configuration\Configurator.cs" />
     <Compile Include="Configuration\IoCConfigurator.cs" />
