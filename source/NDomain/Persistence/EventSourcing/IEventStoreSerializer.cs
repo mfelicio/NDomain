@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using NDomain.Model;
+using Newtonsoft.Json.Linq;
 
-namespace NDomain.Model.EventSourcing
+namespace NDomain.Persistence.EventSourcing
 {
     /// <summary>
     /// Serializes and deserializes events persisted in the IEventStore

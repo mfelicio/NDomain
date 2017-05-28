@@ -66,8 +66,8 @@
     <Compile Include="IoC\IDependencyScope.cs" />
     <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="Model\AggregateEvent.cs" />
-    <Compile Include="Model\AggregateRepository.cs" />
-    <Compile Include="Model\AggregateRepositoryExtensions.cs" />
+    <Compile Include="Persistence\AggregateRepository.cs" />
+    <Compile Include="Persistence\AggregateRepositoryExtensions.cs" />
     <Compile Include="Bus\Message.cs" />
     <Compile Include="Bus\IMessageBus.cs" />
     <Compile Include="Bus\MessageContext.cs" />
@@ -101,13 +101,13 @@
     <Compile Include="Bus\Subscriptions\Subscription.cs" />
     <Compile Include="Bus\Subscriptions\ISubscriptionStore.cs" />
     <Compile Include="Bus\Subscriptions\LocalSubscriptionStore.cs" />
-    <Compile Include="Model\EventSourcing\LocalEventStore.cs" />
+    <Compile Include="Persistence\EventSourcing\LocalEventStore.cs" />
     <Compile Include="Bus\Transport\LocalTransport.cs" />
     <Compile Include="Model\IState.cs" />
     <Compile Include="Bus\MessageHeaders.cs" />
-    <Compile Include="Model\SnapshotRepository.cs" />
-    <Compile Include="Model\Snapshot\ISnapshotStore.cs" />
-    <Compile Include="Model\Snapshot\LocalSnapshotStore.cs" />
+    <Compile Include="Persistence\SnapshotRepository.cs" />
+    <Compile Include="Persistence\Snapshot\ISnapshotStore.cs" />
+    <Compile Include="Persistence\Snapshot\LocalSnapshotStore.cs" />
     <Compile Include="Model\State.cs" />
     <Compile Include="CQRS\Projections\LocalQueryStore.cs" />
     <Compile Include="Bus\Subscriptions\SubscriptionManager.cs" />
@@ -124,11 +124,11 @@
     <Compile Include="Logging\TraceLogger.cs" />
     <Compile Include="Logging\TraceLoggerFactory.cs" />
     <Compile Include="Bus\DiagnosticsDispatcher.cs" />
-    <Compile Include="Model\EventSourcing\IEventStoreBus.cs" />
-    <Compile Include="Model\EventSourcing\IEventStoreDb.cs" />
-    <Compile Include="Model\EventSourcing\IEventStoreSerializer.cs" />
-    <Compile Include="Model\EventSourcing\EventStoreSerializer.cs" />
-    <Compile Include="Model\EventSourcing\EventStore.cs" />
+    <Compile Include="Persistence\EventSourcing\IEventStoreBus.cs" />
+    <Compile Include="Persistence\EventSourcing\IEventStoreDb.cs" />
+    <Compile Include="Persistence\EventSourcing\IEventStoreSerializer.cs" />
+    <Compile Include="Persistence\EventSourcing\EventStoreSerializer.cs" />
+    <Compile Include="Persistence\EventSourcing\EventStore.cs" />
     <Compile Include="CQRS\Sagas\Persistence\ISagaStore.cs" />
     <Compile Include="CQRS\Sagas\Persistence\SagaData.cs" />
     <Compile Include="DomainTransaction.cs" />
@@ -149,12 +149,12 @@
     <Compile Include="CQRS\Event.cs" />
     <Compile Include="Model\IAggregate.cs" />
     <Compile Include="CQRS\ICommandBus.cs" />
-    <Compile Include="Model\IAggregateRepository.cs" />
+    <Compile Include="Persistence\IAggregateRepository.cs" />
     <Compile Include="CQRS\IEventBus.cs" />
-    <Compile Include="Model\EventSourcing\IEventStore.cs" />
+    <Compile Include="Persistence\EventSourcing\IEventStore.cs" />
     <Compile Include="Model\Aggregate.cs" />
     <Compile Include="Model\StateMutator.cs" />
-    <Compile Include="Model\EventSourcedRepository.cs" />
+    <Compile Include="Persistence\EventSourcedRepository.cs" />
     <Compile Include="CQRS\Projections\Query.cs" />
     <Compile Include="CQRS\Projections\IQueryStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -164,6 +164,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

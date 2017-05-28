@@ -85,10 +85,10 @@
     <Compile Include="CQRS\Handlers.cs" />
     <Compile Include="CQRS\Projections\QueryEventsHandlerTests.cs" />
     <Compile Include="IoC\DefaultDependencyResolverTests.cs" />
-    <Compile Include="Model\AggregateRepositoryTests.cs" />
+    <Compile Include="Persistence\AggregateRepositoryTests.cs" />
     <Compile Include="Bus\BusIntegrationTests.cs" />
     <Compile Include="Bus\MessageBusTests.cs" />
-    <Compile Include="Model\EventSourcing\EventStoreSerializerTests.cs" />
+    <Compile Include="Persistence\EventSourcing\EventStoreSerializerTests.cs" />
     <Compile Include="Bus\Subscriptions\LocalSubscriptionBrokerTests.cs" />
     <Compile Include="Bus\Subscriptions\LocalSubscriptionStoreTests.cs" />
     <Compile Include="Bus\Subscriptions\SubscriptionManagerTests.cs" />
@@ -97,7 +97,7 @@
     <Compile Include="CQRS\EventBusTests.cs" />
     <Compile Include="CQRS\Commands.cs" />
     <Compile Include="Bus\MessageWorkerTests.cs" />
-    <Compile Include="Model\EventSourcing\LocalEventStoreTests.cs" />
+    <Compile Include="Persistence\EventSourcing\LocalEventStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +114,9 @@
       <Name>NDomain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\EventSourcing\" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>

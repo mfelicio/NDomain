@@ -2,8 +2,9 @@
 using NDomain.Configuration;
 using NDomain.CQRS;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
-using NDomain.Model.Snapshot;
+using NDomain.Persistence;
+using NDomain.Persistence.EventSourcing;
+using NDomain.Persistence.Snapshot;
 using NDomain.Tests.Common.Sample;
 using NUnit.Framework;
 

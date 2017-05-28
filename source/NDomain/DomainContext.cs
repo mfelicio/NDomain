@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NDomain.Bus;
 using NDomain.CQRS;
 using NDomain.Model;
+using NDomain.Persistence;
 
 namespace NDomain
 {

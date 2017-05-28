@@ -1,6 +1,7 @@
 ﻿using NDomain.CQRS;
 using NDomain.Model;
 using System;
+using NDomain.Persistence;
 
 namespace NDomain
 {

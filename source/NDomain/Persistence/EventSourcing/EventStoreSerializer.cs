@@ -1,10 +1,11 @@
-﻿using NDomain.Helpers;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NDomain.Helpers;
+using NDomain.Model;
+using Newtonsoft.Json.Linq;
 
-namespace NDomain.Model.EventSourcing
+namespace NDomain.Persistence.EventSourcing
 {
     public class EventStoreSerializer : IEventStoreSerializer
     {

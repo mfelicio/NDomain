@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using NDomain.Bus;
 using NDomain.Bus.Subscriptions;
 using NDomain.CQRS;
-using NDomain.Model.EventSourcing;
-using NDomain.Model.Snapshot;
+using NDomain.Persistence.EventSourcing;
+using NDomain.Persistence.Snapshot;
 
 namespace NDomain.Configuration
 {

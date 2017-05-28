@@ -4,10 +4,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
-using NDomain.Model.EventSourcing;
 using Newtonsoft.Json.Linq;
 using Dapper;
 using NDomain.Model;
+using NDomain.Persistence.EventSourcing;
 
 namespace NDomain.Sql.Model.EventSourcing
 {

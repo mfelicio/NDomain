@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NDomain.Model.EventSourcing;
+using NDomain.Model;
+using NDomain.Persistence.EventSourcing;
 
-namespace NDomain.Model
+namespace NDomain.Persistence
 {
     /// <summary>
     /// Repository pattern implementation using an EventStore to persist and retrieve aggregates.

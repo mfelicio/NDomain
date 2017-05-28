@@ -1,12 +1,12 @@
 ﻿using Moq;
 using NDomain.CQRS.Projections;
-using NDomain.Model.EventSourcing;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NDomain.Model;
+using NDomain.Persistence.EventSourcing;
 using NDomain.Tests.Common.Sample;
 
 namespace NDomain.Tests.CQRS.Projections

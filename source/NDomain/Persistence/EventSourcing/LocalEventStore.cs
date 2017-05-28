@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NDomain.Model;
+using Newtonsoft.Json.Linq;
 
-namespace NDomain.Model.EventSourcing
+namespace NDomain.Persistence.EventSourcing
 {
     public class LocalEventStore : IEventStoreDb
     {

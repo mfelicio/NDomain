@@ -1,8 +1,8 @@
-﻿using NDomain.Model.EventSourcing;
+﻿using NDomain.Persistence.EventSourcing;
 using NDomain.Tests.Common.Specs;
 using NUnit.Framework;
 
-namespace NDomain.Tests.Model.EventSourcing
+namespace NDomain.Tests.Persistence.EventSourcing
 {
     [TestFixture]
     public class LocalEventStoreTests : EventStoreSpecs

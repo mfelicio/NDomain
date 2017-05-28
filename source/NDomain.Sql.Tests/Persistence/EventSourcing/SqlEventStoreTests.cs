@@ -1,12 +1,12 @@
-﻿using NDomain.Model.EventSourcing;
-using NUnit.Framework;
+﻿using System.Configuration;
 using System.Data.SqlClient;
-using NDomain.Sql.Model.EventSourcing;
-using System.Configuration;
 using Dapper;
+using NDomain.Persistence.EventSourcing;
+using NDomain.Sql.Model.EventSourcing;
 using NDomain.Tests.Common.Specs;
+using NUnit.Framework;
 
-namespace NDomain.Sql.Tests.Model.EventSourcing
+namespace NDomain.Sql.Tests.Persistence.EventSourcing
 {
     [TestFixture]
     [Category("integration")]

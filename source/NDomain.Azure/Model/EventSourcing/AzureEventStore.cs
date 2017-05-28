@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
+using NDomain.Persistence.EventSourcing;
 using Newtonsoft.Json.Linq;
 
 namespace NDomain.Azure.Model.EventSourcing

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NDomain.Model;
 
-namespace NDomain.Model.EventSourcing
+namespace NDomain.Persistence.EventSourcing
 {
     public interface IEventStore
     {

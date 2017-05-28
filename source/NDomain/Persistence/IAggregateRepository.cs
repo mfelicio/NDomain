@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using NDomain.Model;
 
-namespace NDomain.Model
+namespace NDomain.Persistence
 {
     /// <summary>
     /// Represents a higher level persistence abstraction for aggregates and implements the repository pattern

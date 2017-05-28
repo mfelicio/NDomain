@@ -1,8 +1,9 @@
-﻿using NDomain.Model.EventSourcing;
-using NDomain.Model.Snapshot;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using NDomain.Model;
+using NDomain.Persistence.EventSourcing;
+using NDomain.Persistence.Snapshot;
 
-namespace NDomain.Model
+namespace NDomain.Persistence
 {
     public class AggregateRepository<T> : IAggregateRepository<T>
         where T : IAggregate

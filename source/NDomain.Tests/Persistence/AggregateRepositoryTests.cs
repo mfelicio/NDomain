@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
+using NDomain.Persistence;
+using NDomain.Persistence.EventSourcing;
 using NDomain.Tests.Common.Sample;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace NDomain.Tests.Model
+namespace NDomain.Tests.Persistence
 {
     public class AggregateRepositoryTests
     {

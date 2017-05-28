@@ -15,7 +15,7 @@ namespace NDomain
     {
         private readonly IStateMutator mutator;
 
-        public State()
+        protected State()
         {
             this.mutator = StateMutator.For(this.GetType());
             this.Version = 0;

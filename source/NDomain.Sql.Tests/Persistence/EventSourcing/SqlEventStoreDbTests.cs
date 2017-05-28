@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using NDomain.Sql.Model.EventSourcing;
-using NUnit.Framework;
-using Dapper;
 using System.Data.SqlClient;
-using Newtonsoft.Json.Linq;
-using Ploeh.AutoFixture;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using Dapper;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
+using NDomain.Persistence.EventSourcing;
+using NDomain.Sql.Model.EventSourcing;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
+using Ploeh.AutoFixture;
 
-namespace NDomain.Sql.Tests.Model.EventSourcing
+namespace NDomain.Sql.Tests.Persistence.EventSourcing
 {
     [TestFixture]
     [Category("integration")]

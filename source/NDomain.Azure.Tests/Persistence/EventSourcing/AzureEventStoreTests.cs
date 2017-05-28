@@ -1,10 +1,10 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using NDomain.Azure.Model.EventSourcing;
-using NDomain.Model.EventSourcing;
+using NDomain.Persistence.EventSourcing;
 using NDomain.Tests.Common.Specs;
 using NUnit.Framework;
 
-namespace NDomain.Azure.Tests.Model.EventSourcing
+namespace NDomain.Azure.Tests.Persistence.EventSourcing
 {
     [TestFixture]
     public class AzureEventStoreTests : EventStoreSpecs

@@ -1,10 +1,10 @@
 ﻿using NDomain.Bus;
-using NDomain.Model.EventSourcing;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NDomain.Model;
+using NDomain.Persistence.EventSourcing;
 
 namespace NDomain.CQRS
 {

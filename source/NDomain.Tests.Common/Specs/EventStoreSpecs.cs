@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
+using NDomain.Persistence.EventSourcing;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 

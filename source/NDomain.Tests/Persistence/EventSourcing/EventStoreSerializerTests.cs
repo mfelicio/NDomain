@@ -1,4 +1,4 @@
-﻿namespace NDomain.Tests.Model.EventSourcing
+﻿namespace NDomain.Tests.Persistence.EventSourcing
 {
     public class EventStoreSerializerTests
     {

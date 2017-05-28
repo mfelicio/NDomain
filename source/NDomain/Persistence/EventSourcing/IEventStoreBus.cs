@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using NDomain.Model;
+using Newtonsoft.Json.Linq;
 
-namespace NDomain.Model.EventSourcing
+namespace NDomain.Persistence.EventSourcing
 {
     public interface IEventStoreBus
     {

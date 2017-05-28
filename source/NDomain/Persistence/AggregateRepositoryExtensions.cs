@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NDomain.Model;
 
-namespace NDomain.Model
+namespace NDomain.Persistence
 {
     public static class AggregateRepositoryExtensions
     {

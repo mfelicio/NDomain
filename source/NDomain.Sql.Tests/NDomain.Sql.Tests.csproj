@@ -67,8 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\EventSourcing\SqlEventStoreDbTests.cs" />
-    <Compile Include="Model\EventSourcing\SqlEventStoreTests.cs" />
+    <Compile Include="Persistence\EventSourcing\SqlEventStoreDbTests.cs" />
+    <Compile Include="Persistence\EventSourcing\SqlEventStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

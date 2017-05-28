@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NDomain.Persistence;
 
 namespace NDomain.Model
 {

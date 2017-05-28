@@ -1,10 +1,11 @@
 ﻿using NDomain.CQRS;
 using NDomain.IoC;
 using NDomain.Model;
-using NDomain.Model.EventSourcing;
-using NDomain.Model.Snapshot;
 using System;
 using System.Collections.Generic;
+using NDomain.Persistence;
+using NDomain.Persistence.EventSourcing;
+using NDomain.Persistence.Snapshot;
 
 namespace NDomain.Configuration
 {

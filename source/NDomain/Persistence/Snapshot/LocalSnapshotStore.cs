@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using NDomain.Model;
 
-namespace NDomain.Model.Snapshot
+namespace NDomain.Persistence.Snapshot
 {
     public class LocalSnapshotStore : ISnapshotStore
     {

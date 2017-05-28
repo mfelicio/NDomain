@@ -1,9 +1,9 @@
 ﻿using NDomain.CQRS;
 using NDomain.CQRS.Projections;
-using NDomain.Model.EventSourcing;
 using System;
 using System.Threading.Tasks;
 using NDomain.Model;
+using NDomain.Persistence.EventSourcing;
 using NDomain.Tests.Common.Sample;
 
 namespace NDomain.Tests.CQRS

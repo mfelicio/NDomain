@@ -1,8 +1,9 @@
-﻿using NDomain.Model.Snapshot;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using NDomain.Model;
+using NDomain.Persistence.Snapshot;
 
-namespace NDomain.Model
+namespace NDomain.Persistence
 {
     /// <summary>
     /// Repository pattern implementation using a SnapshotStore to persist and retrieve aggregates.
